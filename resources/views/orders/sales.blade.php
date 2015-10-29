@@ -26,7 +26,7 @@
         @include('orders.partial.filterInputs', ['filter' => $dateFrom.'*'.$dateTo])
 
         <div ng-controller="Orders">
-            
+
             <div class="tabbable">
                 <ul class="nav nav-tabs hidden-xs">
                     <li class="{{ $select == 'open' || $select == '' ? 'active' : '' }}"><a href="#pane1" data-toggle="tab">{{ trans('store.openOrders') }}&nbsp;<span class="badge">{{ count($openOrders) }}</span></a></li>
@@ -36,9 +36,9 @@
                 </ul>
                 <div class="visible-xs-block">
                     <a href="#pane1" data-toggle="tab">{{ trans('store.open') }}&nbsp;<span class="badge">{{ count($openOrders) }}</span></a> -
-                    <a href="#pane4" data-toggle="tab">{{ trans('store.unrated') }}&nbsp;<span class="badge">{{ count($unRate) }}</span></a> - 
+                    <a href="#pane4" data-toggle="tab">{{ trans('store.unrated') }}&nbsp;<span class="badge">{{ count($unRate) }}</span></a> -
                     <a href="#pane2" data-toggle="tab">{{ trans('store.closed') }}</a> -
-                    <a href="#pane3" data-toggle="tab">{{ trans('store.cancelled') }}</a> 
+                    <a href="#pane3" data-toggle="tab">{{ trans('store.cancelled') }}</a>
                 </div>
 
                 <div class="row">
@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="tab-content">
-                    
+
                     {{-- pending orders --}}
                     <div id="pane1" class="tab-pane fade {{ $select == 'open' || $select == ''?'in active':'' }}">
                         @if (count($openOrders) > 0)
@@ -65,7 +65,7 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($openOrders as $order)
-                                            <?php $total = \Utility::totalOrder($order->details); ?>
+                                            <?php dd($order->user->profile); $total = \Utility::totalOrder($order->details); ?>
                                             <tr>
                                                 <td class="text-center">
                                                     @if (\Auth::user()->role == 'person')
@@ -81,10 +81,10 @@
                                                 <td class="text-right">{{ \Utility::showPrice($total['total']) }}</td>
                                             </tr>
                                             @endforeach
-                                        </tbody>  
+                                        </tbody>
                                     </table>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="row">
                                 <div class="col-lg-12">
                                     {!! $openOrders->appends(['show' => 'open', 'filter' => $dateFrom.'*'.$dateTo])->render() !!}
@@ -136,7 +136,7 @@
                                                 <td class="text-right">{{ \Utility::showPrice($total['total']) }}</td>
                                             </tr>
                                             @endforeach
-                                        </tbody>  
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -191,7 +191,7 @@
                                                 <td class="text-right">{{ \Utility::showPrice($total['total']) }}</td>
                                             </tr>
                                             @endforeach
-                                        </tbody>  
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -236,7 +236,7 @@
                                                     @if (\Auth::user()->role == 'person')
                                                         <a href="{{ route('orders.show_order', $order->id) }}">
                                                             #{{ \Utility::codeMasked($order->id) }}
-                                                        </a> 
+                                                        </a>
                                                     @else
                                                         <a href="{{ route('orders.show_seller_order', $order->id) }}">
                                                             #{{ \Utility::codeMasked($order->id) }}
@@ -251,7 +251,7 @@
                                                 <td class="text-right">{{ \Utility::showPrice($total['total']) }}</td>
                                             </tr>
                                             @endforeach
-                                        </tbody>  
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -274,7 +274,7 @@
 
                 </div><!-- /.tab-content -->
             </div><!-- /.tabbable -->
-            
+
         </div> {{-- angularjs controller --}}
     @stop
 @stop
@@ -284,7 +284,7 @@
     <script>
         (function(app){
         app.controller('Orders', ['$scope','$rootScope','$http','notify', function($scope,$rootScope,$http,notify){
-            
+
             $scope.delivery = function(orderId,productId)
             {
                 if (!productId || !orderId) return;
@@ -298,7 +298,7 @@
                 });
             }
             }]);
-            
+
         })(angular.module("AntVel"));
     </script>
 @stop

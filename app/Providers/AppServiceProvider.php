@@ -14,16 +14,25 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $table = "company";
+
         if (\Schema::hasTable($table)) {
 
-            $main_company = Company::find(1)->toArray();
-            $categories_menu = \Cache::remember('categories_mothers', 25, function ()  {
+            try {
+                $main_company = Company::find(1);
+            } catch (ModelNotFoundException $e) {
+                $main_company = Company::defaultCompany();
+            }
+
+            $categories_menu = \Cache::remember('categories_mothers', 25, function ()
+            {
                 return Category::select('id', 'name')
-                                  ->childsOf('mothers')
-                                  ->actives()
-                                  ->get()->toArray();
+                  ->childsOf('mothers')
+                  ->actives()
+                  ->get()->toArray();
             });
+
             $menu = [];
+
             foreach ($categories_menu as $value) {
                 $menu[$value['id']] = $value;
             }
