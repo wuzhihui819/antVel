@@ -63,10 +63,7 @@ class OrdersController extends Controller
 
         $user = \Auth::user();
 
-        //dd($destination, $productId, $request->get('quantity'), $request);
-
         //checking if the user is logged
-
         if ($user) {
 
             $basicCart = Order::ofType($destination)->where('user_id', $user->id)->first();

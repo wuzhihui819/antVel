@@ -21,9 +21,9 @@ class CompanyController extends Controller
         'left'=>['width'=>'2'],
         'center'=>['width'=>'10'],
     ];
-    
+
     private $company_id = '1';
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -118,9 +118,9 @@ class CompanyController extends Controller
             'about_us' => $request->input('about_us'),
             //
             'refund_policy' => $request->input('refund_policy'),
-            
+
             'privacy_policy' => $request->input('privacy_policy'),
-            
+
             'terms_of_service' => $request->input('terms_of_service'),
         ];
 
@@ -138,5 +138,34 @@ class CompanyController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public static function defaultCompany()
+    {
+        return [
+            'name' => 'antVel',
+            'website_name' => 'hhtp://antvel.com',
+            'slogan' => 'An Laravel eCommerce',
+            'phone_number' => '+1 (405) - 669.63.31',
+            'cell_phone' => '+1 (405) - 669.63.31',
+            'address' => 'Northwest',
+            'state' => 'Oklahoma',
+            'city' => 'Oklahoma City',
+            'facebook' => 'https://www.facebook.com/ocantog',
+            'facebook_app_id' => 'antvel facebook appID',
+            'twitter' => 'https://twitter.com/gocanto',
+            'zip_code' => '73116',
+            'google_maps_key_api' => 'antvel google appID',
+            'email' => 'gustavoocanto@gmail.com',
+            'contact_email' => 'gustavoocanto@gmail.com',
+            'sales_email' => 'gustavoocanto@gmail.com',
+            'support_email' => 'gustavoocanto@gmail.com',
+            'description' => ' eStore ready to use',
+            'keywords'  => 'antvel, gocanto, laravel, php',
+            'about_us' => 'I am Web Developer',
+            'refund_policy' => 'Refund Policy',
+            'privacy_policy' => 'Privacy Policy',
+            'terms_of_service' => 'Terms of Service'
+        ];
     }
 }

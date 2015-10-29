@@ -219,10 +219,11 @@ class Order extends Model
     public static function placeOrders($type_order)
     {
         $cart = Order::ofType($type_order)->auth()->whereStatus('open')->orderBy('id', 'desc')->first();
-                     
+
         $show_order_route = ($type_order == 'freeproduct') ? 'freeproducts.show' : 'orders.show_cart';
-    
+
         $cartDetail = OrderDetail::where('order_id', $cart->id)->get();
+
         $address_id = 0;
 
         //When address is invalid, it is because it comes from the creation of a free product. You must have a user direction (Default)
@@ -322,13 +323,15 @@ class Order extends Model
 
                     //Increasing product counters.
                     ProductsController::setCounters($orderDetail->product, ['sale_counts' => trans('globals.product_value_counters.sale')], 'orders');
-                    
+
                     //saving tags in users preferences
                     if (trim($orderDetail->product->tags)!='') {
                         UserController::setPreferences('product_purchased', explode(',', $orderDetail->product->tags));
                     }
                 }
             }
+
+            //virtual products
             //Changes the stock of each product in the order
             foreach ($cartDetail as $orderDetail) {
                 $product = Product::find($orderDetail->product_id);
@@ -359,7 +362,7 @@ class Order extends Model
             }
             foreach ($seller_email as $email) {
                 $mailed_order = Order::where('id', $newOrder->id)->with('details')->get()->first();
-                
+
                 //Send a mail to the user: Order has been placed
                 $data = [
                     'orderId'=>$newOrder->id,
