@@ -61,7 +61,7 @@ class ProductsController extends Controller
         $refine = \Utility::requestToArrayUnique($request->all());
 
         /**
-         * $search 
+         * $search
          * this var contains the information typed into search box
          * @var [type]
          */
@@ -73,7 +73,7 @@ class ProductsController extends Controller
          * @var [type]
          */
         $products = Product::select('id', 'category_id', 'name', 'price', 'description', 'condition', 'brand', 'rate_val', 'type', 'features', 'parent_id', 'tags')
-            ->search($search, null, false)
+            ->search($search, false)
             ->refine($refine)
             ->free()
             ->actives()
@@ -85,7 +85,7 @@ class ProductsController extends Controller
          * @var [type]
          */
         $all_products = $products->get();
- 
+
         /**
          * $suggestions
          * Array which contains the user product suggestions
@@ -98,7 +98,7 @@ class ProductsController extends Controller
 
         /**
          * $filters
-         * it is the refine menu array, which is used to build the search options 
+         * it is the refine menu array, which is used to build the search options
          * @var [type]
          */
         $category_id = $request->get('category') ? $request->get('category') : 'mothers';
@@ -111,17 +111,17 @@ class ProductsController extends Controller
         });
 
         $filters = productsHelper::countingProductsByCategory($all_products, $categories);
-        
+
         //condition
         $filters['conditions'] = array_count_values($all_products->lists('condition')->toArray());
-        
+
         //brand filter
         $filters['brands'] = array_count_values($all_products->lists('brand')->toArray());
 
         //features
         $features = [];
         $irrelevant_features = ['images', 'dimensions', 'weight', 'brand']; //this has to be in company setting module
-        foreach ($all_products->lists('features') as $feature) 
+        foreach ($all_products->lists('features') as $feature)
         {
             $feature = array_except($feature, $irrelevant_features);
             foreach ($feature as $key => $value) {
@@ -155,12 +155,12 @@ class ProductsController extends Controller
                     break;
                 }
             }
-            
+
             if (count($my_searches) > 0) {
                 UserController::setPreferences('my_searches', $my_searches);
             }
         }
-        
+
         $products = $products->paginate(28);
         $panel = $this->panel;
         $panel['left']['class'] = 'categories-panel';
@@ -237,9 +237,9 @@ class ProductsController extends Controller
             } elseif ($level % 2 == 0) {
                 $icon=1;
             }
-            
+
             $indentation=['&#9679;','&#8226;','&ordm;'][$icon];
-            
+
             #end pre format
 
             $categories[$row['id']]=$s.$indentation.'&nbsp;'.$row['name'];
@@ -277,7 +277,7 @@ class ProductsController extends Controller
             ->withErrors($features)->withInput();
         }
 
-        
+
         $product=new Product();
         $product->name=$request->input('name');
         $product->category_id=$request->input('category_id');
@@ -375,13 +375,13 @@ class ProductsController extends Controller
                 ->take(5)
                 ->get();
         }
-        
+
         $product = Product::select('id', 'category_id', 'user_id', 'name', 'description',
                                    'price', 'stock', 'features', 'condition', 'rate_val',
                                    'rate_count', 'low_stock', 'status', 'type', 'tags', 'products_group', 'brand')
                             ->with(['group'=>function ($query) {  $query->select('id', 'products_group', 'features'); }])
                             ->find($id);
-                               
+
 
         if ($product) {
             if (($user)&&($user->id==$product->user_id)) {
@@ -390,7 +390,7 @@ class ProductsController extends Controller
             }
 
             $features=ProductDetail::all()->toArray();
-            
+
             //Increasing product counters.
             $this->setCounters($product, ['view_counts' => trans('globals.product_value_counters.view')], 'viewed');
 
@@ -552,13 +552,13 @@ class ProductsController extends Controller
                     }
                 break;
                 case 'software':
-                    
+
                 break;
                 case 'software_key':
-                    
+
                 break;
                 case 'gift_card':
-                    
+
                 break;
             }
         }
@@ -898,7 +898,7 @@ class ProductsController extends Controller
         ];
 
         $suggest_listed = Session::get('suggest-listed');
-        
+
         if (count($suggest_listed)) {
             $suggest_listed = array_unique($suggest_listed);
         } else {
@@ -961,7 +961,7 @@ class ProductsController extends Controller
         }
 
         $diff = $data['limit'] - (isset($products[0]) ? count($products[0]) : 0); //limit control
-        
+
         //if we get suggestion results, we save those id
         if (isset($products[0])) {
             $productsHelper->setToHaystack($products[0]);
@@ -985,7 +985,7 @@ class ProductsController extends Controller
         if (isset($products[1])) {
             $productsHelper->setToHaystack($products[1]);
         }
-        
+
         //by rand
         if ($diff > 0 && $diff <= $data['limit']) {
             $products[2] = Product::select($data['select'])
@@ -1001,7 +1001,7 @@ class ProductsController extends Controller
         if (isset($products[2])) {
             $productsHelper->setToHaystack($products[2]);
         }
-        
+
         //making one array to return
         $array = [];
         $products = array_values($products);
@@ -1070,7 +1070,7 @@ class ProductsController extends Controller
             }
 
             $response['products']['results'] = $response['products']['results']->take(5)->get();
-                                                
+
             $deep='';
             if ($suggest) {
                 $crit=str_replace('%', '', $crit);
@@ -1078,7 +1078,7 @@ class ProductsController extends Controller
                     $deep.= ' '.$crit[$i];
                 }
             }
-            
+
 
             if (!$response['products']['results']->count() && strlen($crit)>2) {
                 $response['products']['results'] = Product::select('id', 'name', 'products_group')
@@ -1119,7 +1119,7 @@ class ProductsController extends Controller
         $response['products']['categories_title'] = trans('globals.suggested_categories');
         $response['products']['suggestions_title'] = trans('globals.suggested_products');
         $response['products']['results_title'] = trans('globals.searchResults');
-        
+
 
         if ($request->wantsJson()) {
             return json_encode($response);
