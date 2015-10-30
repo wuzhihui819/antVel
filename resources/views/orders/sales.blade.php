@@ -65,7 +65,7 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($openOrders as $order)
-                                            <?php dd($order->user->profile); $total = \Utility::totalOrder($order->details); ?>
+                                            <?php $total = \Utility::totalOrder($order->details); ?>
                                             <tr>
                                                 <td class="text-center">
                                                     @if (\Auth::user()->role == 'person')

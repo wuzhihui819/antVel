@@ -257,7 +257,7 @@
             @endif
 
             <div class="row">
-                {!! $products->appends(Request::only(['search','categories', 'refine']))->render() !!}
+                {!! $products->appends(Request::only(['category', 'search', 'conditions', 'brands', 'color', 'model', 'min', 'max']))->render() !!}
             </div>
         </div>
     @stop

@@ -52,4 +52,9 @@ class Business extends Model
     {
         return !is_null($this->local_phone);
     }
+
+     public function getFullNameAttribute()
+    {
+        return "$this->business_name";
+    }
 }
