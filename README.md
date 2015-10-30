@@ -1,13 +1,43 @@
-##Antvel eCommerce
+## Antvel Introduction
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-***Atvel*** is is an eStore ready "out of the box" solution. You just need add products and you are ready to start selling and taking orders. I have been busy making this product: awesome, secure, light, and simple to use for you and yours customers.
+**This is an alpha, experimental release of Antvel. Everything will change gradually, looking forward to get the best of this awesome product. Thank you for testing!**
 
-***The best I loved was written it in Laravel***
+***Antvel*** is a eCommerce project written in Laravel 5.* intended for building a friendly eStore either for startups or big companies, and is highly opinionated towards that use case. Because it is a platform already built, you only will need to add as many products as you need  to start selling and taking orders from customers
 
-it was used the most stable and powerful platform to develop AntVel eCommerce, knowing in advance that you would be happy with the results provided by this product. Besides of, your customers will be happy as well. My goal is to give to you and clients the best eCommerse experience in a different aproach!
+***Antvel*** aim is giving to you and your clients the best eCommerse experience in a different aproach!
 
-***Features***
+<a name="installation"></a>
+## Installation
+
+First, clone the antvel repository into your local folder using:
+
+```
+git clone https://github.com/ant-vel/antVel.git
+```
+
+Next, you will need to run composer update into your ***antvel*** project folder
+```
+composer update
+```
+
+After run composer update, be sure to create and migrate your database and define your environment variables in your `.env` file. Also you have to run artisan migrate command, in arden to create the Antvel schema.
+
+```
+php artisan migrate:refresh
+```
+
+Then, you must run the Antvel seeder to create a functional demo, like so:
+
+```
+php artisan migrate:refresh --seed
+```
+
+After run all these commands you should be able to look at your antvel version running in your browser
+
+<a name="features"></a>
+## Features
+
 * Responsivity 
 * Open Source
 * Social Media Integration
@@ -24,12 +54,41 @@ it was used the most stable and powerful platform to develop AntVel eCommerce, k
 * Multiple Tax Rates 
 * Related Products 
 * Search Engine Optimization 
-* SalesReports
+* Sales Reports
+* Wish Lists
+* Products Suggestions
+* Products Grouping
+* Addresses Book
+* User Profiles (Sellers & Buyers)
+* Produducts barcode
+* Administrative Panel (wpanel)
+* Users Orders list with action status (process, Placed, Cancel, Rated)
+* Products Rate 
+* Products Reviews
+* Virtual Products (products key download integrated) 
+* Free Products Module
+* Users Points
+* Virtual Products Delivery
+* Dinamic Products Features
+* Company Profile
+* Shopping Cart 
+* Users preferences control
+* Users Notifications
+* Company Info CMS
+* Search Engine Suggestions
 
-## Contact
 
-I am working hard in order to have it ready in the way I would like to. So, if somebody is interested on work along and give a stable product to the Laravel community, I will be glad to welcome them!
+### Contact
 
+You can communicate with us using the following mediums:
+
+* [Follow us on Twitter](http://twitter.com/octobercms) for announcements and updates.
+* [Follow us on Facebook](http://facebook.com/octobercms) for announcements and updates.
+* [Join us on hipChat](https://antvel.hipchat.com/home) to chat with us.
+* [Email](gustavoocanto@gmail.com) for questions
 * http://g-ocanto.com
-* email: gustavoocanto@gmail.com
-* Twitter: [@gocanto](https://twitter.com/gocanto "gocanto on twitter")
+
+### License
+
+The AntVel eCommerce is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+
