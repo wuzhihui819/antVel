@@ -46,9 +46,11 @@ class Product extends Model
      */
     protected $searchable = [
         'columns' => [
-            'name' => 20,
-            'description' => 100,
-            'features' => 255
+            'name' => 100,
+            'description' => 500,
+            'features' => 255,
+            'brand' => 30,
+            'tags' => 255
         ]
     ];
 
@@ -155,8 +157,13 @@ class Product extends Model
                 break;
 
                 default:
-                    if ($key != 'category_name' && $key != 'search') {
-                        $query->whereRaw("features LIKE '%\"".$key."\":%\"%".$value."%\"%'"); 
+                    if ($key != 'category_name' && $key != 'search' && $key != 'page') {
+
+                        //changing url encoded character by the real ones
+                        $value = urldecode($value);
+
+                        //applying filter to json field
+                        $query->whereRaw("features LIKE '%\"".$key."\":%\"%".str_replace('/','%',$value)."%\"%'");
                     }
                 break;
             }
