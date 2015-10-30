@@ -1,4 +1,6 @@
 ## Antvel Introduction
+
+[![Join the chat at https://gitter.im/ant-vel/antVel](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ant-vel/antVel?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
 **This is an alpha, experimental release of Antvel. Everything will change gradually, looking forward to get the best of this awesome product. Thank you for testing!**
