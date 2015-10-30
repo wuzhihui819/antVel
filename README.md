@@ -38,22 +38,22 @@ After run all these commands you should be able to look at your antvel version r
 <a name="features"></a>
 ## Features
 
-* Responsivity 
+* Responsivity
 * Open Source
 * Social Media Integration
-* Unlimited Categories 
-* Unlimited Products 
-* Unlimited Manufacturers 
-* Your Own Style 
-* Multi Language 
-* Multi Currency 
-* Product Reviews 
-* Product Ratings 
-* Downloadable Products 
-* Automatic Image Resizing 
-* Multiple Tax Rates 
-* Related Products 
-* Search Engine Optimization 
+* Unlimited Categories
+* Unlimited Products
+* Unlimited Manufacturers
+* Your Own Style
+* Multi Language
+* Multi Currency
+* Product Reviews
+* Product Ratings
+* Downloadable Products
+* Automatic Image Resizing
+* Multiple Tax Rates
+* Related Products
+* Search Engine Optimization
 * Sales Reports
 * Wish Lists
 * Products Suggestions
@@ -63,15 +63,15 @@ After run all these commands you should be able to look at your antvel version r
 * Produducts barcode
 * Administrative Panel (wpanel)
 * Users Orders list with action status (process, Placed, Cancel, Rated)
-* Products Rate 
+* Products Rate
 * Products Reviews
-* Virtual Products (products key download integrated) 
+* Virtual Products (products key download integrated)
 * Free Products Module
 * Users Points
 * Virtual Products Delivery
 * Dinamic Products Features
 * Company Profile
-* Shopping Cart 
+* Shopping Cart
 * Users preferences control
 * Users Notifications
 * Company Info CMS
