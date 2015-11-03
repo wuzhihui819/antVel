@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Antvel - Data Base
+ * Products Detail Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -25,17 +32,6 @@ class CreateProductDetailsTable extends Migration
             $table->timestamps();
         });
     }
-    // public function up()
-    // {
-    //     Schema::create('product_details', function (Blueprint $table) {
-    //         $table->increments('id');
-    //         $table->string('name', 100);
-    //         $table->string('input_type', 20);
-    //         $table->string('data_type', 20);
-    //         $table->smallInteger('max_num_values');
-    //         $table->timestamps();
-    //     });
-    // }
 
     /**
      * Reverse the migrations.

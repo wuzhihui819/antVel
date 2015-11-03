@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Comment Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Eloquent\Model;
 use App\ActionType;
 use App\Notice;

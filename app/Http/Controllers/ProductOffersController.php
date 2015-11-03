@@ -1,5 +1,12 @@
 <?php namespace app\Http\Controllers;
 
+/**
+ * Antvel - Products Offers Controller
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\ProductOffer;

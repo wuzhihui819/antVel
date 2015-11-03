@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Virtual Products Order Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Eloquent\Model;
 
 class VirtualProductOrder extends Model

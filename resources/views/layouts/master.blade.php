@@ -41,15 +41,28 @@
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	<style>
-		
+
 	</style>
 </head>
 <body>
-	<section class="@yield('page_class', 'home')">
-{{-- NAVBAR --}}
-@section('navigation')
-	@include('partial.navigation')
-@show
+
+	<section class = "@yield('page_class', 'home')">
+
+		{{-- Navigation bar section --}}
+		@section('navigation')
+			@include('partial.navigation')
+		@show
+
+		{{-- Breadcrumbs section --}}
+
+		<div class="navbar-wrapper container">
+			@section('breadcrumbs')
+
+			@show
+		</div>
+
+
+
 		{{-- CONTENT PAGE --}}
 		@section('content')
 			@section('panels')

@@ -1,5 +1,12 @@
 <?php namespace app\Http\Controllers;
 
+/**
+ * Antvel - Home Controller
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
+
 use App\Order;
 use App\Product;
 use App\FreeProduct;
@@ -66,9 +73,9 @@ class HomeController extends Controller
             '/img/banner/03.png',
             '/img/banner/04.png'
         ];
-        
+
         // $this->createTags();
-        
+
         return view('home', compact('panel', 'suggestion', 'allWishes', 'events', 'tagsCloud', 'jumbotronClasses', 'i', 'banner'));
     }
 

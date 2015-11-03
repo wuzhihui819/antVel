@@ -1,5 +1,11 @@
 <?php namespace app\Helpers;
 
+/**
+ * Antvel - Utilities Functions Helper
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 class Utility
 {
     /**

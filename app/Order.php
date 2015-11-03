@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Order Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Http\Controllers\UserController as UserController;
 use App\Http\Controllers\ProductsController as ProductsController;
 use App\OrderDetail;

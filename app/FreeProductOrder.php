@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Free Prodcuts Order Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Eloquent\Model;
 
 class FreeProductOrder extends Model
@@ -20,7 +26,7 @@ class FreeProductOrder extends Model
         'freeproduct_id',
         'order_id'
     ];
-    
+
     /**
      * Obtains information order header
      * @return Collection Order Information

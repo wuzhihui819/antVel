@@ -1,7 +1,12 @@
 <?php
+
 /**
-* Documentar
-*/
+ * Antvel - Seeder
+ * Products Detail Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\ProductDetail as ProductDetail;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
@@ -19,7 +24,7 @@ class ProductsDetailTableSeeder extends Seeder
             'type_products'=>'all',
             'max_num_values'=>5
         ]);
-        
+
         ProductDetail::create([
             'name'=>'virtual weight',
             'input_type'=>'text',

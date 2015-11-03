@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Free Products Participants Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Eloquent\Model;
 
 class FreeProductParticipant extends Model

@@ -1,7 +1,12 @@
 <?php
+
 /**
-* Documentar
-*/
+ * Antvel - Seeder
+ * Virtual Products Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Product as Product;
 use App\ProductOffer as ProductOffer;
 use App\Business as Business;
@@ -36,7 +41,6 @@ class VirtualProductsSeeder extends Seeder
                     ),
                 )),
                 'condition'=>$faker->randomElement(['new', 'refurbished', 'used']),
-                //'currency'=>0,
                 'tags' => $faker->word.','.$faker->word.','.$faker->word,
                 'type' => 'key'
             ]);

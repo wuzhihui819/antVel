@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Action Type Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Eloquent\Model;
 
 class ActionType extends Model

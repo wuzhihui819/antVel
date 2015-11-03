@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Notice Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Eloquent\Model;
 use App\Eloquent\Collection;
 

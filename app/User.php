@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Users Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Log;
 use App\UserPoints;
 use App\Order;
@@ -80,7 +86,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasMany('App\Product');
     }
 
-    
+
     public function getHasPhoneAttribute()
     {
         return !is_null($this->mobile_phone) || !is_null($this->work_phone)
@@ -100,7 +106,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         if (is_array($role)) {
             return in_array($this->attributes['role'], $role);
         }
-        
+
         return $this->attributes['role'] == $role;
     }
     public function isAdmin()
@@ -123,7 +129,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
    {
        return $this->attributes['type'] == 'trusted';
    }
-   
+
     //Cart Manage
     public function getCartCount()
     {

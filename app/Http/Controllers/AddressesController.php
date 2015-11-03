@@ -1,5 +1,12 @@
 <?php namespace app\Http\Controllers;
 
+/**
+ * Antvel - Addresses Controller
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\UserAddress;
@@ -89,7 +96,7 @@ class AddressesController extends Controller
         $user = \Auth::user();
 
         $v = \Validator::make($request->all(), $this->form_rules);
-        
+
         if ($v->fails()) {
             return \Response::json(['success' => false, 'message'=>trans('address.error_validation'), 'class'=>'alert alert-danger']);
         }
@@ -155,11 +162,11 @@ class AddressesController extends Controller
     public function update(Request $request, $id)
     {
         $v = \Validator::make($request->all(), $this->form_rules);
-        
+
         if ($v->fails()) {
             return \Response::json(['success' => false, 'message'=>trans('address.error_validation'), 'class'=>'alert alert-danger']);
         }
-        
+
         $address = Address::find($id);
         $address->fill($request->all());
         $address->save();

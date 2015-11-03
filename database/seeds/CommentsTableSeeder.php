@@ -1,7 +1,12 @@
 <?php
+
 /**
-* Documentar
-*/
+ * Antvel - Seeder
+ * Comments Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\ActionType;

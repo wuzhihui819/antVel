@@ -1,5 +1,11 @@
 <?php namespace app\Helpers;
 
+/**
+ * Antvel - App Menus Helper
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Product;
 use App\Order;
 

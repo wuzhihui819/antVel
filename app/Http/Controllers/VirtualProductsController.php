@@ -1,5 +1,12 @@
 <?php namespace app\Http\Controllers;
 
+/**
+ * Antvel - Virtual Products Controller
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\VirtualProduct;
@@ -94,7 +101,7 @@ class VirtualProductsController extends Controller
         }
 
         $product->save();
-        
+
         return json_encode(['success'=>trans('product.controller.saved_successfully')]);
     }
 }

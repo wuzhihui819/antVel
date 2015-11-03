@@ -200,7 +200,8 @@ return [
         'Barryvdh\Debugbar\ServiceProvider',
         'Greggilbert\Recaptcha\RecaptchaServiceProvider',
         'Dinesh\Barcode\BarcodeServiceProvider',
-        'Barryvdh\DomPDF\ServiceProvider'
+        'Barryvdh\DomPDF\ServiceProvider',
+        'DaveJamesMiller\Breadcrumbs\ServiceProvider'
     ],
 
     /*
@@ -261,11 +262,12 @@ return [
         'DNS1D' => 'Dinesh\Barcode\Facades\DNS1DFacade',
         'DNS2D' => 'Dinesh\Barcode\Facades\DNS2DFacade',
         'PDF' => 'Barryvdh\DomPDF\Facade',
+        'Breadcrumbs' => 'DaveJamesMiller\Breadcrumbs\Facade',
 
         /*
          * App Alieses
          */
-        
+
         'Menu'      => 'App\Helpers\Menu',
         'Utility'   => 'App\Helpers\Utility',
     ],

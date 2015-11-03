@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * Antvel - Seeder
+ * Free Products Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Order;
 use App\OrderDetail;
 use App\UserAddress;
@@ -67,7 +75,7 @@ class FreeProductsTableSeeder extends Seeder
                 $product->stock = $product->stock - $quantity;
                 $product->save();
             }
-            
+
             $order->sendNotice();
         }
 
@@ -91,7 +99,7 @@ class FreeProductsTableSeeder extends Seeder
                 'draw_date'                   => $end_date->addDays($faker->numberBetween(1, 5)),
                 'status'                      => $faker->randomElement([0, 1])
             ]);
-            
+
             //asocio una o mas ordenes a un free product
             $num=$faker->numberBetween(1, 3);
             if ($num>1 && (count($orders)-1)<$num) {

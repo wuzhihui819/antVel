@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - User Points Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use Illuminate\Database\Eloquent\Model;
 
 class UserPoints extends Model

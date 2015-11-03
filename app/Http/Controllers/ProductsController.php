@@ -1,7 +1,13 @@
 <?php namespace app\Http\Controllers;
 
+/**
+ * Antvel - Products Controller
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
+
 use App\Category;
-// use App\FreeProduct;
 use App\FreeProductOrder;
 use App\Order;
 use App\OrderDetail;
@@ -198,60 +204,61 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        $product=Product::find(-50);
-        $features=ProductDetail::all()->toArray();
-        $arrayCategories=Category::actives()
-                                   ->lightSelection()
-                                   ->get()
-                                   ->toArray();
+        $product = Product::find(-50);
+        $features = ProductDetail::all()->toArray();
+        $arrayCategories = Category::actives()
+           ->lightSelection()
+           ->get()
+           ->toArray();
 
-        $categories=[""=>trans("product.controller.select_category")];
-
-        $condition=['new'=>trans('product.controller.new'),
-                    'refurbished'=>trans('product.controller.refurbished'),
-                    'used'=>trans('product.controller.used')];
-
-        $typesProduct=[
-            'item'         =>trans("product.controller.item"),
-            'key'          =>trans("product.globals.digital_item").' '.trans("product.globals.key"),
-            // 'software'     =>trans("product.globals.digital_item").' '.trans("product.globals.software"),
-            // 'software_key' =>trans("product.globals.digital_item").' '.trans("product.controller.software_key"),
-            // 'gift_card'    =>trans("product.controller.gift_card")
+        $categories = [
+            "" => trans("product.controller.select_category")
         ];
 
-        $typeItem='item';
+        $condition = [
+            'new' => trans('product.controller.new'),
+            'refurbished' => trans('product.controller.refurbished'),
+            'used' => trans('product.controller.used')
+        ];
 
+        $typesProduct = [
+            'item' =>trans("product.controller.item"),
+            'key' =>trans("product.globals.digital_item").' '.trans("product.globals.key")
+        ];
+
+        $typeItem = 'item';
 
         foreach ($arrayCategories as $row) {
 
-            #just a little bit of pre format in categories dropdown
-            $level=categoriesHelper::level($arrayCategories, $row['category_id']);
+            //categories dropdown format
+            $level = categoriesHelper::level($arrayCategories, $row['category_id']);
 
-            $s='';
+            $s = '';
             for ($i=0; $i < $level; $i++) {
                 $s.='&nbsp;&nbsp;&nbsp;';
             }
-            $icon=2;
+
+            $icon = 2;
+
             if ($level % 3 == 0) {
                 $icon=0;
             } elseif ($level % 2 == 0) {
                 $icon=1;
             }
 
-            $indentation=['&#9679;','&#8226;','&ordm;'][$icon];
+            $indentation = ['&#9679;','&#8226;','&ordm;'][$icon];
+            //format
 
-            #end pre format
-
-            $categories[$row['id']]=$s.$indentation.'&nbsp;'.$row['name'];
+            $categories[$row['id']] = $s.$indentation.'&nbsp;'.$row['name'];
         }
 
-        $disabled='';
-        $edit=false;
-        $panel=$this->panel;
-        $oldFeatures=ProductDetail::oldFeatures([]);
-        $productsDetails=new featuresHelper();
+        $disabled = '';
+        $edit = false;
+        $panel = $this->panel;
+        $oldFeatures = ProductDetail::oldFeatures([]);
+        $productsDetails = new featuresHelper();
         return view('products.form',
-            compact('product', 'panel', 'features', 'categories', 'condition', 'typeItem', 'typesProduct', 'disabled', 'edit', 'oldFeatures', 'productsDetails'));
+                compact('product', 'panel', 'features', 'categories', 'condition', 'typeItem', 'typesProduct', 'disabled', 'edit', 'oldFeatures', 'productsDetails'));
     }
 
     /**
@@ -265,20 +272,22 @@ class ProductsController extends Controller
             return redirect()->back()
             ->withErrors(array('induced_error'=>array(trans('globals.error').' '.trans('globals.induced_error'))));
         }
-        $rules=$this->rulesByTypes($request);
+
+        $rules = $this->rulesByTypes($request);
         $v = Validator::make($request->all(), $rules);
+
         if ($v->fails()) {
             return redirect()->back()
             ->withErrors($v->errors())->withInput();
         }
+
         $features=$this->validateFeatures($request->all());
         if (!is_string($features)) {
             return redirect()->back()
             ->withErrors($features)->withInput();
         }
 
-
-        $product=new Product();
+        $product = new Product();
         $product->name=$request->input('name');
         $product->category_id=$request->input('category_id');
         $product->user_id=\Auth::id();
@@ -363,7 +372,7 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        $user =\Auth::user();
+        $user = \Auth::user();
         $allWishes = '';
         $panel = array( 'center'=>['width'=>'12'] );
 
@@ -376,48 +385,64 @@ class ProductsController extends Controller
                 ->get();
         }
 
-        $product = Product::select('id', 'category_id', 'user_id', 'name', 'description',
-                                   'price', 'stock', 'features', 'condition', 'rate_val',
-                                   'rate_count', 'low_stock', 'status', 'type', 'tags', 'products_group', 'brand')
-                            ->with(['group'=>function ($query) {  $query->select('id', 'products_group', 'features'); }])
-                            ->find($id);
+        $product = Product::select([
+            'id', 'category_id', 'user_id', 'name', 'description',
+            'price', 'stock', 'features', 'condition', 'rate_val',
+            'rate_count', 'low_stock', 'status', 'type', 'tags', 'products_group', 'brand'
+        ])->with([
+            'group' => function ($query){
+                $query->select(['id', 'products_group', 'features']);
+            }
+        ])->with('categories')->find($id);
 
+//dd($product, $product->categories->name);
 
         if ($product) {
-            if (($user)&&($user->id==$product->user_id)) {
-                $panel = array( 'left'=>['width'=>'2'],
-                                'center'=>['width'=>'10']);
+
+            //if there is a user in session, the admin menu will be shown
+            if ($user && $user->id==$product->user_id) {
+                $panel = [
+                    'left' => ['width'=>'2'],
+                    'center' => ['width'=>'10']
+                ];
             }
 
-            $features=ProductDetail::all()->toArray();
+            //retrieving products features
+            $features = ProductDetail::all()->toArray();
 
-            //Increasing product counters.
+            //increasing product counters, in order to have a suggestion orden
             $this->setCounters($product, ['view_counts' => trans('globals.product_value_counters.view')], 'viewed');
 
-            //saving tags in users preferences
+            //saving the product tags into users preferences
             if (trim($product->tags)!='') {
                 UserController::setPreferences('product_viewed', explode(',', $product->tags));
             }
 
+            //receiving products user reviews & comments
             $details = OrderDetail::where('product_id', $product->id)
-                                    ->whereNotNull('rate_comment')
-                                    ->select('rate', 'rate_comment', 'updated_at')
-                                    ->orderBy('updated_at', 'desc')
-                                    ->take(5)
-                                    ->get();
+                ->whereNotNull('rate_comment')
+                ->select('rate', 'rate_comment', 'updated_at')
+                ->orderBy('updated_at', 'desc')
+                ->take(5)
+                ->get();
 
             $jsonDetails = json_encode($details->toArray());
 
-            //Si es un producto de tipo free, debemos buscar a que paquete freeproduct pertenece
+            //If it is a free product, we got to retrieve its package information
             if ($product->type == 'freeproduct') {
                 $order = OrderDetail::where('product_id', $product->id)->first();
                 $freeproduct = FreeProductOrder::where('order_id', $order->order_id)->first();
             }
-            $freeproductId = (isset($freeproduct)) ? $freeproduct->freeproduct_id : 0;
+
+            $freeproductId = isset($freeproduct) ? $freeproduct->freeproduct_id : 0;
+
+            //products suggestions control
+            //saving product id into suggest-listed, in order to exclude products from suggestions type "view"
             Session::push('suggest-listed', $product->id);
             $suggestions = $this->getSuggestions(['preferences_key' => $product->id, 'limit' => 4]);
             Session::forget('suggest-listed');
 
+            //retrieving products groups of the product shown
             if (count($product->group)) {
                 $featuresHelper = new featuresHelper();
                 $product->group = $featuresHelper->group($product->group);

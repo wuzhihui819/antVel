@@ -1,5 +1,11 @@
 <?php namespace app\Helpers;
 
+/**
+ * Antvel - User Helper
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 class userHelper
 {
     private $preferences = [];
@@ -108,7 +114,7 @@ class userHelper
             'tags' => [],
             'date' => []
         );
-        
+
         $preferences = $this->preferencesToArray($preferences);
         $preferences_key = trim($preferences_key)!='' ? $preferences_key : 'all';
 
@@ -138,7 +144,7 @@ class userHelper
                     }
                 }
             break;
-            
+
             //product_viewed, product_purchased, product_shared, and my_searches suggestions
             default:
                 if (isset($preferences[$preferences_key]) && count($preferences[$preferences_key]) > 0) {

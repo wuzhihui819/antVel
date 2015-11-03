@@ -1,7 +1,12 @@
 <?php
+
 /**
-* Documentar
-*/
+ * Antvel - Seeder
+ * Orders Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Category;
 use App\Order;
 use App\OrderDetail;
@@ -15,25 +20,25 @@ class OrdersTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        
+
         $users = Address::get();
-        
+
         $status_list = array_keys(trans('globals.order_status'));
-        
+
         for ($i=0; $i<20; $i++) {
             $user = $users->random(1);
             $products = Product::get();
             $type = $faker->randomElement(['cart', 'wishlist', 'order']);
             $status = 'open';
-            
+
             switch ($type) {
                 case 'order':
                     $status=$faker->randomElement($status_list);
                 break;
             }
-            
+
             $stock = $faker->numberBetween(1, 20);
-            
+
             $order = Order::create([
                 'user_id' => $user->user_id,
                 'seller_id' => '3',
@@ -61,13 +66,13 @@ class OrdersTableSeeder extends Seeder
                         $list[]=$product->id;
                     }
                 } while ($a==false);
-                
+
                 if ($status=='closed') {
                     $delivery=$faker->dateTime();
                 } else {
                     $delivery=$faker->numberBetween(0, 1)?$faker->dateTime():null;
                 }
-                
+
                 OrderDetail::create([
                     'order_id' => $order->id,
                     'product_id' => $product->id,

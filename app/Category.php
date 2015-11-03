@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Categories Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Collection\Categories;
 use App\Eloquent\Model;
 
@@ -60,7 +66,7 @@ class Category extends Model
     {
         return $this->hasMany('App\Category');
     }
-    
+
     /**
      * Return a collection of a category's childs, or null if don't have
      * @return collection
@@ -75,6 +81,7 @@ class Category extends Model
         }
         return $childs;
     }
+
     /**
      * Return the parent of a category, or null if don't have
      * @return category model
@@ -83,6 +90,7 @@ class Category extends Model
     {
         return $this->belongsTo('App\Category', 'category_id')->first();
     }
+
     /**
      * Return the the full tree of parents of a category, or null if don't have.
      * The tree contains the master parent, and a child attribute that contains next element,
@@ -112,8 +120,6 @@ class Category extends Model
     public function hasChildren()
     {
         return isset($this->children)&&count($this->children);
-        // $parent=$this->hasMany('App\Category')->get();
-        // return !!count($parent);
     }
     public function hasParent()
     {
@@ -122,9 +128,6 @@ class Category extends Model
 
     public function withChilds()
     {
-        // if (!in_array('childs', $this->appends)) {
-        //     $this->appends[]='childs';
-        // }
         return $this;
     }
 
@@ -136,6 +139,7 @@ class Category extends Model
         }
         return $this;
     }
+
     public function withParentTree()
     {
         if (!in_array('parent_tree', $this->appends)) {
@@ -167,10 +171,10 @@ class Category extends Model
     }
 
     /**
-     * return all the childs of a category. If the id is empty, 'parents' or 'mothers',
-     * then return the main categories.
+     * scopeChildsOf
+     * Return all the children of a category. If the id is empty, 'parents' or 'others' will be given.
      * @param  $query
-     * @param  $id    category id, empty value, 'parents' or 'mothers'
+     * @param  $id that can be either category id, empty value, 'parents' or 'mothers'
      * @return $query
      */
     public function scopeChildsOf($query, $id)
@@ -182,31 +186,57 @@ class Category extends Model
         }
     }
 
+    /**
+     * scopeMothers
+     * Retrieve the main categories
+     * @param  [type] $query [description]
+     * @return [type]        [description]
+     */
     public function scopeMothers($query)
     {
         return $query->whereNull('category_id');
     }
+
     public function scopeStore($query)
     {
         return $query->where('type', 'store');
     }
+
     public function scopeGroup($query)
     {
         return $query->where('type', 'group');
     }
+
+    /**
+     * scopeFull
+     * Retrieve the total of products contained in a category
+     * @param  [type] $query [description]
+     * @return [type]        [description]
+     */
     public function scopeFull($query)
     {
         return $query->where(\DB::raw(0), '<', function ($sql) {
             $sql->select(\DB::raw('COUNT(products.id)'))->from('products')->whereRaw('categories.id=products.category_id');
         });
     }
+
+    /**
+     * scopeLightSelection
+     * Retrieve build the query select as scope
+     * @param  [object] $query contains the Laravel query builder
+     */
     public function scopeLightSelection($query)
     {
         return $query->select('categories.id', 'categories.name', 'categories.category_id');
     }
-   
+
     /**
-     * $id category to searh progeny , $list array to use, $fields that you need
+     * progeny
+     * Retrieve all the categories children of one passed through parameter,
+     * checking data from bottom to top
+     * @param [int] $id is the id category evaluated
+     * @param [array] $array is the array to be used out of the model
+     * @param [array] $fields is the array that contais the table field we want to retrieve
      */
     public static function progeny($id, &$list, $fields = ['id', 'name'])
     {
@@ -223,4 +253,33 @@ class Category extends Model
         }
         return;
     }
+
+    /**
+     * parentsTree
+     * Retrieve all the categories parents of one passed through parameter,
+     * checking data from bottom to top
+     * @param [int] $id is the id category evaluated
+     * @param [array] $array is the array to be used out of the model
+     * @param [array] $fields is the array that contais the table field we want to retrieve
+     */
+    public static function parentsTree($id, &$array, $fields = ['id', 'category_id', 'name'])
+    {
+        $categories = Category::select($fields)
+            ->where('id', $id)
+            ->get()
+            ->toArray();
+
+        if (is_null($categories)) {
+            return;
+        }
+
+        foreach ($categories as $value) {
+            $array[] = $value;
+            Category::parentsTree($value['category_id'], $array, $fields);
+        }
+
+        return;
+    }
+
+
 }

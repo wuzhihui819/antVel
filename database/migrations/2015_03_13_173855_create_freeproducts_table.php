@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Antvel - Data Base
+ * Free Products Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -25,7 +32,6 @@ class CreateFreeproductsTable extends Migration
             $table->integer('draw_number');
             $table->date('draw_date');
             $table->boolean('status')->default(1);
-
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

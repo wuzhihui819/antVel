@@ -1,7 +1,12 @@
 <?php
+
 /**
- * Documentar
+ * Antvel - Seeder
+ * Products Rates Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
+
 use App\Address;
 use App\Business;
 use App\Category;
@@ -29,9 +34,7 @@ class ProductsRatesSeeder extends Seeder
                 'password'=>Hash::make('123456'),
                 'pic_url'=>'/pt-default/'.$faker->numberBetween(1, 20).'.jpg',
                 'twitter'=>'@'.$faker->userName,
-                'facebook'=>$faker->userName,
-                //'current_points'=>10000,
-                //'accumulated_points'=>20000,
+                'facebook'=>$faker->userName
             ]
         ])->user;
         for ($j=0; $j < 2; $j++) {
@@ -54,7 +57,7 @@ class ProductsRatesSeeder extends Seeder
             'city'=>$faker->city,
             'country'=>$faker->country,
             'state'=>$faker->state,
-            
+
         ]);
 
         $company_name = 'seededinc_inc';

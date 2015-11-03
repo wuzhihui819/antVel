@@ -1,5 +1,11 @@
 <?php namespace app\Helpers;
 
+/**
+ * Antvel - Products Features Helper
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\ProductDetail;
 use Illuminate\Support\Facades\Validator;
 use App\Helpers\colorsHelper;
@@ -243,9 +249,9 @@ class featuresHelper
     public function group($group)
     {
         $groups=[];
-                    
+
         $features = $this->getFeatures();
-        
+
         foreach ($features as $feature) {
             foreach ($group as $item) {
                 if (isset($item->features[$feature['indexByName']])) {
