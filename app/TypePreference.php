@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Type Preferences Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Eloquent\Model;
 
 class TypePreference extends Model

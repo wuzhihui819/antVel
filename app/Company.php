@@ -1,6 +1,11 @@
 <?php namespace app;
 
-//use App\User;
+/**
+ * Antvel - Company Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Eloquent\Model;
 
 class Company extends Model

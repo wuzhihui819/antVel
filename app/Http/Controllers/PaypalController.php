@@ -1,5 +1,12 @@
 <?php namespace app\Http\Controllers;
 
+/**
+ * Antvel - PayPal Controller
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
+
 use App\PaypalOrder;
 use App\User;
 use Illuminate\Support\Facades\Input;

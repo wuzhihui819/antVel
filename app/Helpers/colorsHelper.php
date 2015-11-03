@@ -1,5 +1,11 @@
 <?php namespace app\Helpers;
 
+/**
+ * Antvel - Products Color Helper
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 class colorsHelper
 {
     private $colors=[

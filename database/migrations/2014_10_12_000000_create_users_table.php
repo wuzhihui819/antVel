@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Antvel - Data Base
+ * Users Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 

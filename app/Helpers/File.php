@@ -1,5 +1,11 @@
 <?php namespace app\Helpers;
 
+/**
+ * Antvel - Files Validations Helper
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class File
@@ -99,7 +105,7 @@ class File
                 $path=implode('/', $path);
                 #archivo destino
                 $file_destiny=md5(time()).'.'.$info->extension;
-                
+
                 #Si no existe directorio se crea
                 if (!is_dir($path)) {
                     mkdir($path, 0777, true);
@@ -123,7 +129,7 @@ class File
     public static function deleteFile($file)
     {
         $path = explode('/', $file);
-        
+
         if (\Auth::id() == $path[4]) {
             $file=storage_path().'/'.self::$default_path.$file;
             unlink($file);

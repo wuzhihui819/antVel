@@ -1,5 +1,12 @@
 <?php namespace app\Http\Controllers;
 
+/**
+ * Antvel - Products Group Controller
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
+
 use App\Product;
 use App\User;
 use Illuminate\Http\Request;
@@ -47,7 +54,7 @@ class ProductsGroupController extends Controller
                 $group->products_group = $group->id;
                 $group->save();
             }
-            
+
             $group_id = $group->products_group;
         }
 

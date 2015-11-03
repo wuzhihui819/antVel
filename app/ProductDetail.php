@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Product Detail Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Eloquent\Model;
 
 class ProductDetail extends Model

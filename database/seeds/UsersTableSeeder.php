@@ -1,7 +1,12 @@
 <?php
+
 /**
-* Documentar
-*/
+ * Antvel - Seeder
+ * Users Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\User as User;
 use App\Person as Person;
 use App\Business as Business;
@@ -24,8 +29,6 @@ class UsersTableSeeder extends Seeder
                 'user'=>[
                     'nickname'=>$faker->userName,
                     'email'=>$faker->unique()->email,
-                    //'current_points'=>$faker->numberBetween(100000, 500000),
-                    //'accumulated_points'=>$faker->numberBetween(500000, 600000),
                     'role'=>'person',
                     'password'=>\Hash::make('123456'),
                     'pic_url'=>'/img/pt-default/'.$faker->numberBetween(1, 20).'.jpg',
@@ -45,8 +48,6 @@ class UsersTableSeeder extends Seeder
                 'user'=>[
                     'nickname'=>$faker->userName,
                     'email'=>$faker->unique()->email,
-                    //'current_points'=>$faker->numberBetween(100000, 500000),
-                    //'accumulated_points'=>$faker->numberBetween(500000, 600000),
                     'role'=>$faker->randomElement(['business']), //, 'nonprofit'
                     'type'=>$faker->randomElement(['normal', 'trusted']),
                     'password'=>\Hash::make('123456'),

@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Person Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\User;
 use App\Eloquent\Model;
 

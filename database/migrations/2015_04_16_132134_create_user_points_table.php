@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Antvel - Data Base
+ * Users Points Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -16,16 +23,11 @@ class CreateUserPointsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('action_type_id')->unsigned();
-            //Defined in the globals array
             $table->integer('source_id')->unsigned();
             $table->integer('points');
-
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('action_type_id')->references('id')->on('action_types');
-            
-            //Index created to speed up the search
             $table->index('user_id');
         });
     }

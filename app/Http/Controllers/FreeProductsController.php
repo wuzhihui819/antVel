@@ -1,5 +1,12 @@
 <?php namespace app\Http\Controllers;
 
+/**
+ * Antvel - Free Products Controller
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -62,7 +69,7 @@ class FreeProductsController extends Controller
                                     //->where('p.user_id', '=', $user->id);
                                     ->select('freeproducts.*', 'p.status as status_holding')
                                     ->paginate(8);
-                                    
+
                     //dd($freeproducts->toSql());
                     break;
                 default: $freeproducts = FreeProduct::getListWithPaginate(8); break;
@@ -70,7 +77,7 @@ class FreeProductsController extends Controller
         } else {
             $freeproducts = FreeProduct::getListWithPaginate(8);
         }
-        
+
         $panel = $this->panel;
         $route = route('freeproducts.search');
         return view('freeproducts.index', compact('panel', 'freeproducts', 'filter', 'route'));
@@ -189,7 +196,7 @@ class FreeProductsController extends Controller
                             }
                         }
                     }
-                    
+
                     //Send message process Ok and redirect
                     Session::flash('message', trans('freeproduct.saved_successfully'));
                     return redirect()->route('freeproducts.show', [$freeproduct->id]);
@@ -342,7 +349,7 @@ class FreeProductsController extends Controller
             foreach ($select as $value) {
                 $list[$event->id][$value] = $event->$value;
             }
-            
+
             $products = FreeProduct::
                 find($event->id)
                 ->products

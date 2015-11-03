@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Antvel - Seeder
+ * Main Company Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Company;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;

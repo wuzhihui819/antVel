@@ -1,5 +1,12 @@
 <?php namespace app\Http\Controllers;
 
+/**
+ * Antvel - Free Products Participants Controller
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\FreeProductPartisipant;

@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Order Detail Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Eloquent\Model;
 
 class OrderDetail extends Model

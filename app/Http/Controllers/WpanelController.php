@@ -1,5 +1,11 @@
 <?php namespace app\Http\Controllers;
 
+/**
+ * Antvel - Admin Panel Controller
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -18,7 +24,7 @@ class WpanelController extends Controller
             'center'=>['width'=>'10']
         ];
 
-        
+
         return view('wpanel.home', compact('panel'));
     }
 

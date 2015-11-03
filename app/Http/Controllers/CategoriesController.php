@@ -1,5 +1,12 @@
 <?php namespace app\Http\Controllers;
 
+/**
+ * Antvel - Categories Controller
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
+
 use App\Category;
 use App\Product;
 use App\Helpers\File;
@@ -56,7 +63,7 @@ class CategoriesController extends Controller
                               ->actives()
                               ->get()->toArray();
         });
-                   
+
 
         if ($request->wantsJson()) {
             return json_encode($categories);
@@ -150,7 +157,7 @@ class CategoriesController extends Controller
         if (\Request::wantsJson()) {
             return $category->toJson();
         }
-   
+
         $panel=[
             'left'=>['width'=>'2'],
             'center'=>['width'=>'10'],

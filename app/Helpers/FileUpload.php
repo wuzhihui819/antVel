@@ -1,5 +1,11 @@
 <?php namespace app\Helpers;
 
+/**
+ * Antvel - File Manager Helper
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileUpload extends UploadedFile

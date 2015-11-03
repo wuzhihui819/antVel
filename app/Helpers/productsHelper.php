@@ -1,5 +1,11 @@
 <?php namespace app\Helpers;
 
+/**
+ * Antvel - Products Helper
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Controller;
@@ -19,7 +25,7 @@ class productsHelper
             case 'product_purchased':
                 return 'sale_counts';
             break;
-                
+
             default:
                 return 'view_counts';
             break;
@@ -37,7 +43,7 @@ class productsHelper
         if (empty(Session::get('suggest-listed'))) {
             Session::put('suggest-listed', []);
         }
-        
+
         if (count($products) > 0) {
             foreach ($products as $value) {
                 if (!in_array($value[$field], Session::get('suggest-listed'))) {
@@ -45,7 +51,7 @@ class productsHelper
                 }
             }
         }
-        
+
         Session::save();
         return ;
     }
@@ -69,7 +75,7 @@ class productsHelper
                 $data['preferences_key'] = 'product_purchased';
                 $data['limit'] = $limit;
             break;
-            
+
             case 'categories':
                 $data['preferences_key'] = 'product_categories';
                 $data['limit'] = $limit;
@@ -80,7 +86,7 @@ class productsHelper
                     $data['category'] = $usr_prefe['tags'][mt_rand(0, count($usr_prefe['tags'])-1)]; //if so, we get a rand user preferences category
                 }
             break;
-            
+
             case 'viewed':
                 $data['preferences_key'] = 'product_viewed';
                 $data['limit'] = $limit;
@@ -110,7 +116,7 @@ class productsHelper
     public static function countingProductsByCategory($all_products, $categories)
     {
         $filters = ['category'=>[]];
-        foreach ($categories as $value) 
+        foreach ($categories as $value)
         {
             $category_id = $value['id'];
             $childs = \Cache::remember('progeny_of_'.$category_id, 15, function () use ($category_id) {
@@ -124,7 +130,7 @@ class productsHelper
             {
                 $childs[]=$val['id'];
             }
-            
+
             $qty = 0;
             if ($all_products) {
                 $qty = $all_products->where('category_id', $category_id)->count();
@@ -139,7 +145,7 @@ class productsHelper
                 $filters['category'][$category_id]['qty'] = $qty;
             }
         }
-        
+
         //Order by qty
         if (isset($filters['category'])) {
             $filters['category']=collect($filters['category'])->sortByDesc('qty');

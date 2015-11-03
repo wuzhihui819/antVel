@@ -1,18 +1,24 @@
 @extends('layouts.master')
 @section('title')@parent- {{$product->name}} @stop
 
-@include('partial.social_tags', ['title' => $product->name,
-                             'image' => isset($product->features['images'][0]) ? URL::to('/').$product->features['images'][0] : '/img/no-image.jpg',
-                             'description' => substr($product->description, 0, 197).'...',
-                             'id' =>$product->id,
-                             'brand' => isset($product->features['brand'])?$product->features['brand']:'',
-                             'rate_val' => $product->rate_val,
-                             'rate_count' => $product->rate_count])
+@include('partial.social_tags', [
+    'title' => $product->name,
+    'image' => isset($product->features['images'][0]) ? URL::to('/').$product->features['images'][0] : '/img/no-image.jpg',
+    'description' => substr($product->description, 0, 197).'...',
+    'id' =>$product->id,
+    'brand' => isset($product->features['brand'])?$product->features['brand']:'',
+    'rate_val' => $product->rate_val,
+    'rate_count' => $product->rate_count
+])
 
-@section('page_class')products-view @stop
+@section('page_class') products-view @stop
 
 @section('css')
     @parent
+@stop
+
+@section('breadcrumbs')
+    {!! Breadcrumbs::render('productDetail', $product) !!}
 @stop
 
 @section('content')
@@ -24,7 +30,7 @@
         @endif
 
     @section('center_content')
-    
+
     <div class="panel panel-default" ng-controller="StoreProducts" >
 
         <div class="panel-body products-view" >
@@ -35,7 +41,7 @@
                         {{ trans('product.show_view.status_inactive') }}
                     </div>
                 @endif
-                
+
                 <div class="col-xs-12 visible-xs-block">
                     <strong>{{$product->name}}</strong>
                 </div>
@@ -48,7 +54,7 @@
                     {{-- Despliega el carousel solo cuando el producto tiene mas una imagen cargada --}}
                     @if(isset($product->features['images']) && count($product->features['images']) > 1)
                     <div class="col-xs-12 col-sm-4 " >
-                        
+
                         <carousel interval="myInterval" class="ng-cloak thumbnail">
                             @foreach($product->features['images'] as $image )
                             <slide >
@@ -56,7 +62,7 @@
                             </slide>
                             @endforeach
                         </carousel>
-                      
+
                     </div>
                     {{-- Se muestra solamente cuando el producto tiene una sola imagen cargada --}}
                     @else
@@ -77,7 +83,7 @@
                         <div class="text-small hidden-xs">{{$product->description}}</div>
                         <div class="text-small"><strong>{{ trans('product.globals.price') }}: </strong> {{\Utility::showPrice($product->price)}} </div>
                         <div class="text-small"><strong>{{ trans('globals.status') }}: </strong> {{ $product->status ? trans('globals.active'):trans('globals.inactive') }}</div>
-                        
+
                         @if (trim($product->brand)!='')
                             <div class="text-small"><strong>{{ trans('globals.brand') }}: </strong> {{ $product->brand }}</div>
                         @endif
@@ -94,7 +100,7 @@
                         @endif
 
                     </div>
-                    
+
                     <div class="col-xs-12 col-sm-{{(Auth::id()===$product->user_id?12:3)}} well">
                         @if ($product->type!='freeproduct')
                             {{-- Si el usuario es dueno del producto que visualiza, no puede comprar, pero si editarlo --}}
@@ -122,7 +128,7 @@
                                 @if($product->type=='key')
                                     <br/>{{ trans('globals.send_to') }}: {!! Form::email('email',(Auth::check()?Auth::user()->email:null), ['class'=>'form-control',(Auth::check()?'':'disabled')=>(Auth::check()?'':'disabled')]) !!}
                                 @endif
-                                
+
                                 <div class="col-sm-12"><hr>
                                 {!! Form::submit(trans('store.add_to_cart'), array('class' => 'btn btn-default btn-md')) !!}
                                 </div>
@@ -147,12 +153,12 @@
                                         @foreach($allWishes as $wishList)
                                             <li><a href="{{ route('orders.add_to_order_by_id',[$wishList->id,$product->id]) }}">{{ $wishList->description }}</a></li>
                                         @endforeach
-                                       
+
                                     </ul>
                                 </div>
-                                    
+
                                 @else
-                                    <a  href="/auth/login" class="btn btn-info ">{{ trans('store.addToWishList') }}</a> 
+                                    <a  href="/auth/login" class="btn btn-info ">{{ trans('store.addToWishList') }}</a>
                                 @endif
                                 </div>
 
@@ -193,7 +199,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 {{-- Comentarios --}}
                 <div class="col-xs-12 visible-xs ng-hide" ng-show="detailComments.length > 0">
                     <div class="btn-group btn-group-justified" role="group">

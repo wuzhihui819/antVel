@@ -1,5 +1,12 @@
 <?php namespace app\Http\Controllers;
 
+/**
+ * Antvel - Users Controller
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
+
 use App\Http\Requests;
 use App\User;
 use App\Product;
@@ -30,7 +37,7 @@ class UserController extends Controller
     public function __construct()
     {
         $user = \Auth::user();
-        
+
         if ($user) {
             // Validacion de campos unique
             $this->form_rules['email'] .= $user->id;
@@ -131,7 +138,7 @@ class UserController extends Controller
                 $sales['rate']=$sales['totalRate']/$sales['numRate'];
             }
         }
-        
+
         return view('user.dashboard', compact('panel', 'products', 'orders', 'sales'));
     }
 
@@ -215,7 +222,7 @@ class UserController extends Controller
         if ($v->fails()) {
             return redirect()->back()->withErrors($v->errors())->withInput();
         }
-        
+
         //user update
         \Session::flash('message', trans('user.saved'));
         $user->fill($request->all());
@@ -238,7 +245,7 @@ class UserController extends Controller
             $person->birthday = $request->get('birthday');
             $person->sex = $request->get('sex');
             $person->save();
-        }      
+        }
 
         return redirect()->back();
     }
@@ -282,7 +289,7 @@ class UserController extends Controller
         if ($user) {
             $points = ['points'=> $user->current_points];
         }
-            
+
         return \Response::json($points);
     }
 

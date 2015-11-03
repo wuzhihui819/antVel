@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Products Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use Nicolaslopezj\Searchable\SearchableTrait;
 use App\Eloquent\Model;
 use App\Helpers\ColorsHelper;

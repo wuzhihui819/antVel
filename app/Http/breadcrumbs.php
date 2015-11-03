@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * Antvel - Breadcrumbs Menus
+ *
+ * @package davejamesmiller/laravel-breadcrumbs
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
+//home
+Breadcrumbs::register('home', function($breadcrumbs) {
+    $breadcrumbs->push('Home', route('home'));
+});
+
+//products list
+Breadcrumbs::register('products', function($breadcrumbs)
+{
+	$breadcrumbs->parent('home');
+    $breadcrumbs->push('Products List', route('products'));
+});
+
+//products detail
+Breadcrumbs::register('productDetail', function($breadcrumbs, $product) {
+
+    $breadcrumbs->parent('products');
+	$list = [];
+	$catProd = app\Category::find($product->categories->id);
+	$categriesTree = app\Category::parentsTree($catProd->category_id, $list);
+
+	$list = array_reverse($list);
+
+    foreach ($list as $value) {
+    	$breadcrumbs->push($value['name'], 'products?category='.urlencode($value['id'].'|'.$value['name']));
+    }
+
+    $breadcrumbs->push($catProd->name, 'products?category='.urlencode($catProd->id.'|'.$catProd->name));
+    $breadcrumbs->push($product->name, route('products', $product->id));
+});
+
+?>

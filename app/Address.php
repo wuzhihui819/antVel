@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Address Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

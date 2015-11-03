@@ -1,7 +1,12 @@
 <?php
+
 /**
-* Documentar
-*/
+ * Antvel - Seeder
+ * Categories Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Category as Category;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
@@ -56,7 +61,7 @@ class CategoriesTableSeeder extends Seeder
                                                   'Industrial Supplies','Lab & Scientific','Janitorial','Safety'],
                     'Home Services'           => ['Home Improvement & Repair','Lawn & Garden Care','Automotive Services',
                                                     'Computer & Electronics','Lessons & Tutoring']];
-                                                    
+
         #create some Categories for every role
         foreach ($categorias as $categoria => $subCategorias) {
             if ($temptype == 'group') {

@@ -1,3 +1,9 @@
+/**
+ * Antvel - App Angular Js Functions
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 (function(){
 'use strict';
 var app=angular.module('AntVel');

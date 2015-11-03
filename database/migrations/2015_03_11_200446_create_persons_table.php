@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Antvel - Data Base
+ * Person Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -19,7 +26,6 @@ class CreatePersonsTable extends Migration
             $table->date('birthday');
             $table->enum('sex', array_keys(trans('globals.person_sex')));
             $table->string('home_phone');
-
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Antvel - Data Base
+ * Virtual Products Table
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -14,7 +21,6 @@ class CreateVirtualProductsTable extends Migration
     {
         Schema::create('virtual_products', function (Blueprint $table) {
             $table->increments('id');
-
             $table->integer('product_id')->unsigned();
             $table->string('key')->nullable(); /*key de software (esto se recibe por un archivo .txt)*/
             $table->string('url')->nullable(); /*url del archivo al cual le hizo upload (.rar .zip), esto se descarga dentro de antvel*/

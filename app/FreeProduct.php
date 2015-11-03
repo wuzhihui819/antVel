@@ -1,5 +1,11 @@
 <?php namespace app;
 
+/**
+ * Antvel - Free Product Model
+ *
+ * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
+ */
+
 use App\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
@@ -31,7 +37,7 @@ class FreeProduct extends Model
         'draw_date',
         'status'
     ];
-    
+
     protected $products;
 
     /**
@@ -79,7 +85,7 @@ class FreeProduct extends Model
                     ->orderBy('draw_date')
                     ->take($limit)
                     ->get();
-                    
+
         return FreeProduct::getWithProducts($events);
     }
 
