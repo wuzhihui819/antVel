@@ -12,6 +12,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use App\Category;
 
+use App\Helpers\categoriesHelper;
+
 class productsHelper
 {
     /**
@@ -151,6 +153,34 @@ class productsHelper
             $filters['category']=collect($filters['category'])->sortByDesc('qty');
         }
         return $filters;
+    }
+
+    public static function categoriesDropDownFormat($array, &$outPut)
+    {
+        foreach ($array as $row) {
+
+            /**
+             * $level
+             * Contains the category tree
+             * @var [type]
+             */
+            $level = categoriesHelper::level($array, $row['category_id']);
+
+            $s = '';
+            for ($i=0; $i < $level; $i++) {
+                $s.='&nbsp;&nbsp;&nbsp;';
+            }
+
+            $icon = 2;
+            if ($level % 3 == 0) {
+                $icon=0;
+            } elseif ($level % 2 == 0) {
+                $icon=1;
+            }
+
+            $indentation = ['&#9679;','&#8226;','&ordm;'][$icon];
+            $outPut[$row['id']] = $s.$indentation.'&nbsp;'.$row['name'];
+        }
     }
 
 }

@@ -228,29 +228,8 @@ class ProductsController extends Controller
 
         $typeItem = 'item';
 
-        foreach ($arrayCategories as $row) {
-
-            //categories dropdown format
-            $level = categoriesHelper::level($arrayCategories, $row['category_id']);
-
-            $s = '';
-            for ($i=0; $i < $level; $i++) {
-                $s.='&nbsp;&nbsp;&nbsp;';
-            }
-
-            $icon = 2;
-
-            if ($level % 3 == 0) {
-                $icon=0;
-            } elseif ($level % 2 == 0) {
-                $icon=1;
-            }
-
-            $indentation = ['&#9679;','&#8226;','&ordm;'][$icon];
-            //format
-
-            $categories[$row['id']] = $s.$indentation.'&nbsp;'.$row['name'];
-        }
+        //categories drop down formatted
+        productsHelper::categoriesDropDownFormat($arrayCategories, $categories);
 
         $disabled = '';
         $edit = false;
@@ -395,8 +374,6 @@ class ProductsController extends Controller
             }
         ])->with('categories')->find($id);
 
-//dd($product, $product->categories->name);
-
         if ($product) {
 
             //if there is a user in session, the admin menu will be shown
@@ -463,26 +440,43 @@ class ProductsController extends Controller
     public function edit($id)
     {
         $product=Product::find($id);
-        if (\Auth::id()!=$product->user_id) {
+        if (\Auth::id() != $product->user_id) {
             return redirect('products/'.$product->user_id)->withErrors(array('not_access'=>array(trans('globals.not_access'))));
         }
+
         $typeItem=$product->type;
         $disabled='';
-        $order=OrderDetail::where('product_id', $id)->join('orders', 'order_details.order_id', '=', 'orders.id')->first();
+
+        $order = OrderDetail::where('product_id', $id)
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->first();
+
         if ($order) {
-            $disabled="disabled";
+            $disabled = "disabled";
         }
+
         $features=ProductDetail::all()->toArray();
-        $allCategoriesStore=Category::select('id', 'name')->actives()->store()->lightSelection()->get()->toArray();
-        $categories=[""=>trans("product.controller.select_category")];
-        $condition=['new'=>trans('product.controller.new'),'refurbished'=>trans('product.controller.refurbished'),'used'=>trans('product.controller.used')];
+
+        $allCategoriesStore=Category::actives()->lightSelection()->get()->toArray();
+
+        $categories = ["" => trans("product.controller.select_category")];
+
+        //categories drop down formatted
+        productsHelper::categoriesDropDownFormat($allCategoriesStore, $categories);
+
+        $condition = ['new'=>trans('product.controller.new'),'refurbished'=>trans('product.controller.refurbished'),'used'=>trans('product.controller.used')];
+
         foreach ($allCategoriesStore as $row) {
             $categories[$row['id']*1]=$row['name'];
         }
+
         $edit=true;
         $panel=$this->panel;
+
         $oldFeatures=ProductDetail::oldFeatures($product->features);
+
         $productsDetails=new featuresHelper();
+
         return view('products.form', compact('product', 'panel', 'features', 'categories', 'condition', 'typeItem', 'disabled', 'edit', 'oldFeatures', 'productsDetails'));
     }
 
