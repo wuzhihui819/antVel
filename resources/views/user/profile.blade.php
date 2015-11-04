@@ -18,12 +18,12 @@
 
 		{!! Form::model($user, ['url'=>'user/profile/save', 'class'=>'form-horizontal', 'role'=>'form']) !!}
 		<div ng-controller="ProfileController" ng-cloak>
-			
+
 			<div ng-show="disabled" class="alert alert-danger" role="alert">
 				<p>{{ trans('user.disabled_at') }}: [[ disabled | date:'medium' ]]</p>
 				<small>{{ trans('user.account_disabled_description') }}</small>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-lg-12">
 						<tabset>
@@ -58,7 +58,7 @@
 									</div>
 								</div>
 							</tab>
-							
+
 							{{-- social information --}}
 							<tab heading="{{ trans('user.social_information') }}">
 								<div class="row">&nbsp;</div>
@@ -120,7 +120,7 @@
 					</button>
 				</div>
 			</div>
-			
+
 		</div>
 
 		{!! Form::close() !!}

@@ -96,41 +96,7 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $this->validate($request, $this->form_rules);
-
-        $data = [
-            'name' => $request->input('name'),
-            'website_name' => $request->input('website_name'),
-            'slogan' => $request->input('slogan'),
-            'phone_number' => $request->input('phone_number'),
-            'cell_phone' => $request->input('cell_phone'),
-            'address' => $request->input('address'),
-            'state' => $request->input('state'),
-            'city' => $request->input('city'),
-            'facebook' => $request->input('facebook'),
-            'facebook_app_id' => $request->input('facebook_app_id'),
-            'twitter' => $request->input('twitter'),
-            'zip_code' => $request->input('zip_code'),
-            'google_maps_key_api' => $request->input('google_maps_key_api'),
-
-            'email' => $request->input('email'),
-            'contact_email' => $request->input('contact_email'),
-            'sales_email' => $request->input('sales_email'),
-            'support_email' => $request->input('support_email'),
-            //
-            // 'website'  => $request->input('website'),
-            'description' => $request->input('description'),
-            'keywords'  => $request->input('keywords'),
-            //
-            'about_us' => $request->input('about_us'),
-            //
-            'refund_policy' => $request->input('refund_policy'),
-
-            'privacy_policy' => $request->input('privacy_policy'),
-
-            'terms_of_service' => $request->input('terms_of_service'),
-        ];
-
+        $data = $request->except(['created_at', 'deleted_at']);
         $company = Company::find($id);
         $company->update($data);
         return redirect()->to('wpanel/profile');

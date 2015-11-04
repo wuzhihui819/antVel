@@ -15,9 +15,9 @@
     @stop
 
     @section('center_content')
-        
+
     <div ng-controller="StoreProducts" ng-cloak>
-            
+
         <div class="page-header">
             <h5>{{ trans('store.OrderDetails') }} <small>&nbsp;/&nbsp;{{ trans('store.ordered_on') }}&nbsp;{{ Carbon\Carbon::parse($order->created_at)->format('F j, Y') }}</small></h5>
         </div>
@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col-md-12">
                 <ol class="breadcrumb">
-                    
+
                     @if (count($order_comments))
                         <li>
                             <span class="glyphicon glyphicon-comment"></span>&nbsp;
@@ -41,16 +41,16 @@
                             {{ isset($is_buyer) ? trans('store.show_order_details_view.contact_seller') : trans('store.contactBuyer') }}
                         </a>
                     </li>
-                    
+
                     @if(isset($is_buyer))
-                        
+
                         @if ($order->status == 'open')
                             <li>
                                 <span class="glyphicon glyphicon-remove"></span>&nbsp;
                                 <a href="{{ route('orders.cancel', $order->id) }}">{{ trans('store.cancel_order') }}</a>
                             </li>
                         @endif
-                        
+
                         @if ($order->status == 'sent')
                             <li>
                                 <span class="glyphicon glyphicon-thumbs-up"></span>
@@ -66,7 +66,7 @@
                                 </a>
                             </li>
                         @endif
-        
+
                     @elseif(isset($is_seller))
 
                         @if ($order->status == 'open')
@@ -94,7 +94,7 @@
                 </ol>
             </div>
         </div>
-    
+
         <div class="panel panel-default">
             <div class="panel-body" style="font-size: 12px; color: #000;">
 
@@ -126,10 +126,10 @@
                                 {{ trans('store.order_summary') }}
                             </strong>
                         </label>
-                        
+
                         <div>{{ trans('store.status') }}:&nbsp;<strong>{{ $order->status }}</strong></div>
                         <div>{{ trans('store.num_of_items') }}:&nbsp;<strong>{{ $totalItems.' '.trans('store.items') }}</strong></div>
-                        
+
                         <label>
                             <strong>
                                 <div>{{ trans('store.grand_total') }}:&nbsp;{{ Utility::showPrice($grandTotal) }}</div>
@@ -139,7 +139,7 @@
                      </div>
                 </div>
             </div>
-            
+
             <div class="panel-footer">
                 @if(isset($is_buyer))
                     <a href="{{ route('orders.show_orders') }}" class="btn btn-primary btn-sm">
@@ -157,7 +157,7 @@
                     &nbsp;<span class="glyphicon glyphicon-shopping-cart"></span>
                 </a>
             </div>
-            
+
         </div>
 
         <div class="row collapse" id="comments_panel">
@@ -172,7 +172,7 @@
         </div>
 
         <div class="panel panel-primary">
-            
+
             <div class="panel-heading">
                 <h6>
                     <span class="glyphicon glyphicon-folder-open"></span>&nbsp;
@@ -181,7 +181,7 @@
             </div>
 
             <div class="panel-body">
-                
+
                 <div class="row">
 
                     <div class="col-md-12">
@@ -200,11 +200,11 @@
                         </div>
 
                         <hr/>
- 
+
                         @foreach ($order->details as $detail)
 
                         <div class="row">
-                            
+
                             <div class="row">
                                 <div class="col-md-2 col-xs-4 text-center">
                                     <img  class="img-rounded" src='{{ $detail->product->features['images'][0] }}' alt="{{ $detail->product->name }}" width="90" height="90">
@@ -221,13 +221,13 @@
                                             </small>
                                         @endif
                                     </h6>
-                                    
+
                                     @if(isset($is_buyer) && $detail->product->type != 'item')
                                         <p> {{ $detail->product->type }}
                                             {{ trans('product.globals.digital_item') }}
-                                                
+
                                             @if ($detail->product->type == 'key')
-                                                
+
                                                 <span>{{ ' '.trans('product.globals.key') }}</span>
                                                 @if ($detail->product->status == '0')
                                                     <a href="javascript:void(0)" ng-controller="ModalCtrl" ng-init="data={'data':'{{ $detail->product->id }}','order':'{{ $order->id }}'}" ng-click="modalOpen({templateUrl:'/user/modalSeeKeysPurchased',controller:'seeKeysPurchased',resolve:'data'})">
@@ -236,15 +236,15 @@
                                                 @endif
 
                                             @elseif ($detail->product->type == 'software_key')
-                                                
+
                                                 <span>{{ ' '.trans('product.controller.software_key') }}</span>
 
                                             @elseif ($detail->product->type == 'software')
-                                                 
+
                                                  <span>{{ ' '.trans('product.globals.software') }}</span>
 
                                             @elseif ($detail->product->type == 'gift_card')
-                                               
+
                                                 <span>{{ ' '.trans('product.controller.gift_card') }}</span>
 
                                             @endif
@@ -276,9 +276,9 @@
                         </div>
 
                         @endforeach
-                            
+
                     </div>
-                
+
                 </div>
 
             </div> {{-- detail panel-body --}}
@@ -290,7 +290,7 @@
             </div>
 
         </div> {{-- detail panel-default --}}
-    
+
     </div> {{-- controller --}}
 
     @endsection
@@ -330,7 +330,7 @@
                         }
 
                         $scope.message = data.message;
-                        
+
                         $modalInstance.close();
                         $window.location.href = "{{ route('orders.show_orders') }}";
                     });
