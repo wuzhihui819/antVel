@@ -30,18 +30,5 @@
         "ratingValue": "{{$rate_val}}",
         "reviewCount": "{{$rate_count}}"
       }
-      // ,
-      // "offers": {
-      //   "@type": "Offer",
-      //   "priceCurrency": "USD",
-      //   "price": "119.99",
-      //   "priceValidUntil": "2020-11-05",
-      //   "itemCondition": "http://schema.org/UsedCondition",
-      //   "availability": "http://schema.org/InStock",
-      //   "seller": {
-      //     "@type": "Organization",
-      //     "name": "Executive Objects"
-      //   }
-      }
     }
 </script>

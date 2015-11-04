@@ -54,9 +54,10 @@ return [
         'not_logged_disclaimer' => 'Signing in your account you will be able to save your shopping cart for later.',
         'insufficient_funds'    => 'Insufficient Funds. Did You Know That You Can Also Buy Points?',
         'your_shopping_cart'    => 'Your shopping cart',
+        'your_shopping_cart_resume' => 'Shopping cart sumary',
         'item_changed_stock1'   => 'The Item',
         'item_changed_stock2'   => 'has changed its stock availability. However, we have updated your shopping cart quantities.',
-        
+
     ],
 
     'form_create_list_view' => [

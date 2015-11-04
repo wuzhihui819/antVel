@@ -257,7 +257,6 @@ Route::get('freeproducts/{id}', ['uses'=>'FreeProductsController@show', 'as' =>'
 
 Route::get('freeproducts/show/all', ['uses' => 'FreeProductsController@index', 'as' => 'freeproducts.search']);
 
-// Willem
 Route::get('logs', 'LogController@index');
 
 Route::resource('log', 'LogController');

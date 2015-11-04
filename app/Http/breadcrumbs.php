@@ -37,4 +37,32 @@ Breadcrumbs::register('productDetail', function($breadcrumbs, $product) {
     $breadcrumbs->push($product->name, route('products', $product->id));
 });
 
+//products list
+Breadcrumbs::register('dashboard', function($breadcrumbs)
+{
+    $breadcrumbs->parent('products');
+    $breadcrumbs->push('Dashboard');
+});
+
+//shopping cart
+Breadcrumbs::register('shoppingCart', function($breadcrumbs)
+{
+    $breadcrumbs->parent('products');
+    $breadcrumbs->push(trans('store.cart_view.your_shopping_cart'), route('orders.show_cart'));
+});
+
+Breadcrumbs::register('shoppingCartResume', function($breadcrumbs)
+{
+    $breadcrumbs->parent('shippingAddresses');
+    $breadcrumbs->push(trans('store.cart_view.your_shopping_cart_resume'), route('orders.check_out_address'));
+});
+
+//shipping addresses
+Breadcrumbs::register('shippingAddresses', function($breadcrumbs)
+{
+    $breadcrumbs->parent('shoppingCart');
+    $breadcrumbs->push(trans('address.my_addresses'), route('orders.check_out'));
+});
+
+
 ?>

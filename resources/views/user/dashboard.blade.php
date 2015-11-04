@@ -1,8 +1,9 @@
 @extends('layouts/master')
+
+@section('title')@parent- {{ trans('user.dashboard') }} @stop
+
 @section('page_class') 'user-dashboard' @stop
-{{-- Navegacion --}}
-@section('navigation') @parent @stop
-{{-- COntendio --}}
+
 @section('content')
 	@parent
 	@section('panel_left_content')
@@ -21,7 +22,7 @@
 					<a class="btn btn-info btn-sm pull-right" ng-href="{{route('products.create')}}"><span class="glyphicon glyphicon-plus"></span>&nbsp;{{ trans('product.globals.add') }}</a>
 				</div>
 			</div>
-			
+
 			<div class="row">&nbsp;</div>
 
 			<div class="list-group">
@@ -63,7 +64,7 @@
 {{-- Javascript --}}
 @section('scripts')
 <script>
-	
+
 	(function() {
 		var app = angular.module('AntVel');
 		app.controller('DashboardController',function(){});

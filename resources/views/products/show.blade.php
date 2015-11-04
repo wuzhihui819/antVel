@@ -1,23 +1,21 @@
 @extends('layouts.master')
-@section('title')@parent- {{$product->name}} @stop
+@section('title')@parent- {{ $product->name }} @stop
 
-@include('partial.social_tags', [
-    'title' => $product->name,
-    'image' => isset($product->features['images'][0]) ? URL::to('/').$product->features['images'][0] : '/img/no-image.jpg',
-    'description' => substr($product->description, 0, 197).'...',
-    'id' =>$product->id,
-    'brand' => isset($product->features['brand'])?$product->features['brand']:'',
-    'rate_val' => $product->rate_val,
-    'rate_count' => $product->rate_count
-])
-
-@section('page_class') products-view @stop
-
-@section('css')
+@section('metaLabels')
     @parent
+    @include('partial.social_tags', [
+        'title' => $product->name,
+        'image' => isset($product->features['images'][0]) ? URL::to('/').$product->features['images'][0] : '/img/no-image.jpg',
+        'description' => substr($product->description, 0, 197).'...',
+        'id' =>$product->id,
+        'brand' => isset($product->features['brand'])?$product->features['brand']:'',
+        'rate_val' => $product->rate_val,
+        'rate_count' => $product->rate_count
+    ])
 @stop
 
 @section('breadcrumbs')
+    @parent
     {!! Breadcrumbs::render('productDetail', $product) !!}
 @stop
 
@@ -33,7 +31,7 @@
 
     <div class="panel panel-default" ng-controller="StoreProducts" >
 
-        <div class="panel-body products-view" >
+        <div class="panel-body" >
             <div class="row">
                 @include('partial.message')
                 @if($product->status==0)
