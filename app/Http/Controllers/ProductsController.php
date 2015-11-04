@@ -466,10 +466,6 @@ class ProductsController extends Controller
 
         $condition = ['new'=>trans('product.controller.new'),'refurbished'=>trans('product.controller.refurbished'),'used'=>trans('product.controller.used')];
 
-        foreach ($allCategoriesStore as $row) {
-            $categories[$row['id']*1]=$row['name'];
-        }
-
         $edit=true;
         $panel=$this->panel;
 
