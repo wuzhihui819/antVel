@@ -18,9 +18,9 @@ First, clone the antvel repository into your local folder using:
 git clone https://github.com/ant-vel/antVel.git
 ```
 
-Next, you will need to run composer update into your ***antvel*** project folder
+Next, you will need to run composer update/install into your ***antvel*** project folder
 ```
-composer update
+composer update/install
 ```
 
 After run composer update, be sure to create and migrate your database and define your environment variables in your `.env` file. Also you have to run artisan migrate command, in arden to create the Antvel schema.
@@ -36,6 +36,31 @@ php artisan migrate:refresh --seed
 ```
 
 After run all these commands you should be able to look at your antvel version running in your browser
+
+<a name="features"></a>
+## reCaptcha Settings
+
+Now tha you have everything setted up, you need to set the Antvel reCaptcha variables, in order to have the user loging working in that mode. First you need to go to the reCaptcha web site and get your environments values
+
+```
+https://www.google.com/recaptcha/admin#list
+```
+
+then you have to fill out the "Register a new site" form in order to obtain the reCaptcha keys
+
+```
+RECAPTCHA_PUBLIC_KEY, and RECAPTCHA_PRIVATE_KEY
+```
+
+So, you will need to assign those values into ***Antvel*** ```.env``` file. For example: 
+
+```
+RECAPTCHA_PUBLIC_KEY = antvelRecaptcahPrivateKey
+
+RECAPTCHA_PRIVATE_KEY = antvelRecaptcahPrivateKey
+```
+
+***Note:*** If the ```APP_DEBUG == true```, the reCaptcha will not be applied
 
 <a name="features"></a>
 ## Features
@@ -78,6 +103,7 @@ After run all these commands you should be able to look at your antvel version r
 * Users Notifications
 * Company Info CMS
 * Search Engine Suggestions
+* Dinamic Breadcrumbs
 
 
 ### Contact
