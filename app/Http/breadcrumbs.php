@@ -16,7 +16,7 @@ Breadcrumbs::register('home', function($breadcrumbs) {
 Breadcrumbs::register('products', function($breadcrumbs)
 {
 	$breadcrumbs->parent('home');
-    $breadcrumbs->push('Products List', route('products'));
+    $breadcrumbs->push(trans('store.products_list_label'), route('products'));
 });
 
 //products detail
