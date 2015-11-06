@@ -240,5 +240,6 @@ return [
     'updated_on'              => 'Updated On',
     'created_on'              => 'Created On',
     'no_order_message'        => 'The order provided is not in our records. Please, try again!',
-    'all_transactions'        => 'All Transactions'
+    'all_transactions'        => 'All Transactions',
+    'products_list_label'     => 'Products List'
 ];

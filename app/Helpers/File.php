@@ -10,8 +10,18 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class File
 {
-    // Constantes predefinidas para upload de archivos comunes
-    private static $default_path='files';
+    /**
+     * $default_path
+     * It is the folder where all the files will be stored
+     * @var string
+     */
+    private static $default_path = 'files';
+
+    /**
+     * $sections
+     * It contains the validation rules which will be used in upload process
+     * @var [type]
+     */
     private static $sections =
     [
         'default' => ['path'=>'','type'=>'all','valid'=>'/[\.\/](.+)$/i'],
@@ -22,9 +32,10 @@ class File
         'product_key' => ['path'=>'products/key_code','type'=>'text','code'=>true,'valid'=>'/[\.\/](txt)$/i'],
         'product_software' => ['path'=>'products/software','type'=>'compact','code'=>true,'valid'=>'/[\.\/](zip|rar)$/i'],
     ];
-    //Variables
+
+    //variables
     private static $full_path = '';
-    private $options=[];
+    private $options = [];
 
     public function __construct($options=[])
     {
@@ -68,62 +79,82 @@ class File
     }
 
     /**
-     * Sube uno o varios archivos
-     * @param  String $files    archivo(s) a subir
-     * @return String/array     Url o array de urls de archivo(s) subido(s)
+     * upload
+     * this method allows uploading one or more than one file
+     * @param  [object] $files catains all the file information
+     * @return [array] returns an array with the file(s) uploaded
      */
     public function upload($files)
     {
+        //checking if it's just one file
         if ($files instanceof UploadedFile) {
-            $many=false;
+            $many = false;
+
+        //more than one file
         } elseif (is_array($files)) {
-            $many=true;
+            $many = true;
+
+        //there was no files selected
         } else {
             return '';
         }
+
+        //one file validation
         if (!$many) {
             $files=[$files];
         }
-        $uploaded=[];
+
+        /**
+         * $uploaded
+         * It is the array that will contains all the uploaded files information
+         * @var array
+         */
+        $uploaded = [];
         foreach ($files as $file) {
-            $info=(object)pathinfo($file->getClientOriginalName());
-            $options=(object)$this->options;
-            #Se configura el path con los datos pasados
-            $path=[storage_path(),self::$default_path,$options->path];
+            $info = (object)pathinfo(strtolower($file->getClientOriginalName()));
+            $options = (object)$this->options;
+
+            //setting file path
+            $path = [storage_path(), self::$default_path, $options->path];
             if (@$options->code&&\Auth::check()) {
-                $path[]=\Auth::id();
+                $path[] = \Auth::id();
             }
-            //Carpeta de usuario
+
+            //user folder
             if (@$options->subpath) {
-                $path[]=$options->subpath;
+                $path[] = $options->subpath;
             }
 
-            #validamos si se permite cualquier archivo o si el tipo de archivo esta permitido
-            if ((!isset($options->valid)||preg_match($options->valid, '.'.$info->extension))&&$file->isValid()) {
+            //file type validation - if file type or any file type are allowed
+            if ((!isset($options->valid) || preg_match($options->valid, '.'.$info->extension)) && $file->isValid()) {
+                //subfolder
+                $path = implode('/', $path);
 
-                 //subcarpeta
-                $path=implode('/', $path);
-                #archivo destino
+                //destiny file
                 $file_destiny=md5(time()).'.'.$info->extension;
 
-                #Si no existe directorio se crea
+                //folder validation - if there is not folder, it will be created
                 if (!is_dir($path)) {
                     mkdir($path, 0777, true);
                 }
-                #Se sube la imagen
-                $return=$file->move($path, $file_destiny);
 
+                //uploading file
+                $return = $file->move($path, $file_destiny);
+
+                //normalization of the file sent
                 $this->normalice("$path/$file_destiny");
 
-                #guarda la ruta de la imagen subida
-                $uploaded[]=(explode(self::$default_path, str_replace('\\', '/', $return))[1]);
-            } else {
-                $MaxFilesize = File::formatBytes($file->getMaxFilesize());
+                //keeping the uploaded file path
+                $uploaded[] = (explode(self::$default_path, str_replace('\\', '/', $return))[1]);
 
+            } else {
+
+                $MaxFilesize = File::formatBytes($file->getMaxFilesize());
                 $uploaded[] = "Error: ".trans('globals.file_upload_error', ['MaxFilesize' => $MaxFilesize]);
             }
         }
-        return $many?$uploaded:$uploaded[0];
+
+        return $many ? $uploaded : $uploaded[0];
     }
 
     public static function deleteFile($file)
@@ -139,36 +170,42 @@ class File
     }
 
     /**
-     * normalizacion de archivos (filtrados o modificaciones requeridas)
-     * @param  $file	archivo a normalizar
+     * normalice
+     * This method controlls files size and shape
+     * @param  [object] $file file to evaluated
+     * @return [object] $file file normalized
      */
     public function normalice($file)
     {
-        $info=(object)pathinfo($file);
-        $options=(object)$this->options;
-        #Manejo de imagenes.
+        $info = (object)pathinfo($file);
+        $options = (object)$this->options;
+
+        //images control
         if (@$options->type=='img') {
-            $img=\Image::make($file);
-            $maxwidth=@$options->maxwidth?:null;
-            $maxheight=@$options->maxheight?:null;
-            #resize
+            $img = \Image::make($file);
+            $maxwidth = @$options->maxwidth ? :null;
+            $maxheight = @$options->maxheight ? :null;
+
+            //resizing images
             if (@$options->square) {
-                #square picture
-                $height=$img->height();
-                $width=$img->width();
-                $offset=floor(abs($width-$height)/2);
-                if ($height>$width) {
+                //square picture
+                $height = $img->height();
+                $width = $img->width();
+                $offset = floor(abs($width-$height)/2);
+                if ($height > $width) {
                     $img->crop($width, $width, 0, $offset);
                 } else {
                     $img->crop($height, $height, $offset, 0);
                 }
             }
+
             if ($maxwidth||$maxheight) {
                 $img->resize($maxwidth, $maxheight, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
             }
+
             $img->save();
         }
         return $this;
