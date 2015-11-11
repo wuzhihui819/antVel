@@ -1,9 +1,9 @@
 {
-  "name": "AntVel.com Store",
-  "version": "1.0.0",
-  "homepage": "https://github.com/wsimple/AntVel",
+  "name": "An Laravel eCommerce",
+  "version": "1.0.1",
+  "homepage": "http://antvel.com",
   "authors": [
-    "info@antvel.com"
+    "gustavoocanto@gmail.com"
   ],
   "moduleType": [
     "globals"
@@ -11,17 +11,29 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
+    "*.md",
     "vendor",
     "node_modules",
     "bower_components",
-    "vendor/bower_components",
     "test",
-    "tests"
+    "tests",
+    "./src/"
   ],
   "dependencies": {
     "bootstrap": "~3.3.4",
     "ui-select": "angular-ui/ui-select#~0.11.2",
     "angular-notify": "~2.5.0",
-    "angucomplete-alt": "~0.0.43"
+    "angular-sanitize": "~1.4.7",
+    "angular-bootstrap": "~0.14.3",
+    "angular-animate": "~1.4.7",
+    "angular-loading-bar": "~0.8.0",
+    "angular-mocks": "~1.4.7",
+    "angular-touch": "~1.4.7",
+    "angular-route": "~1.4.7",
+    "angular-local-storage": "~0.2.3",
+    "font-awesome": "~4.4.0"
+  },
+  "resolutions": {
+    "angular": "1.4.7"
   }
 }
