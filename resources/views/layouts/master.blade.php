@@ -19,16 +19,16 @@
 	};
 	</script>
 
-	{!! Html::style('/css/vendor/bootstrap.css') !!}
+	{{-- Antvel CSS files --}}
+	{!! Html::style('/antvel-bower/bootstrap/dist/css/bootstrap.css') !!}
 	@section('css')
-		{!! Html::style('/css/app.css') !!}
-		<!-- Custom styles for this template -->
+		{!! Html::style('/antvel-bower/angular-notify/dist/angular-notify.css') !!}
+		{!! Html::style('/antvel-bower/font-awesome/css/font-awesome.min.css') !!}
 		{!! Html::style('/css/carousel.css') !!}
-		{!! Html::style('/css/vendor/angucomplete-alt.css') !!}
-		{!! Html::style('/css/vendor/angular-notify.css') !!}
+		{!! Html::style('/css/angucomplete-alt.css') !!}
+		{!! Html::style('/css/app.css') !!}
 	@show
 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<!--[if lt IE 9]>
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -98,26 +98,30 @@
 	</footer>
 @show
 
-{{-- JavaScript vendor --}}
-{!! Html::script('/js/vendor/jquery.min.js') !!}
-{!! Html::script('/js/vendor/angular.min.js') !!}
-{!! Html::script('/js/vendor/angular-sanitize.js') !!}
-{!! Html::script('/js/vendor/ui-bootstrap-tpls.min.js') !!}
-{!! Html::script('/js/vendor/angular-animate.min.js') !!}
-{!! Html::script('/js/vendor/loading-bar.js') !!}
-{!! Html::script('/js/vendor/angular-mocks.js') !!}
-{!! Html::script('/js/vendor/angular-touch.min.js') !!}
+{{-- Antvel - Bower Components --}}
+{!! Html::script('/antvel-bower/jquery/dist/jquery.min.js') !!}
+{!! Html::script('/antvel-bower/angular/angular.min.js') !!}
+{!! Html::script('/antvel-bower/angular-route/angular-route.min.js') !!}
+{!! Html::script('/antvel-bower/angular-sanitize/angular-sanitize.min.js') !!}
+{!! Html::script('/antvel-bower/angular-bootstrap/ui-bootstrap-tpls.min.js') !!}
+{!! Html::script('/antvel-bower/angular-animate/angular-animate.min.js') !!}
+{!! Html::script('/antvel-bower/angular-loading-bar/build/loading-bar.js') !!}
+{!! Html::script('/antvel-bower/angular-mocks/angular-mocks.js') !!}
+{!! Html::script('/antvel-bower/angular-touch/angular-touch.min.js') !!}
+{!! Html::script('/antvel-bower/bootstrap/dist/js/bootstrap.min.js') !!}
 
-{{-- Forms --}}
 {!! Html::script('/js/vendor/xtForms/xtForm.js') !!}
 {!! Html::script('/js/vendor/xtForms/xtForm.tpl.min.js') !!}
 
-{!! Html::script('/js/vendor/bootstrap.min.js') !!}
-
-{{-- Antvel - Angular module initialization --}}
 <script>
 
+	/**
+	 * ngModules
+	 * Angularjs modules requires by antvel
+	 * @type {Array}
+	 */
 	var ngModules = [
+		'ngRoute',
 		'ngSanitize',
 		'LocalStorageModule',
 		'ui.bootstrap',
@@ -126,7 +130,7 @@
 		'xtForm',
 		'cgNotify',
 		'ngTouch',
-		'filters',
+		// 'filters', marked for deleted
 		'angucomplete-alt'
 	];
 
@@ -146,18 +150,16 @@
 
 </script>
 
-{{-- Antvel - Angular functions --}}
+{{-- Antvel functions --}}
 {!! Html::script('/js/app.js') !!}
 
 @section('scripts')
-	{{-- Antvel - third part angular directives --}}
-	{!! Html::script('/js/filters.js') !!}
+	{{-- Antvel angucomplete-alt.js version --}}
 	{!! Html::script('/js/vendor/angucomplete-alt.js') !!}
-	{!! Html::script('/js/vendor/angular-notify.js') !!}
-	{!! Html::script('/js/vendor/angular-local-storage.min.js') !!}
 
-	{{-- All Jquery plugins in one file, optional by section --}}
-	{!! Html::script('/js/plugins.js') !!}
+	{{-- Antvel-bower components --}}
+	{!! Html::script('/antvel-bower/angular-notify/dist/angular-notify.min.js') !!}
+	{!! Html::script('/antvel-bower/angular-local-storage/dist/angular-local-storage.min.js') !!}
 @show
 
 </body>
