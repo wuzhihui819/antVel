@@ -199,9 +199,9 @@ return [
         'Collective\Html\HtmlServiceProvider',
         'Barryvdh\Debugbar\ServiceProvider',
         'Greggilbert\Recaptcha\RecaptchaServiceProvider',
-        'Dinesh\Barcode\BarcodeServiceProvider',
         'Barryvdh\DomPDF\ServiceProvider',
-        'DaveJamesMiller\Breadcrumbs\ServiceProvider'
+        'DaveJamesMiller\Breadcrumbs\ServiceProvider',
+        'Milon\Barcode\BarcodeServiceProvider'
     ],
 
     /*
@@ -259,8 +259,8 @@ return [
         'Image'     => 'Intervention\Image\Facades\Image',
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
         'Recaptcha' => 'Greggilbert\Recaptcha\Facades\Recaptcha',
-        'DNS1D' => 'Dinesh\Barcode\Facades\DNS1DFacade',
-        'DNS2D' => 'Dinesh\Barcode\Facades\DNS2DFacade',
+        'DNS1D' => 'Milon\Barcode\Facades\DNS1DFacade',
+        'DNS2D' => 'Milon\Barcode\Facades\DNS2DFacade',
         'PDF' => 'Barryvdh\DomPDF\Facade',
         'Breadcrumbs' => 'DaveJamesMiller\Breadcrumbs\Facade',
 
