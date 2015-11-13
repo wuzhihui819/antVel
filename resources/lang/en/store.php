@@ -160,6 +160,7 @@ return [
     'father'                  => 'Father',
     'features'                => 'Features',
     'inStock'                 => 'In stock',
+    'lowStock'                 => 'Low Stock',
     'insufficientStock'       => 'The selected vendor does not have the stock you needed. Trying changing the quantities selected',
     'items'                   => 'Items',
     'keys_purchased'          => 'Keys Purchased',
