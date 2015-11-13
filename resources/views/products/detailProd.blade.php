@@ -1,6 +1,5 @@
 @extends('layouts.master')
 @section('title')@parent- {{ $product->name }} @stop
-@inject('productsHelper', 'App\Http\Controllers\ProductsController')
 
 @include('partial.message')
 
@@ -76,24 +75,9 @@
 
 		<div class="row">
 
-	        <div id="slider">
-	            <div class="col-md-6" id="carousel-bounding-box">
-	                <div id="galleryProducts" class="carousel slide">
-
-	                    <div class="carousel-inner">
-							<?php $selector = 0; ?>
-							@foreach($product->features['images'] as $image)
-	                            <div class="@if ($selector == 0) active @endif item" data-slide-number = "{{ $selector++ }}">
-	                                <img src=" {{ $image }}" class="img-responsive img-rounded">
-	                            </div>
-	                        @endforeach
-	                    </div>
-
-	                    <a class="carousel-control left" href="#galleryProducts" data-slide="prev">‹</a>
-	                    <a class="carousel-control right" href="#galleryProducts" data-slide="next">›</a>
-	                </div>
-	            </div>
-	        </div>
+			<div class="col-md-6" ng-controller = "ProductsGallery">
+				 <img ng-src = "[[getPortrait()]]" ng-init = "setPortrait('{{ $product->features['images'][0] }}?w=450')" class = "img-responsive img-rounded" >
+			</div>
 
 	        <div class="col-md-3">
 				<hr class="visible-xs visible-sm">
@@ -205,31 +189,37 @@
 		<div class="row">&nbsp;</div>
 
 		<div class="row">
-			<div class="col-md-6 hidden-sm hidden-xs" id="slider-thumbs">
-		      	<ul class="list-inline">
+			<div class="col-md-6 hidden-sm hidden-xs">
+		      	<ul class="list-inline" ng-controller = "ProductsGallery">
 					<?php $selector = 0; ?>
 					@foreach($product->features['images'] as $image)
 						<li>
-							<a id="carousel-selector-{{ $selector++ }}" class="selected">
-								<img src=" {{ $image }}?h=50" class="img-responsive img-rounded">
+							<a class="thumbnail">
+								<img src=" {{ $image }}?h=60" class="img-responsive img-rounded" ng-click = "setPortrait('{{ $image }}?w=450')">
 							</a>
 						</li>
 					@endforeach
 		        </ul>
 		    </div>
 
-	        <div class="col-md-6">
-				<div class="hidden-xs hidden-sm">
-					@if (trim($product->description) != '')
-		        	<label>{{ trans('store.description') }}:</label>&nbsp;
-					{{ $product->description }}
-					@else
-						&nbsp;
-					@endif
-				</div>
-	        </div>
+	        <div class="col-md-6">&nbsp;</div>
 
 		</div>
+
+		{{-- More info - Product Description --}}
+		@if (trim($product->description) != '')
+			<div class="row">&nbsp;</div>
+
+			<div class="page-header">
+	            <h5>More Info</h5>
+	        </div>
+
+	        <div class="row">
+	        	<div class="col-md-12">
+					{{ $product->description }}
+	        	</div>
+	        </div>
+        @endif
 
 		<div class="row">&nbsp;</div>
 
@@ -260,28 +250,6 @@
     @parent
     <script>
 
-		$('#galleryProducts').carousel({
-		    interval: 4000
-		});
-
-		// handles the carousel thumbnails
-		$('[id^=carousel-selector-]').click( function(){
-		  var id_selector = $(this).attr("id");
-		  var id = id_selector.substr(id_selector.length -1);
-		  id = parseInt(id);
-		  $('#galleryProducts').carousel(id);
-		  $('[id^=carousel-selector-]').removeClass('selected');
-		  $(this).addClass('selected');
-		});
-
-		// when the carousel slides, auto update
-		$('#galleryProducts').on('slid', function (e) {
-		  var id = $('.item.active').data('slide-number');
-		  id = parseInt(id);
-		  $('[id^=carousel-selector-]').removeClass('selected');
-		  $('[id=carousel-selector-'+id+']').addClass('selected');
-		});
-
 		(function(app){
             app.controller('StoreProducts', ['$scope', function($scope){
                 $scope.isCollapsedDescription = true;
@@ -294,6 +262,26 @@
 
             }]);
 
+            /**
+             * ProductsGallery
+             * Allows changing the product portrait image
+             * @param  $scope Angularjs scope object
+             * @param  PassInfo is a service that lets passing info among controllers or divs
+             */
+            app.controller('ProductsGallery', function($scope, PassInfo){
+
+            	$scope.setPortrait = function (pic)
+            	{
+            		PassInfo.setProperty(pic);
+            	}
+
+            	$scope.getPortrait = function ()
+            	{
+            		return PassInfo.getProperty();
+            	}
+
+            });
+
             // app.filter('dateToISO', function() {
             //     return function(input) {
             //         input = new Date(input).toISOString();
@@ -301,11 +289,11 @@
             //     };
             // });
 
-            app.config(
-                ['$animateProvider',
-                    function ($animateProvider) {
-                        $animateProvider.classNameFilter(/carousel/);
-                    }]);
+            // app.config(
+            //     ['$animateProvider',
+            //         function ($animateProvider) {
+            //             $animateProvider.classNameFilter(/carousel/);
+            //         }]);
         })(angular.module("AntVel"));
 
     </script>
