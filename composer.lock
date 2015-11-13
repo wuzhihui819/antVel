@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "982ad7e5c36ff54b3be6d24ba4b5958b",
-    "content-hash": "9bed3af9db7a6ac0962854371d5ab67c",
+    "hash": "984dae8054e02cc3129666a614b05f5d",
+    "content-hash": "82889c662e8d507803bbf8d409a8a02d",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -213,58 +213,6 @@
                 "laravel"
             ],
             "time": "2015-02-08 21:44:39"
-        },
-        {
-            "name": "dinesh/barcode",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dineshrabara/barcode.git",
-                "reference": "7906887b9aa4b122b0878a811ddb8bea1b3f0df4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dineshrabara/barcode/zipball/7906887b9aa4b122b0878a811ddb8bea1b3f0df4",
-                "reference": "7906887b9aa4b122b0878a811ddb8bea1b3f0df4",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "5.x",
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "src/migrations"
-                ],
-                "psr-0": {
-                    "Dinesh\\Barcode": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dinesh Rabara",
-                    "email": "dinesh.rabara@gmail.com"
-                }
-            ],
-            "description": "Barcode generator like Qr Code , PDF417,C39, C39+,C39E,C39E+,C93,S25,S25+,I25,I25+,C128,C128A,C128B,C128C,2-Digits UPC-Based Extention,5-Digits UPC-Based Extention,EAN 8,EAN 13,UPC-A,UPC-E,MSI (Variation of Plessey code) ",
-            "keywords": [
-                "CODABAR",
-                "CODE 128",
-                "CODE 39",
-                "barcode",
-                "datamatrix",
-                "ean",
-                "laravel",
-                "pdf417",
-                "qr code",
-                "qrcode"
-            ],
-            "time": "2015-06-10 04:38:17"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -4220,7 +4168,6 @@
     "stability-flags": {
         "gloudemans/shoppingcart": 20,
         "greggilbert/recaptcha": 20,
-        "dinesh/barcode": 20,
         "fzaninotto/faker": 20
     },
     "prefer-stable": false,

@@ -22,7 +22,7 @@
 	{{-- Antvel CSS files --}}
 	{!! Html::style('/antvel-bower/bootstrap/dist/css/bootstrap.css') !!}
 	@section('css')
-		{!! Html::style('/antvel-bower/angular-notify/dist/angular-notify.css') !!}
+		{!! Html::style('/antvel-bower/angular-notify/dist/angular-notify.min.css') !!}
 		{!! Html::style('/antvel-bower/font-awesome/css/font-awesome.min.css') !!}
 		{!! Html::style('/css/carousel.css') !!}
 		{!! Html::style('/css/angucomplete-alt.css') !!}
@@ -105,7 +105,7 @@
 {!! Html::script('/antvel-bower/angular-sanitize/angular-sanitize.min.js') !!}
 {!! Html::script('/antvel-bower/angular-bootstrap/ui-bootstrap-tpls.min.js') !!}
 {!! Html::script('/antvel-bower/angular-animate/angular-animate.min.js') !!}
-{!! Html::script('/antvel-bower/angular-loading-bar/build/loading-bar.js') !!}
+{!! Html::script('/antvel-bower/angular-loading-bar/build/loading-bar.min.js') !!}
 {!! Html::script('/antvel-bower/angular-mocks/angular-mocks.js') !!}
 {!! Html::script('/antvel-bower/angular-touch/angular-touch.min.js') !!}
 {!! Html::script('/antvel-bower/bootstrap/dist/js/bootstrap.min.js') !!}

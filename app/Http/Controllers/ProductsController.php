@@ -353,7 +353,11 @@ class ProductsController extends Controller
     {
         $user = \Auth::user();
         $allWishes = '';
-        $panel = array( 'center'=>['width'=>'12'] );
+        $panel = [
+            'center' => [
+                'width' => '12'
+            ]
+        ];
 
         if ($user) {
             $allWishes = Order::ofType('wishlist')
@@ -425,7 +429,7 @@ class ProductsController extends Controller
                 $product->group = $featuresHelper->group($product->group);
             }
 
-            return view('products.show', compact('product', 'panel', 'allWishes', 'jsonDetails', 'freeproductId', 'features', 'suggestions'));
+            return view('products.detailProd', compact('product', 'panel', 'allWishes', 'jsonDetails', 'freeproductId', 'features', 'suggestions'));
         } else {
             return redirect(route('products'));
         }
@@ -1184,5 +1188,32 @@ class ProductsController extends Controller
 
             return $products;
         }
+    }
+
+    /**
+     * getFeatures
+     * Allows consulting products features. It can return either a required feature or a full array
+     * @param  array  $data function setting
+     * @return [type] feature or a full array
+     */
+    public function getFeatures($data = [])
+    {
+         $options = [
+            'product' => [],
+            'product_id' => '',
+            'feature' => ''
+        ];
+
+        $features = [];
+        $data = $data + $options;
+
+        if (count($data['product']) > 0) {
+            $features = $data['product']->features;
+        }elseif(trim($data['product_id']) != ''){
+            $product = Product::find($data['product_id']);
+            $features = $product->features;
+        }
+
+        return trim($data['feature']) != '' ? $features[$data['feature']] : $features;
     }
 }
