@@ -35,7 +35,13 @@ Then, you must run the Antvel seeder to create a functional demo, like so:
 php artisan migrate:refresh --seed
 ```
 
-After run all these commands you should be able to look at your antvel version running in your browser
+At this point we are just missing run ***bower install***, in order to have all the frontend dependencies in your machine.  So, go to your antvel directory using command line, as so:
+
+```
+bower install
+```
+
+After run all these commands you should be able to look at your antvel version running in your browser without problems.
 
 <a name="features"></a>
 ## reCaptcha Settings
