@@ -2,8 +2,11 @@
   "private": true,
   "devDependencies": {
     "gulp": "^3.8.11",
-    "gulp-notify": "^2.2.0",
     "gulp-util": "^3.0.4",
     "laravel-elixir": "*"
+  },
+  "dependencies": {
+    "glob": "^6.0.1",
+    "lodash": "^3.10.1"
   }
 }

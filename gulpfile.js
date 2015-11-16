@@ -15,7 +15,6 @@ var path = {
  */
 
 elixir(function(mix) {
-	//mix.less(['bootstrap/bootstrap.less'], path.vendors); //Solo para actualizar bootstrap
 	mix.less([
 		'app.less'
 	]);

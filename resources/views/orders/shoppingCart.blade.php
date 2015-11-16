@@ -22,7 +22,7 @@
 	@stop
 
     @section('center_content')
-		
+
 		<div ng-controller = "ShoppingCart">
 
 		<div class="page-header">
@@ -42,12 +42,12 @@
 				<h6>{{ trans('store.quantity_long') }}</h6>
 			</div>
         </div>
-		
+
 		<div class="row">&nbsp;</div>
 
 		@if ($cart)
 			@foreach ($cart['details'] as $product)
-				
+
 				<div class="row">
 					<div class="col-sm-6 text-left">
 						<div class="media">
@@ -104,14 +104,13 @@
     @parent
     <script>
         (function(app){
-           
+
            app.controller('ShoppingCart', ['$scope','$http', function($scope, $http)
            {
            		$scope.qty = '1';
 
            		$scope.changeQty = function (qty)
            		{
-           			alert(qty);
            			$scope.qty = $qty
            		}
 

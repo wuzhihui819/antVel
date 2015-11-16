@@ -39,14 +39,14 @@
 			<div class="row hidden-xs">
 	            <div class="col-md-12">
 	        		{!! Form::open(['route' => ['products.change_status', $product->id], 'method' => 'post', 'class' => 'form-inline']) !!}
-	                    <a href="{{ route('products.edit',[$product->id]) }}" style="width:100%" class="btn btn-success btn-sm">
+	                    <a href="{{ route('products.edit',[$product->id]) }}" class="btn btn-success btn-sm full-width">
 							<span class="glyphicon glyphicon-edit"></span>&nbsp;
 	                    	{{ trans('globals.edit') }}
 	                    </a>
 
 						<div class="row">&nbsp;</div>
 
-	                    <button type="submit" class="btn btn-primary btn-danger btn-sm" style="width:100%">
+	                    <button type="submit" class="btn btn-primary btn-danger btn-sm full-width">
 							<span class="glyphicon @if ($product->status) glyphicon-ban-circle @else glyphicon-ok-circle @endif"></span>&nbsp;
 	                    	{{ $product->status ? trans('globals.disable') : trans('globals.enable') }}
 	                    </button>
@@ -54,7 +54,7 @@
 						<div class="row">&nbsp;</div>
 
 	                    @if ($product->type=='key')
-	                        <button type="button" ng-controller="ModalCtrl" style="width:100%" ng-init="data={'data':{{ $product->id }}}" ng-click="modalOpen({templateUrl:'/modalAllKeys',controller:'getKeysVirtualProducts',resolve:'data'})" class="btn btn-primary btn-sm">
+	                        <button type="button" ng-controller="ModalCtrl" ng-init="data={'data':{{ $product->id }}}" ng-click="modalOpen({templateUrl:'/modalAllKeys',controller:'getKeysVirtualProducts',resolve:'data'})" class="btn btn-primary btn-sm full-width">
 								<span class="glyphicon glyphicon-eye-open"></span>&nbsp;
 	                        	{{ trans('product.globals.see_keys') }}
 	                        </button>
@@ -75,20 +75,39 @@
 
 		<div class="row">
 
+			{{-- Gallery --}}
 			<div class="col-md-6" ng-controller = "ProductsGallery">
-				 <img ng-src = "[[getPortrait()]]" ng-init = "setPortrait('{{ $product->features['images'][0] }}?w=450')" class = "img-responsive img-rounded" >
+				<img src = "img/no-image.jpg" lazy-img = '[[getPortrait()]]' ng-init = "setPortrait('{{ $product->features['images'][0] }}?w=450')" class = "img-responsive img-rounded" >
+				<hr>
+				{{-- Thumbnails --}}
+				<div class="row">
+					<div class="col-md-12">
+					<ul class="list-inline" ng-controller = "ProductsGallery">
+					<?php $selector = 0; $gallery = ''; ?>
+					@foreach($product->features['images'] as $image)
+						<li>
+							<a class="thumbnail">
+								<img src = "img/no-image.jpg?h=60" lazy-img = "{{ $image }}?h=60" class="img-responsive img-rounded" ng-click = "setPortrait('{{ $image }}?w=450')">
+							</a>
+						</li>
+						<?php $gallery .= $image.'?w=450,'; ?>
+					@endforeach
+		        	</ul>
+		        	</div>
+				</div>
 			</div>
 
+			{{-- Product Information --}}
 	        <div class="col-md-3">
 				<hr class="visible-xs visible-sm">
-				<h6>{{ \Utility::showPrice($product->price) }}</h6>
+				<h5 class="black_color">{{ \Utility::showPrice($product->price) }}</h5>
 				<hr class="hidden-sm hidden-xs">
 				<ul class="list-unstyled">
-					<li><label>{{ trans('store.condition') }}:</label>&nbsp;{{ ucwords($product->condition) }}</li>
-					<li><label>{{ trans('globals.brand') }}:</label>&nbsp;{{ ucwords($product->brand) }}</li>
+					<li><label class="black_color">{{ trans('store.condition') }}:</label>&nbsp;{{ ucwords($product->condition) }}</li>
+					<li><label class="black_color">{{ trans('globals.brand') }}:</label>&nbsp;{{ ucwords($product->brand) }}</li>
 					@foreach ($product->features as $key => $feature)
 						@if ($key != 'images')
-							<li><label>{{ ucwords($key) }}:</label>&nbsp;{{ ucwords($feature) }}</li>
+							<li><label class="black_color">{{ ucwords($key) }}:</label>&nbsp;{{ ucwords($feature) }}</li>
 						@endif
 					@endforeach
 					<li>
@@ -102,6 +121,7 @@
 				<hr class="visible-xs visible-sm">
 	        </div>
 
+			{{-- Purchase Box --}}
 	        <div class="col-md-3">
 
 	        	<div class="panel panel-default">
@@ -123,7 +143,7 @@
 
 	                    <div class="row">
 	                    	<div class="col-lg-12">
-								<button type="submit" class="btn btn-warning btn-sm" style="width:100%">
+								<button type="submit" class="btn btn-warning btn-sm full-width">
 									<span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;
 									{{ trans('store.add_to_cart') }}
 								</button>
@@ -140,7 +160,7 @@
 
 		                                <div class="dropdown">
 
-		                                    <button class="btn btn-default dropdown-toggle btn-sm" style="width:100%" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		                                    <button class="btn btn-default dropdown-toggle btn-sm full-width" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 		                                        <span class="glyphicon glyphicon-heart"></span>&nbsp;
 		                                        {{ trans('store.addToWishList') }}
 		                                        <span class="caret"></span>
@@ -163,7 +183,7 @@
 		                                </div>
 
 	                                @else
-	                                    <a  href="/auth/login btn-sm" class="btn btn-info" style="width:100%">
+	                                    <a  href="/auth/login btn-sm" class="btn btn-info full-width">
 	                                    	<span class="glyphicon glyphicon-heart"></span>&nbsp;
 	                                    	{{ trans('store.addToWishList') }}
 	                                    </a>
@@ -186,39 +206,36 @@
 	        </div>
 		</div>
 
-		<div class="row">&nbsp;</div>
-
-		<div class="row">
-			<div class="col-md-6 hidden-sm hidden-xs">
-		      	<ul class="list-inline" ng-controller = "ProductsGallery">
-					<?php $selector = 0; ?>
-					@foreach($product->features['images'] as $image)
-						<li>
-							<a class="thumbnail">
-								<img src=" {{ $image }}?h=60" class="img-responsive img-rounded" ng-click = "setPortrait('{{ $image }}?w=450')">
-							</a>
-						</li>
-					@endforeach
-		        </ul>
-		    </div>
-
-	        <div class="col-md-6">&nbsp;</div>
-
-		</div>
-
-		{{-- More info - Product Description --}}
+		{{-- Product Description --}}
 		@if (trim($product->description) != '')
 			<div class="row">&nbsp;</div>
-
 			<div class="page-header">
-	            <h5>More Info</h5>
+	            <h5>{{ trans('store.description') }}</h5>
 	        </div>
-
 	        <div class="row">
 	        	<div class="col-md-12">
 					{{ $product->description }}
 	        	</div>
 	        </div>
+        @endif
+
+		{{-- Product Description --}}
+		@if (count($reviews) > 0)
+			<div class="row">&nbsp;</div>
+			<div class="page-header">
+	            <h5>{{ trans_choice('store.review', 7) }}</h5>
+	        </div>
+	        @foreach ($reviews as $rev)
+		        <div class="row">
+		        	<div class="col-lg-12">
+			        	<small>
+							{{ \Utility::showRate($rev['rate']) }}&nbsp;
+							{{ $rev['rate_comment'] }}&nbsp;-&nbsp;
+							<em>{{ Carbon\Carbon::parse($rev['updated_at'])->format('F j, Y') }}</em>
+						</small>
+					</div>
+		        </div>
+	        @endforeach
         @endif
 
 		<div class="row">&nbsp;</div>
@@ -248,19 +265,14 @@
 
 @section('scripts')
     @parent
+
+	{!! Html::script('/antvel-bower/angular-lazy-img/release/angular-lazy-img.min.js') !!}
+
     <script>
 
 		(function(app){
-            app.controller('StoreProducts', ['$scope', function($scope){
-                $scope.isCollapsedDescription = true;
-                $scope.isCollapseComments = true;
-                $scope.myInterval = 3000;
-                $scope.checkButtonDescription = 1;
-                $scope.checkButtonComments = 1;
-                $scope.product=({!! $product->toJson() !!});
-                $scope.detailComments=({!! $jsonDetails !!});
 
-            }]);
+			app.requires.push('angularLazyImg');
 
             /**
              * ProductsGallery
@@ -269,6 +281,8 @@
              * @param  PassInfo is a service that lets passing info among controllers or divs
              */
             app.controller('ProductsGallery', function($scope, PassInfo){
+
+            	$scope.gallery = '{{ $gallery }}'.split(',');
 
             	$scope.setPortrait = function (pic)
             	{
@@ -282,18 +296,6 @@
 
             });
 
-            // app.filter('dateToISO', function() {
-            //     return function(input) {
-            //         input = new Date(input).toISOString();
-            //         return input;
-            //     };
-            // });
-
-            // app.config(
-            //     ['$animateProvider',
-            //         function ($animateProvider) {
-            //             $animateProvider.classNameFilter(/carousel/);
-            //         }]);
         })(angular.module("AntVel"));
 
     </script>
