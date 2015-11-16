@@ -1,7 +1,14 @@
-<div class="col-xs-12" ng-controller="StoreProducts">
+<div class="col-xs-12">
+
     @foreach($product->group as $key => $group)
+
         @if($key != 'images')
-            <p><small >{{ ucfirst($key) }}:</small></p>
+            <div class="row">&nbsp;</div>
+            <div class="row">
+              <div class="col-lg-12">
+                <small class="black_color">{{ ucfirst($key) }}:</small>
+              </div>
+            </div>
         @endif
 
         @foreach($group as $groupFeatures)

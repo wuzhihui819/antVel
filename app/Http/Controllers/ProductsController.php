@@ -400,14 +400,12 @@ class ProductsController extends Controller
             }
 
             //receiving products user reviews & comments
-            $details = OrderDetail::where('product_id', $product->id)
+            $reviews = OrderDetail::where('product_id', $product->id)
                 ->whereNotNull('rate_comment')
                 ->select('rate', 'rate_comment', 'updated_at')
                 ->orderBy('updated_at', 'desc')
                 ->take(5)
                 ->get();
-
-            $jsonDetails = json_encode($details->toArray());
 
             //If it is a free product, we got to retrieve its package information
             if ($product->type == 'freeproduct') {
@@ -429,7 +427,7 @@ class ProductsController extends Controller
                 $product->group = $featuresHelper->group($product->group);
             }
 
-            return view('products.detailProd', compact('product', 'panel', 'allWishes', 'jsonDetails', 'freeproductId', 'features', 'suggestions'));
+            return view('products.detailProd', compact('product', 'panel', 'allWishes', 'reviews', 'freeproductId', 'features', 'suggestions'));
         } else {
             return redirect(route('products'));
         }
