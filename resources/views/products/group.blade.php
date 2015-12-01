@@ -17,7 +17,7 @@
                 <a  ng-mouseover="count = count + 1"
                     href="{{ $groupFeatures[0]==$product->id? 'javascript:void(0);' : 'products/'.$groupFeatures[0] }}" >
 
-                  <img src="{{ $groupFeatures[1] }}?w=50" alt="" width="50px" class="img-rounded"
+                  <img src = "img/no-image.jpg?h=60" lazy-img = "{{ $groupFeatures[1] }}?w=50" alt="" width="50px" class="img-rounded"
                        style="{{ $groupFeatures[0]==$product->id? 'border: solid;':'' }}"
                        @if($groupFeatures[0]!=$product->id)
                            ng-mouseenter="hover{{ $groupFeatures[0] }} = true"
