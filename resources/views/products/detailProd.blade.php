@@ -7,8 +7,8 @@
     @parent
     @include('partial.social_tags', [
         'title' => $product->name,
-        'image' => isset($product->features['images'][0]) ? URL::to('/').$product->features['images'][0] : '/img/no-image.jpg',
-        'description' => substr($product->description, 0, 197).'...',
+        'image' => isset($product->features['images'][0]) ? URL::to('/').$product->features['images'][0] : URL::to('/').'/img/no-image.jpg',
+        'description' => $product->description,
         'id' =>$product->id,
         'brand' => isset($product->features['brand'])?$product->features['brand']:'',
         'rate_val' => $product->rate_val,
