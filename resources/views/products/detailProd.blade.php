@@ -354,7 +354,7 @@
 		                 ',top='    + top    +
 		                 ',left='   + left;
 
-		    window.open(url, 'twitter', opts);
+		    window.open(url, '{{ $product->name }}', opts);
 
 		    return false;
 		});
