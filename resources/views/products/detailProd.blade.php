@@ -192,6 +192,25 @@
 							</div>
 	                    </div>
 
+						<hr>
+	                    <div class="row">
+	                    	<div class="col-lg-12">
+	                    		<button type="button" id="facebook" class="btn btn-primary btn-sm full-width">
+									<span class="fa fa-facebook-square"></span>&nbsp;
+									{{ trans('globals.share_on_facebook') }}
+								</button>
+	                    	</div>
+	                    </div>
+	                    <div class="row">&nbsp;</div>
+	                    <div class="row">
+	                    	<div class="col-lg-12">
+	                    		<a id="twitter" href="https://twitter.com/intent/tweet?hashtags=antvel&text={{ urlencode($product->name) }}&url={{ Request::url() }}&via=_antvel" class="btn btn-success btn-sm full-width">
+									<span class="fa fa-twitter-square"></span>&nbsp;
+									{{ trans('globals.share_on_twitter') }}
+								</a>
+	                    	</div>
+	                    </div>
+
 						{{-- Virtual Products --}}
 	                    @if ($product->type=='key')
 	                    	<hr>
@@ -268,6 +287,8 @@
 
 	{!! Html::script('/antvel-bower/angular-lazy-img/release/angular-lazy-img.min.js') !!}
 
+	<script src = "https://connect.facebook.net/en_US/sdk.js"></script>
+
     <script>
 
 		(function(app){
@@ -297,6 +318,46 @@
             });
 
         })(angular.module("AntVel"));
+
+        //Social Buttons
+        $(document).ready(function() {
+			$("#facebook").click(function() {
+
+				$.getScript('//connect.facebook.net/en_US/sdk.js', function(){
+				    FB.init({
+				      appId      : "{{ env('FB_APP_ID') }}",
+				      xfbml      : true,
+				      version    : 'v2.5',
+				      caption    : '{{ $product->name }}',
+				    });
+					FB.ui(
+					{
+						method: 'share',
+						href: '{{ Request::url() }}'
+					},
+					function(response) {}
+					);
+			  	});
+
+			});
+		});
+
+		$('#twitter').click(function(event) {
+		    var width  = 575,
+		        height = 400,
+		        left   = ($(window).width()  - width)  / 2,
+		        top    = ($(window).height() - height) / 2,
+		        url    = this.href,
+		        opts   = 'status=1' +
+		                 ',width='  + width  +
+		                 ',height=' + height +
+		                 ',top='    + top    +
+		                 ',left='   + left;
+
+		    window.open(url, 'twitter', opts);
+
+		    return false;
+		});
 
     </script>
 @stop
