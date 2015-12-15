@@ -25,7 +25,8 @@
 		"fzaninotto/faker": "1.5.*@dev",
 		"barryvdh/laravel-debugbar": "^2.0",
 		"fabpot/php-cs-fixer": "^1.10",
-		"mockery/mockery": "^0.9.4"
+		"mockery/mockery": "^0.9.4",
+		"barryvdh/laravel-ide-helper": "^2.1"
 	},
 	"autoload": {
 		"classmap": [
