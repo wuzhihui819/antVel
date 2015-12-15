@@ -7,7 +7,6 @@
 	"require": {
 		"php": ">=5.5.9",
 		"laravel/framework": "5.1.8",
-		"gloudemans/shoppingcart": "dev-master",
 		"laravelcollective/html": "5.1.*",
 		"nicolaslopezj/searchable": "1.*",
 		"laravel/socialite": "^2.0",
