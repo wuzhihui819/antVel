@@ -43,6 +43,33 @@ bower install
 
 After run all these commands you should be able to look at your antvel version running in your browser without problems.
 
+## Using Laravel Elixir
+
+First you need install Gulp package for npm:
+
+```
+npm install --global gulp
+```
+ 
+Need too dependencies in project:
+
+```
+cd antVel
+```
+
+```
+npm install 
+```
+
+Note:If you are developing on a Windows system or you are running your VM on a Windows host system 
+try with: 
+
+```npm install --no-bin-links.```
+
+Just run gulp in project root folder.
+
+
+
 <a name="features"></a>
 ## reCaptcha Settings
 
