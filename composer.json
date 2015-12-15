@@ -11,7 +11,6 @@
 		"nicolaslopezj/searchable": "1.*",
 		"laravel/socialite": "^2.0",
 		"intervention/image": "^2.3",
-		"paypal/rest-api-sdk-php": "^1.5",
 		"greggilbert/recaptcha": "dev-master",
 		"barryvdh/laravel-dompdf": "0.6.*",
 		"predis/predis": "^1.0",
