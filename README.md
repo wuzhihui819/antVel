@@ -45,28 +45,31 @@ After run all these commands you should be able to look at your antvel version r
 
 ## Using Laravel Elixir
 
-First you need install Gulp package for npm:
+First at all, you need to install Gulp package typing this command line in your terminal. Like so:
 
 ```
 npm install --global gulp
 ```
  
-Need too dependencies in project:
-
+Second at all, you will need to step into your antvel folder, like so:
 ```
 cd antVel
 ```
 
+Third at all, type this following command in order for you to install the npm dependencies, like so:
 ```
 npm install 
 ```
 
-Note:If you are developing on a Windows system or you are running your VM on a Windows host system 
-try with: 
+If you are developing on Windows or running your VM on it, you must try like so: 
+```
+npm install --no-bin-links
+```
 
-```npm install --no-bin-links.```
-
-Just run gulp in project root folder.
+Now feel free to run gulp into your antVel folder, like so:
+```
+gulp
+```
 
 
 
