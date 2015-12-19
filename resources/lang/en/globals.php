@@ -289,5 +289,7 @@ return [
   'success_label' => 'Success',
   'newsletter_email_error' => 'Email is required!',
   'reach_us_msg' => 'Reach us by email anytime! We will be in touch as soon as possible.',
-  'send_a_email_label' => 'Send a email'
+  'send_a_email_label' => 'Send a email',
+  'share_on_facebook' => 'Share on Facebook',
+  'share_on_twitter' => 'Share on Twitter',
 ];

@@ -193,7 +193,6 @@ return [
         /**
          * Providers Vendors
          */
-        'Gloudemans\Shoppingcart\ShoppingcartServiceProvider',
         'Laravel\Socialite\SocialiteServiceProvider',
         'Intervention\Image\ImageServiceProvider',
         'Collective\Html\HtmlServiceProvider',
@@ -201,7 +200,12 @@ return [
         'Greggilbert\Recaptcha\RecaptchaServiceProvider',
         'Barryvdh\DomPDF\ServiceProvider',
         'DaveJamesMiller\Breadcrumbs\ServiceProvider',
-        'Milon\Barcode\BarcodeServiceProvider'
+        'Milon\Barcode\BarcodeServiceProvider',
+
+        /**
+         * Providers only for developers
+         */
+        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider'
     ],
 
     /*
@@ -253,7 +257,6 @@ return [
          * Vendors Aliases
          */
         'Socialize' => 'Laravel\Socialite\Facades\Socialite',
-        'Cart'      => 'Gloudemans\Shoppingcart\Facades\Cart',
         'Form'      => 'Collective\Html\FormFacade',
         'Html'      => 'Collective\Html\HtmlFacade',
         'Image'     => 'Intervention\Image\Facades\Image',

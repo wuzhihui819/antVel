@@ -7,12 +7,10 @@
 	"require": {
 		"php": ">=5.5.9",
 		"laravel/framework": "5.1.8",
-		"gloudemans/shoppingcart": "dev-master",
 		"laravelcollective/html": "5.1.*",
 		"nicolaslopezj/searchable": "1.*",
 		"laravel/socialite": "^2.0",
 		"intervention/image": "^2.3",
-		"paypal/rest-api-sdk-php": "^1.5",
 		"greggilbert/recaptcha": "dev-master",
 		"barryvdh/laravel-dompdf": "0.6.*",
 		"predis/predis": "^1.0",
@@ -25,7 +23,8 @@
 		"fzaninotto/faker": "1.5.*@dev",
 		"barryvdh/laravel-debugbar": "^2.0",
 		"fabpot/php-cs-fixer": "^1.10",
-		"mockery/mockery": "^0.9.4"
+		"mockery/mockery": "^0.9.4",
+		"barryvdh/laravel-ide-helper": "^2.1"
 	},
 	"autoload": {
 		"classmap": [
