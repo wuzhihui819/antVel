@@ -1,6 +1,8 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Free Products Participants Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
@@ -25,7 +27,7 @@ class FreeProductParticipant extends Model
     protected $fillable = [
         'freeproduct_id',
         'user_id',
-        'status'
+        'status',
     ];
 
     public function scopeMyParticipations($query, $freeproduct_id)

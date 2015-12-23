@@ -1,6 +1,8 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Company Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
@@ -17,7 +19,7 @@ class Company extends Model
      */
     protected $table = 'company';
 
-    public $primaryKey  = 'id';
+    public $primaryKey = 'id';
 
     /**
      * The attributes that are mass assignable.

@@ -1,15 +1,14 @@
-<?php namespace app\Http\Controllers;
+<?php
 
-/**
+namespace app\Http\Controllers;
+
+/*
  * Antvel - Logs Controller
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\ActionType;
 use App\Log;
 
 class LogController extends Controller
@@ -20,7 +19,7 @@ class LogController extends Controller
             return false;
         }
         if (\Request::wantsJson()) {
-            return json_encode(['error'=>'need login']);
+            return json_encode(['error' => 'need login']);
         } else {
             return redirect('/auth/login');
         }
@@ -33,10 +32,10 @@ class LogController extends Controller
      */
     public function index()
     {
-        if ($unauth=$this->unauth()) {
+        if ($unauth = $this->unauth()) {
             return $unauth;
         }
-        $logs=Log::get();
+        $logs = Log::get();
         $this->json_or_dd($logs->toArray());
     }
 
@@ -61,12 +60,13 @@ class LogController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
     {
-        $logs=Log::find($id);
+        $logs = Log::find($id);
         if (\Request::wantsJson()) {
             return $logs->toJson();
         }
@@ -76,7 +76,8 @@ class LogController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -86,7 +87,8 @@ class LogController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function update($id)
@@ -96,7 +98,8 @@ class LogController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)

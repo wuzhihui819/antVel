@@ -1,5 +1,5 @@
 <?php
 
-return array(
-    'store_path' => public_path("/"),
-);
+return [
+    'store_path' => public_path('/'),
+];

@@ -2,13 +2,12 @@
 
 /**
  * Antvel - Data Base
- * Main company features
+ * Main company features.
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
-
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateCompanyFeaturesTable extends Migration
 {

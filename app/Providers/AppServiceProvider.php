@@ -1,8 +1,10 @@
-<?php namespace app\Providers;
+<?php
 
-use Illuminate\Support\ServiceProvider;
-use App\Company;
+namespace app\Providers;
+
 use App\Category;
+use App\Company;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,18 +15,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $table = "company";
+        $table = 'company';
 
         if (\Schema::hasTable($table)) {
-
             try {
                 $main_company = Company::find(1);
             } catch (ModelNotFoundException $e) {
                 $main_company = Company::defaultCompany();
             }
 
-            $categories_menu = \Cache::remember('categories_mothers', 25, function ()
-            {
+            $categories_menu = \Cache::remember('categories_mothers', 25, function () {
                 return Category::select('id', 'name')
                   ->childsOf('mothers')
                   ->actives()

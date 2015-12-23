@@ -2,13 +2,12 @@
 
 /**
  * Antvel - Data Base
- * Products Detail Table
+ * Products Detail Table.
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
-
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateProductDetailsTable extends Migration
 {

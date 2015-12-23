@@ -1,6 +1,8 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Company Features Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
@@ -17,7 +19,7 @@ class CompanyFeatures extends Model
      */
     protected $table = 'company_features';
 
-    public $primaryKey  = 'id';
+    public $primaryKey = 'id';
 
     public $company_id = 'company_id';
 
@@ -28,6 +30,6 @@ class CompanyFeatures extends Model
      */
     protected $fillable = [
         'company_id',
-        'description'
+        'description',
     ];
 }

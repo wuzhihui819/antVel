@@ -76,7 +76,7 @@ return [
     |
     */
 
-    'payment_method' => 'USD',//Points
+    'payment_method' => 'USD', //Points
 
      /*
     |--------------------------------------------------------------------------
@@ -189,8 +189,7 @@ return [
         'App\Providers\EventServiceProvider',
         'App\Providers\RouteServiceProvider',
 
-
-        /**
+        /*
          * Providers Vendors
          */
         'Laravel\Socialite\SocialiteServiceProvider',
@@ -202,10 +201,10 @@ return [
         'DaveJamesMiller\Breadcrumbs\ServiceProvider',
         'Milon\Barcode\BarcodeServiceProvider',
 
-        /**
+        /*
          * Providers only for developers
          */
-        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider'
+        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
     ],
 
     /*
@@ -253,18 +252,18 @@ return [
         'URL'       => 'Illuminate\Support\Facades\URL',
         'Validator' => 'Illuminate\Support\Facades\Validator',
         'View'      => 'Illuminate\Support\Facades\View',
-        /**
+        /*
          * Vendors Aliases
          */
-        'Socialize' => 'Laravel\Socialite\Facades\Socialite',
-        'Form'      => 'Collective\Html\FormFacade',
-        'Html'      => 'Collective\Html\HtmlFacade',
-        'Image'     => 'Intervention\Image\Facades\Image',
-        'Debugbar'  => 'Barryvdh\Debugbar\Facade',
-        'Recaptcha' => 'Greggilbert\Recaptcha\Facades\Recaptcha',
-        'DNS1D' => 'Milon\Barcode\Facades\DNS1DFacade',
-        'DNS2D' => 'Milon\Barcode\Facades\DNS2DFacade',
-        'PDF' => 'Barryvdh\DomPDF\Facade',
+        'Socialize'   => 'Laravel\Socialite\Facades\Socialite',
+        'Form'        => 'Collective\Html\FormFacade',
+        'Html'        => 'Collective\Html\HtmlFacade',
+        'Image'       => 'Intervention\Image\Facades\Image',
+        'Debugbar'    => 'Barryvdh\Debugbar\Facade',
+        'Recaptcha'   => 'Greggilbert\Recaptcha\Facades\Recaptcha',
+        'DNS1D'       => 'Milon\Barcode\Facades\DNS1DFacade',
+        'DNS2D'       => 'Milon\Barcode\Facades\DNS2DFacade',
+        'PDF'         => 'Barryvdh\DomPDF\Facade',
         'Breadcrumbs' => 'DaveJamesMiller\Breadcrumbs\Facade',
 
         /*

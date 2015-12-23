@@ -1,12 +1,14 @@
-<?php namespace app\Http\Controllers\Auth;
+<?php
 
-use Validator;
-use App\User;
+namespace app\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
 use App\Person;
+use App\User;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Validator;
 
 class AuthController extends Controller
 {
@@ -36,28 +38,31 @@ class AuthController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     public function validator(array $data)
     {
         $validate = [
             'first_name' => 'required|max:20|min:3',
-            'last_name' => 'required|max:20|min:3',
-            'email' => 'required|email|max:255|unique:users',
+            'last_name'  => 'required|max:20|min:3',
+            'email'      => 'required|email|max:255|unique:users',
             //'role' => 'required',
             'password' => 'required|min:6',
         ];
         if (!env('APP_DEBUG', false)) {
             $validate['g-recaptcha-response'] = 'required|recaptcha';
         }
+
         return Validator::make($data, $validate);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return User
      */
     public function create(array $data)
@@ -69,10 +74,10 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'email'    => $data['email'],
+            'email'       => $data['email'],
             'nickname'    => $data['email'],
-            'password' => bcrypt($data['password']),
-            'role'     => $role
+            'password'    => bcrypt($data['password']),
+            'role'        => $role,
         ]);
 
         Person::create([
@@ -91,7 +96,7 @@ class AuthController extends Controller
             $message->to($data['email'])->subject(trans('user.emails.verification_account.subject'));
         });
 
-        \Session::put('message', trans('user.signUp_message', ['_name' => $name ]));
+        \Session::put('message', trans('user.signUp_message', ['_name' => $name]));
 
         \Session::save();
 
@@ -102,6 +107,7 @@ class AuthController extends Controller
      * Show the application registration form.
      *
      * Rewrite
+     *
      * @return \Illuminate\Http\Response
      */
     public function getRegister()
@@ -112,23 +118,26 @@ class AuthController extends Controller
         }
         $user_roles = trans('globals.roles');
         unset($user_roles['admin']);
+
         return view('auth.register', compact('user_roles', 'email'));
     }
 
     /**
      * Handle a login request to the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function postLogin(Request $request)
     {
         if ($request->input('newuser')) {
             \Session::flash('email', $request->input('email'));
+
             return redirect('/auth/register');
         } else {
             $validate = [
-                'email' => 'required|email',
+                'email'    => 'required|email',
                 'password' => 'required',
             ];
 

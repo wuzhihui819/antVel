@@ -2,13 +2,12 @@
 
 /**
  * Antvel - Data Base
- * Products Offers Table
+ * Products Offers Table.
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
-
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateProductOffersTable extends Migration
 {
