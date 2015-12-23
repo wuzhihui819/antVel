@@ -1,4 +1,6 @@
-<?php namespace app\Http\Middleware;
+<?php
+
+namespace app\Http\Middleware;
 
 use App\Http\Controllers\OrdersController;
 use Closure;
@@ -16,7 +18,8 @@ class Authenticate
     /**
      * Create a new filter instance.
      *
-     * @param  Guard  $auth
+     * @param Guard $auth
+     *
      * @return void
      */
     public function __construct(Guard $auth)
@@ -27,8 +30,9 @@ class Authenticate
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -41,7 +45,7 @@ class Authenticate
             }
         }
 
-        /**
+        /*
          * If there is products into the guest cart, its content is transferred
          * to a logged user 'cart' order.
          */

@@ -1,21 +1,22 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Users Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-use App\Log;
-use App\UserPoints;
-use App\Order;
-use App\OrderDetail;
 use App\Eloquent\Model;
+use App\Log;
+use App\Order;
+use App\UserPoints;
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -46,11 +47,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'mobile_phone',
         'work_phone',
         'description',
-        'disabled_at'
+        'disabled_at',
     ];
 
     /**
-     * The attribute for soft deletes
+     * The attribute for soft deletes.
+     *
      * @var [type]
      */
     protected $dates = ['deleted_at'];
@@ -86,7 +88,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasMany('App\Product');
     }
 
-
     public function getHasPhoneAttribute()
     {
         return !is_null($this->mobile_phone) || !is_null($this->work_phone)
@@ -96,11 +97,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function setPasswordAttribute($value)
     {
         if (!empty($value)) {
-            $this->attributes['password']=$value;
+            $this->attributes['password'] = $value;
         }
     }
 
     //Role Manage
+
     public function hasRole($role)
     {
         if (is_array($role)) {
@@ -109,6 +111,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         return $this->attributes['role'] == $role;
     }
+
     public function isAdmin()
     {
         return $this->attributes['role'] == 'admin';
@@ -125,12 +128,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
    //Type user Manage
+
    public function isTrusted()
    {
        return $this->attributes['type'] == 'trusted';
    }
 
     //Cart Manage
+
     public function getCartCount()
     {
         $basicCart = Order::ofType('cart')->where('user_id', $this->id)->first();
@@ -141,6 +146,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             foreach ($basicCart->details  as $orderDetail) {
                 $totalItems += $orderDetail->quantity;
             }
+
             return $totalItems;
         }
     }
@@ -157,7 +163,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function modifyPoints($points, $actionTypeId, $sourceId)
     {
-        $data = [ 'action_type_id' => $actionTypeId, 'source_id' =>$sourceId, 'details' => $points, 'user_id' =>$this->id];
+        $data = ['action_type_id' => $actionTypeId, 'source_id' => $sourceId, 'details' => $points, 'user_id' => $this->id];
         $log = Log::create($data);
 
         $userPoints = new UserPoints();
@@ -168,7 +174,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         if ($userPoints->save()) {
             $this->current_points = $this->current_points + $points;
             //Action type = 9 is for canceled orders, the user should not add to accumulated points
-            if (($points > 0)&&($actionTypeId <> 9)) {
+            if (($points > 0) && ($actionTypeId != 9)) {
                 $this->accumulated_points = $this->accumulated_points + $points;
             }
             if ($this->save()) {

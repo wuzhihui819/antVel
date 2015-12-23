@@ -1,41 +1,40 @@
-<?php namespace app\Http\Controllers;
+<?php
 
-/**
+namespace app\Http\Controllers;
+
+/*
  * Antvel - Company CMS Controller
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-
 use App\Company;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactFormRequest;
-use Illuminate\Http\Request;
 
 class AboutController extends Controller
 {
     public function create()
     {
-        $kind_of_request=['contact' => trans('company.contact'),
-                    'sales' => trans('company.sales'),
-                    'support' => trans('company.support') ];
+        $kind_of_request = ['contact' => trans('company.contact'),
+                    'sales'           => trans('company.sales'),
+                    'support'         => trans('company.support'), ];
 
-        $panel = array( 'center'=>['width'=>'12']);
+        $panel = ['center' => ['width' => '12']];
 
         return view('about.contact', compact('panel', 'kind_of_request'));
     }
 
     public function store(ContactFormRequest $request)
     {
-        $company=Company::select('contact_email',
+        $company = Company::select('contact_email',
                                   'sales_email',
                                   'support_email',
                                   'website_name')
                          ->find(1)
                          ->toArray();
 
-        $from_address=$company[$request->get('type_of_request').'_email'];
+        $from_address = $company[$request->get('type_of_request').'_email'];
         $name = $request->get('name');
         $email = $request->get('email');
         $message_ = $request->get('message');
@@ -55,18 +54,21 @@ class AboutController extends Controller
         return \Redirect::route('contact')->with('message', $thanks);
     }
 
-    public function about($tab='about')
+    public function about($tab = 'about')
     {
         return view('about.index', compact('tab'));
     }
+
     public function refunds()
     {
         return $this->about('refund');
     }
+
     public function privacy()
     {
         return $this->about('privacy');
     }
+
     public function terms()
     {
         return $this->about('terms');

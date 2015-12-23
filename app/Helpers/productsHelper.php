@@ -1,24 +1,26 @@
-<?php namespace app\Helpers;
+<?php
 
-/**
+namespace app\Helpers;
+
+/*
  * Antvel - Products Helper
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
+use App\Category;
+use App\Helpers\categoriesHelper;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
-use App\Category;
-
-use App\Helpers\categoriesHelper;
 
 class productsHelper
 {
     /**
-     * get the table product field evaluated by the time when it calls
-     * @param  [string] $key, preferences key
+     * get the table product field evaluated by the time when it calls.
+     *
+     * @param [string] $key, preferences key
+     *
      * @return [string] products field to be evaluated in queries
      */
     public function getFieldToSuggestions($key)
@@ -35,12 +37,14 @@ class productsHelper
     }
 
     /**
-     * Build the not in id array to be evaluated in suggestions
-     * @param [array] $products, which is the real time query result
-     * @param [string] $field, which is the validation reference point
+     * Build the not in id array to be evaluated in suggestions.
+     *
+     * @param [array]  $products, which is the real time query result
+     * @param [string] $field,    which is the validation reference point
+     *
      * @return [array] $needle, that is the array to be evaluated in the where not in
      */
-    public function setToHaystack($products, $field='id')
+    public function setToHaystack($products, $field = 'id')
     {
         if (empty(Session::get('suggest-listed'))) {
             Session::put('suggest-listed', []);
@@ -55,7 +59,8 @@ class productsHelper
         }
 
         Session::save();
-        return ;
+
+        return;
     }
 
     public function resetHaystack()
@@ -65,8 +70,10 @@ class productsHelper
     }
 
     /**
-     * manage the home section suggestions
-     * @param  [string] $type, which is the reference point to build the suggest
+     * manage the home section suggestions.
+     *
+     * @param [string] $type, which is the reference point to build the suggest
+     *
      * @return [json] $suggest, that contain the products list to be displayed on home page
      */
     public static function suggest($type, $limit = 4)
@@ -82,10 +89,10 @@ class productsHelper
                 $data['preferences_key'] = 'product_categories';
                 $data['limit'] = $limit;
                 $usr_prefe = UserController::getPreferences('', $data['preferences_key']); //look up for user preferences
-                if (count($usr_prefe['tags'])==0) {
+                if (count($usr_prefe['tags']) == 0) {
                     $data['category'] = ProductsController::getRandCategoryId(); //if there is not info, we get a rand category id
                 } else {
-                    $data['category'] = $usr_prefe['tags'][mt_rand(0, count($usr_prefe['tags'])-1)]; //if so, we get a rand user preferences category
+                    $data['category'] = $usr_prefe['tags'][mt_rand(0, count($usr_prefe['tags']) - 1)]; //if so, we get a rand user preferences category
                 }
             break;
 
@@ -110,27 +117,28 @@ class productsHelper
 
     /**
      * countingProductsByCategory
-     * Products total by category collection
-     * @param  [type] $all_products refine products
-     * @param  [type] $categories   refine categories
+     * Products total by category collection.
+     *
+     * @param [type] $all_products refine products
+     * @param [type] $categories   refine categories
+     *
      * @return [array] filter used in the product list view menu
      */
     public static function countingProductsByCategory($all_products, $categories)
     {
-        $filters = ['category'=>[]];
-        foreach ($categories as $value)
-        {
+        $filters = ['category' => []];
+        foreach ($categories as $value) {
             $category_id = $value['id'];
             $childs = \Cache::remember('progeny_of_'.$category_id, 15, function () use ($category_id) {
                 Category::progeny($category_id, $childs, ['id']);
+
                 return $childs;
             });
 
             $all = $childs;
-            $childs=[];
-            foreach ((array)$all as $val)
-            {
-                $childs[]=$val['id'];
+            $childs = [];
+            foreach ((array) $all as $val) {
+                $childs[] = $val['id'];
             }
 
             $qty = 0;
@@ -142,7 +150,7 @@ class productsHelper
                 )->count();
             }
             if ($qty) {
-                $filters['category'][$category_id]['id']   = $category_id;
+                $filters['category'][$category_id]['id'] = $category_id;
                 $filters['category'][$category_id]['name'] = $value['name'];
                 $filters['category'][$category_id]['qty'] = $qty;
             }
@@ -150,8 +158,9 @@ class productsHelper
 
         //Order by qty
         if (isset($filters['category'])) {
-            $filters['category']=collect($filters['category'])->sortByDesc('qty');
+            $filters['category'] = collect($filters['category'])->sortByDesc('qty');
         }
+
         return $filters;
     }
 
@@ -161,26 +170,26 @@ class productsHelper
 
             /**
              * $level
-             * Contains the category tree
+             * Contains the category tree.
+             *
              * @var [type]
              */
             $level = categoriesHelper::level($array, $row['category_id']);
 
             $s = '';
-            for ($i=0; $i < $level; $i++) {
-                $s.='&nbsp;&nbsp;&nbsp;';
+            for ($i = 0; $i < $level; $i++) {
+                $s .= '&nbsp;&nbsp;&nbsp;';
             }
 
             $icon = 2;
             if ($level % 3 == 0) {
-                $icon=0;
+                $icon = 0;
             } elseif ($level % 2 == 0) {
-                $icon=1;
+                $icon = 1;
             }
 
-            $indentation = ['&#9679;','&#8226;','&ordm;'][$icon];
+            $indentation = ['&#9679;', '&#8226;', '&ordm;'][$icon];
             $outPut[$row['id']] = $s.$indentation.'&nbsp;'.$row['name'];
         }
     }
-
 }

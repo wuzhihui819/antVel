@@ -1,6 +1,8 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Free Product Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
@@ -35,13 +37,14 @@ class FreeProduct extends Model
         'max_participations_per_user',
         'draw_number',
         'draw_date',
-        'status'
+        'status',
     ];
 
     protected $products;
 
     /**
-     * Relationship for list of commands associated with freeproducts. This is done by table freeproduct_order
+     * Relationship for list of commands associated with freeproducts. This is done by table freeproduct_order.
+     *
      * @return Collection List Ids Orders
      */
     public function Orders()
@@ -60,7 +63,8 @@ class FreeProduct extends Model
     }
 
     /**
-     * Returns all products contained in the orders associated with a freeproduct
+     * Returns all products contained in the orders associated with a freeproduct.
+     *
      * @return freeproducts collection of all the products contained in the orders associated with freeproduct, but defined as a property of the model
      */
     public static function getWithProducts(Collection $items)
@@ -72,12 +76,13 @@ class FreeProduct extends Model
                                     }
                                     $item->products = $list_products_orders;
                                 });
+
         return $freeproducts;
     }
 
     public static function getNextEvents($fields = ['*'], $limit = 5, $date)
     {
-        $events = FreeProduct::
+        $events = self::
                     select($fields)
                     ->OfStatus('1')
                     ->IsValidIn($date)
@@ -86,7 +91,7 @@ class FreeProduct extends Model
                     ->take($limit)
                     ->get();
 
-        return FreeProduct::getWithProducts($events);
+        return self::getWithProducts($events);
     }
 
     public static function getListWithPaginate($paginator = 0, $status = null, $fields = ['*'])
@@ -97,8 +102,8 @@ class FreeProduct extends Model
         }
         $freeproducts = $query->get();
 
-        return ($paginator ?
+        return $paginator ?
                 new Paginator(self::getWithProducts($freeproducts), $freeproducts->count(), $paginator, Paginator::resolveCurrentPage(), ['path' => Paginator::resolveCurrentPath()])
-                : self::getWithProducts($freeproducts));
+                : self::getWithProducts($freeproducts);
     }
 }

@@ -1,6 +1,8 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Order Detail Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
@@ -30,7 +32,7 @@ class OrderDetail extends Model
         'status',
         'delivery_date',
         'rate',
-        'rate_comment'
+        'rate_comment',
     ];
 
     protected $appends = ['product'];

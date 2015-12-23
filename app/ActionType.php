@@ -1,6 +1,8 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Action Type Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
@@ -27,7 +29,7 @@ class ActionType extends Model
     protected $fillable = [
         'id',
         'source_type',
-        'action'
+        'action',
     ];
 
     protected $appends = [];
@@ -35,8 +37,9 @@ class ActionType extends Model
     public function useAs($type)
     {
         switch ($type) {
-            case 'notice': $this->appends=$this->appends + ['notice_template','link']; break;
+            case 'notice': $this->appends = $this->appends + ['notice_template', 'link']; break;
         }
+
         return $this;
     }
 

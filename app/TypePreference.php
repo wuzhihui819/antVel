@@ -1,6 +1,8 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Type Preferences Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
@@ -25,6 +27,6 @@ class TypePreference extends Model
     protected $fillable = [
         'name',
         'type',
-        'status'
+        'status',
     ];
 }

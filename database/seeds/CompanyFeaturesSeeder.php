@@ -2,11 +2,10 @@
 
 /**
  * Antvel - Seeder
- * Main Company Features Table
+ * Main Company Features Table.
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
-
 use App\Company;
 use App\CompanyFeatures;
 use Illuminate\Database\Seeder;
@@ -22,8 +21,8 @@ class CompanyFeaturesSeeder extends Seeder
     {
         $company = Company::find('1');
         CompanyFeatures::create([
-            'company_id' => $company->id,
-            'description' => trans('globals.freeproducts')
+            'company_id'  => $company->id,
+            'description' => trans('globals.freeproducts'),
         ]);
     }
 }

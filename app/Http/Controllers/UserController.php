@@ -1,38 +1,37 @@
-<?php namespace app\Http\Controllers;
+<?php
 
-/**
+namespace app\Http\Controllers;
+
+/*
  * Antvel - Users Controller
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-
-use App\Http\Requests;
-use App\User;
-use App\Product;
-use App\Order;
 use App\Business;
-use App\Person;
 use App\Helpers\File;
 use App\Helpers\userHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProductsController;
+use App\Order;
+use App\Person;
+use App\Product;
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
     private $form_rules = [
-        'email'                 =>"required|email|unique:users,email,",
-        'nickname'              =>"required|max:255|unique:users,nickname,",
-        'old_password'          =>'required_with:password,password_confirmation',
-        'password'              =>'required_with:old_password,password_confirmation|confirmed|different:old_password',
-        'password_confirmation' =>'required_with:old_password,password|different:old_password|same:password'
+        'email'                 => 'required|email|unique:users,email,',
+        'nickname'              => 'required|max:255|unique:users,nickname,',
+        'old_password'          => 'required_with:password,password_confirmation',
+        'password'              => 'required_with:old_password,password_confirmation|confirmed|different:old_password',
+        'password_confirmation' => 'required_with:old_password,password|different:old_password|same:password',
     ];
 
     /**
-     * Inicializa variables para la validacion de perfil
+     * Inicializa variables para la validacion de perfil.
      */
     public function __construct()
     {
@@ -45,97 +44,101 @@ class UserController extends Controller
 
             // Validaciones segun tipo de user
             if ($user->hasRole(['admin', 'person'])) {
-                $form_rules['first_name']='required|min:3|max:20|string';
-                $form_rules['last_name']='required|min:3|max:20|string';
+                $form_rules['first_name'] = 'required|min:3|max:20|string';
+                $form_rules['last_name'] = 'required|min:3|max:20|string';
             } else {
-                $form_rules['business_name']='required|min:5|max:30|string';
+                $form_rules['business_name'] = 'required|min:5|max:30|string';
             }
         }
     }
 
     //Paneles por defecto Usuarios
-    private $view_panel = array(
-        'left'=>['width'=>'2','class'=>'user-panel'],
-        'center'=>['width'=>'10'],
-    );
+    private $view_panel = [
+        'left'   => ['width' => '2', 'class' => 'user-panel'],
+        'center' => ['width' => '10'],
+    ];
 
     /**
-     * Sube imagen de perfil y background de usuario
-     * @param  Request $request   [description]
-     * @return [String]           [Url de la imagen]
+     * Sube imagen de perfil y background de usuario.
+     *
+     * @param Request $request [description]
+     *
+     * @return [String] [Url de la imagen]
      */
     public function upload(Request $request)
     {
-        $v = \Validator::make($request->all(), ['file'=>'image']);
+        $v = \Validator::make($request->all(), ['file' => 'image']);
         if ($v->fails()) {
             return $v->errors()->toJson();
         }
+
         return File::section('profile_img')->upload($request->file('file'));
     }
 
     /**
-     * Vista de dashboard de usuario
+     * Vista de dashboard de usuario.
+     *
      * @return Illuminate\Contracts\View [Vista de dashboard]
      */
     public function dashBoard()
     {
-        $panel=$this->view_panel;
-        $query=Product::where('user_id', \Auth::id())->Free()->get();
-        $products=['active'=>0,'inactive'=>0,'lowStock'=>0,'all'=>$query->count()];
+        $panel = $this->view_panel;
+        $query = Product::where('user_id', \Auth::id())->Free()->get();
+        $products = ['active' => 0, 'inactive' => 0, 'lowStock' => 0, 'all' => $query->count()];
         foreach ($query as $row) {
             if ($row->status) {
                 $products['active']++;
             } else {
                 $products['inactive']++;
             }
-            if ($row->stock<=$row->low_stock) {
+            if ($row->stock <= $row->low_stock) {
                 $products['lowStock']++;
             }
         }
         unset($query);
-        $query=Order::auth()->ofType('order')->get();
-        $orders=['closed'=>0,'open'=>0,'cancelled'=>0,'all'=>$query->count(),'total'=>0,'nopRate'=>0];
+        $query = Order::auth()->ofType('order')->get();
+        $orders = ['closed' => 0, 'open' => 0, 'cancelled' => 0, 'all' => $query->count(), 'total' => 0, 'nopRate' => 0];
         foreach ($query as $row) {
-            if ($row->status=='cancelled') {
+            if ($row->status == 'cancelled') {
                 $orders['cancelled']++;
-            } elseif ($row->status=='closed') {
+            } elseif ($row->status == 'closed') {
                 $orders['closed']++;
             } else {
                 $orders['open']++;
             }
             foreach ($row->details as $deta) {
-                $orders['total']+=($deta->quantity*$deta->price);
-                if ($row->status=='closed' && !$deta->rate) {
+                $orders['total'] += ($deta->quantity * $deta->price);
+                if ($row->status == 'closed' && !$deta->rate) {
                     $orders['nopRate']++;
                 }
             }
         }
         unset($query);
-        $sales=null;
+        $sales = null;
         if (\Auth::check() && \Auth::user()->hasRole(['business', 'admin'])) {
-            $orders=Order::where('seller_id', \Auth::user()->id)->ofType('order')->get();
-            $sales=['closed'=>0,'open'=>0,'cancelled'=>0,'all'=>$orders->count(),'total'=>0,'rate'=>0,'numRate'=>0,'totalRate'=>0, 'nopRate' =>0];
+            $orders = Order::where('seller_id', \Auth::user()->id)->ofType('order')->get();
+            $sales = ['closed' => 0, 'open' => 0, 'cancelled' => 0, 'all' => $orders->count(), 'total' => 0, 'rate' => 0, 'numRate' => 0, 'totalRate' => 0, 'nopRate' => 0];
             foreach ($orders as $row) {
-                if ($row->status=='cancelled') {
+                if ($row->status == 'cancelled') {
                     $sales['cancelled']++;
-                } elseif ($row->status=='closed') {
+                } elseif ($row->status == 'closed') {
                     $sales['closed']++;
                 } else {
                     $sales['open']++;
                 }
                 foreach ($row->details as $deta) {
-                    $sales['total']+=($deta->quantity*$deta->price);
-                    if ($row->status=='closed' && $deta->rate) {
+                    $sales['total'] += ($deta->quantity * $deta->price);
+                    if ($row->status == 'closed' && $deta->rate) {
                         $sales['numRate']++;
-                        $sales['totalRate']=$sales['totalRate']+$deta->rate;
+                        $sales['totalRate'] = $sales['totalRate'] + $deta->rate;
                     }
-                    if ($row->status=='closed' && !$deta->rate) {
+                    if ($row->status == 'closed' && !$deta->rate) {
                         $sales['nopRate']++;
                     }
                 }
             }
             if ($sales['numRate']) {
-                $sales['rate']=$sales['totalRate']/$sales['numRate'];
+                $sales['rate'] = $sales['totalRate'] / $sales['numRate'];
             }
         }
 
@@ -143,18 +146,21 @@ class UserController extends Controller
     }
 
     /**
-     * MUestra el perfil del usuario
+     * MUestra el perfil del usuario.
+     *
      * @return Illuminate\Contracts\View Vista de perfil
      */
     public function profile()
     {
         $user = User::findOrFail(\Auth::id())->relationsToArray();
-        $panel=$this->view_panel;
+        $panel = $this->view_panel;
+
         return view('user.profile', compact('panel', 'user'));
     }
 
     /**
-     * Elimina el perfil del usuario(SOFT DELETE)
+     * Elimina el perfil del usuario(SOFT DELETE).
+     *
      * @return string json
      */
     public function deleteAccount(Request $request)
@@ -163,7 +169,7 @@ class UserController extends Controller
         $user->delete();
 
         if ($request->wantsJson()) {
-            return \Response::json(['success'=>true, 'message'=>trans('user.profile_disabled')]);
+            return \Response::json(['success' => true, 'message' => trans('user.profile_disabled')]);
         }
 
         \Session::flash('message', trans('user.profile_disabled'));
@@ -171,19 +177,19 @@ class UserController extends Controller
         return redirect()->back();
     }
 
-
     /**
-     * Desactiva el perfil del usuario
+     * Desactiva el perfil del usuario.
+     *
      * @return string json
      */
     public function disableProfile(Request $request)
     {
         $user = \Auth::user();
         $date = \Carbon\Carbon::now();
-        $user->update(['disabled_at'=>$date]);
+        $user->update(['disabled_at' => $date]);
 
         if ($request->wantsJson()) {
-            return \Response::json(['success'=>true, 'message'=>trans('user.profile_disabled'), 'date'=>$date->toDateTimeString()]);
+            return \Response::json(['success' => true, 'message' => trans('user.profile_disabled'), 'date' => $date->toDateTimeString()]);
         }
 
         \Session::flash('message', trans('user.profile_disabled'));
@@ -192,16 +198,17 @@ class UserController extends Controller
     }
 
     /**
-     * Activa el perfil del usuario
+     * Activa el perfil del usuario.
+     *
      * @return string json
      */
     public function activeProfile(Request $request)
     {
         $user = \Auth::user();
-        $user->update(['disabled_at'=>null]);
+        $user->update(['disabled_at' => null]);
 
         if ($request->wantsJson()) {
-            return \Response::json(['success'=>true, 'message'=>trans('user.profile_enabled')]);
+            return \Response::json(['success' => true, 'message' => trans('user.profile_enabled')]);
         }
 
         \Session::flash('message', trans('user.profile_enabled'));
@@ -210,8 +217,10 @@ class UserController extends Controller
     }
 
     /**
-     * Guarda los cambio del usuario
-     * @param  Request $request peticion
+     * Guarda los cambio del usuario.
+     *
+     * @param Request $request peticion
+     *
      * @return Laravel Redirect
      */
     public function saveProfile(Request $request)
@@ -251,9 +260,10 @@ class UserController extends Controller
     }
 
     /**
-     * Save the user preferences
+     * Save the user preferences.
+     *
      * @param [String] $index user preference key array
-     * @param [Array] $tags products tags
+     * @param [Array]  $tags  products tags
      */
     public static function setPreferences($index = '', $tags = [])
     {
@@ -267,9 +277,11 @@ class UserController extends Controller
     }
 
     /**
-     * Return the users preferences taking in account the key requered
-     * @param  [interger] $user_id user id
-     * @param  [string] $preferences_key user preferences array key
+     * Return the users preferences taking in account the key requered.
+     *
+     * @param [interger] $user_id         user id
+     * @param [string]   $preferences_key user preferences array key
+     *
      * @return [Array] info to evaluate user products suggestion
      */
     public static function getPreferences($preferences_key = '')
@@ -284,18 +296,19 @@ class UserController extends Controller
 
     public function getPoints()
     {
-        $points = ['points'=>'0'];
+        $points = ['points' => '0'];
         $user = \Auth::user();
         if ($user) {
-            $points = ['points'=> $user->current_points];
+            $points = ['points' => $user->current_points];
         }
 
         return \Response::json($points);
     }
 
     /**
-     * accountVerification allows users account verification
-     * @param  [string] $token is the var sent to users email to validate if the account belongs to him or not.
+     * accountVerification allows users account verification.
+     *
+     * @param [string] $token is the var sent to users email to validate if the account belongs to him or not.
      */
     public function accountVerification($token)
     {

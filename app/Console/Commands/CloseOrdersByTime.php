@@ -1,13 +1,15 @@
-<?php namespace app\Console\Commands;
+<?php
+
+namespace app\Console\Commands;
 
 use App\Order;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class CloseOrdersByTime extends Command
 {
@@ -51,19 +53,19 @@ class CloseOrdersByTime extends Command
             ->where('updated_at', '<', Carbon::now()->subDays($days_to_wait))
             ->get();
         //$this->info(print_r(\DB::getQueryLog()));
-        $this->info("Orders That need to be closed: " . $orders->count());
+        $this->info('Orders That need to be closed: '.$orders->count());
         foreach ($orders as $order) {
-            $this->info("Order: " . $order->id . ' Needs to be closed');
+            $this->info('Order: '.$order->id.' Needs to be closed');
             $buyer = User::find($order->user_id);
 
             if ($buyer) {
                 $email = $buyer->email;
                 $mail_subject = trans('email.cron_emails.order_closed_for_time');
                 $data = [
-                    'email_message'=>$mail_subject,
-                    'email'=>$email,
-                    'subject'=>$mail_subject,
-                    'order_id'=>$order->id,
+                    'email_message' => $mail_subject,
+                    'email'         => $email,
+                    'subject'       => $mail_subject,
+                    'order_id'      => $order->id,
                 ];
                 Mail::queue('emails.cron.close_order', $data, function ($message) use ($data) {
                     $message->to($data['email'])->subject($data['subject']);
@@ -77,13 +79,13 @@ class CloseOrdersByTime extends Command
                     $total_points = 0;
                     foreach ($order_content as $order_detail) {
                         $total_points += $order_detail->quantity * $order_detail->price;
-                        $order_detail->status=0;
-                        $order_detail->delivery_date=DB::raw('NOW()');
+                        $order_detail->status = 0;
+                        $order_detail->delivery_date = DB::raw('NOW()');
                         $order_detail->save();
-                        if ($order_detail->product->type!='item') {
+                        if ($order_detail->product->type != 'item') {
                             switch ($order_detail->product->type) {
                                 case 'key':
-                                    $virtualProductsId=VirtualProductOrder::select('virtual_product_id')->where('order_id', $order->id)->get()->toArray();
+                                    $virtualProductsId = VirtualProductOrder::select('virtual_product_id')->where('order_id', $order->id)->get()->toArray();
                                     VirtualProduct::where('product_id', $order_detail->product_id)->whereIn('id', $virtualProductsId)->update(['status' => 'closed']);
                                     break;
                             }

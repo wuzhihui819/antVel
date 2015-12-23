@@ -1,31 +1,27 @@
-<?php namespace app\Http\Controllers;
+<?php
 
-/**
+namespace app\Http\Controllers;
+
+/*
  * Antvel - Free Products Controller
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\User;
-use App\UserAddress;
-use App\Product;
 use App\FreeProduct;
 use App\FreeProductOrder;
 use App\FreeProductParticipant;
+use App\Http\Controllers\Controller;
 use App\Order;
 use App\OrderDetail;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
+use App\Product;
+use App\User;
+use App\UserAddress;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Support\Facades\Validator;
 
 class FreeProductsController extends Controller
 {
@@ -41,9 +37,9 @@ class FreeProductsController extends Controller
         'draw_date'                   => 'required|date|after:end_date',
     ];
 
-    private $panel = array(
-                'center'=>['width'=>'12']
-            );
+    private $panel = [
+                'center' => ['width' => '12'],
+            ];
 
     /**
      * Display a listing of the resource.
@@ -53,15 +49,15 @@ class FreeProductsController extends Controller
     public function index(Request $request)
     {
         $user = \Auth::user();
-        $filter=$request->get('filter');
-        if ($filter && $filter!='') {
+        $filter = $request->get('filter');
+        if ($filter && $filter != '') {
             switch (strtolower($filter)) {
                 case 'active': $freeproducts = FreeProduct::getListWithPaginate(8, 1); break;
                 case 'inactive': $freeproducts = FreeProduct::getListWithPaginate(8, 0); break;
                 case 'participations':
                     //$userholdings = FreeProductParticipant::where('user_id', $user->id)->select('freeproduct_id')->get()->toArray();
                     //$freeproducts=FreeProduct::whereIn('id', $userholdings)->with('orders')->paginate(8);
-                    $freeproducts=FreeProduct::with('orders')
+                    $freeproducts = FreeProduct::with('orders')
                                     ->join('freeproduct_participants as p', function ($join) {
                                         $join->on('freeproducts.id', '=', 'p.freeproduct_id')
                                         ->where('p.user_id', '=', \Auth::user()->id);
@@ -80,6 +76,7 @@ class FreeProductsController extends Controller
 
         $panel = $this->panel;
         $route = route('freeproducts.search');
+
         return view('freeproducts.index', compact('panel', 'freeproducts', 'filter', 'route'));
     }
 
@@ -100,7 +97,7 @@ class FreeProductsController extends Controller
             }
 
             //You can create free product from a sort order cart or wish list
-            if (($order->type != 'cart')&&($order->type != 'wishlist')) {
+            if (($order->type != 'cart') && ($order->type != 'wishlist')) {
                 return redirect()->route('orders.show_cart', [$order->id])->withErrors(trans('freeproduct.order_type_invalid'));
             }
 
@@ -114,11 +111,12 @@ class FreeProductsController extends Controller
                 $total_points += $orderDetail->quantity * $product->price;
             }
             if ($user->current_points < $total_points) {
-                return redirect()->route('orders.show_cart')->withErrors(array('main_error'=>array(trans('store.cart_view.insufficient_funds'))));
+                return redirect()->route('orders.show_cart')->withErrors(['main_error' => [trans('store.cart_view.insufficient_funds')]]);
             }
 
             $jsonOrder = json_encode($order_content->toArray());
-            $panel=$this->panel;
+            $panel = $this->panel;
+
             return view('freeproducts.create', compact('jsonOrder', 'panel', 'orderId'));
         } else {
             return redirect()->route('products')->withErrors(trans('freeproduct.unauthorized_access'));
@@ -199,19 +197,22 @@ class FreeProductsController extends Controller
 
                     //Send message process Ok and redirect
                     Session::flash('message', trans('freeproduct.saved_successfully'));
+
                     return redirect()->route('freeproducts.show', [$freeproduct->id]);
                 }
             }
         } catch (ModelNotFoundException $e) {
             Log::error($e);
-            return redirect()->back()->withErrors(array('induced_error'=>array(trans('freeproduct.error_exception'))))->withInput();
+
+            return redirect()->back()->withErrors(['induced_error' => [trans('freeproduct.error_exception')]])->withInput();
         }
     }
 
     /**
-     * Return the product data free query view
+     * Return the product data free query view.
      *
-     * @param  int  $id of freeproduct
+     * @param int $id of freeproduct
+     *
      * @return View
      */
     public function show($id)
@@ -221,18 +222,21 @@ class FreeProductsController extends Controller
             //Get Total equity investments in the product user free
             $userholdings = FreeProductParticipant::MyParticipations($id)->count();
             $isParticipating = ($freeproduct->max_participations_per_user > $userholdings) ? 0 : 1;
-            $panel=$this->panel;
+            $panel = $this->panel;
 
             return view('freeproducts.show', compact('freeproduct', 'isParticipating', 'panel'));
         } else {
             Session::flash('message', trans('freeproduct.freeproduct_not_exist'));
+
             return redirect(route('products'));
         }
     }
 
     /**
-     * Subscription free product, validating the conditions and validity of the same
-     * @param  int  $id
+     * Subscription free product, validating the conditions and validity of the same.
+     *
+     * @param int $id
+     *
      * @return Response
      */
     public function suscribe($id)
@@ -271,13 +275,14 @@ class FreeProductsController extends Controller
                                     $newparticipant->save();
 
                                     //Report by email to the participant
-                                    $data = ['freeproduct_id'=>$id];
+                                    $data = ['freeproduct_id' => $id];
                                     Mail::queue('emails.freeproducts.participate', $data, function ($message) use ($user) {
                                         $message->to($user->email)->subject(trans('email.free_products_participation.subject'));
                                     });
 
                                     //It is sent to the view (dashboard) where the user can view their participation in it.
                                     Session::flash('message', trans('freeproduct.congratulations_participate'));
+
                                     return redirect()->route('freeproducts.show', [$freeproduct->id]);
                                 } else {
                                 }
@@ -300,38 +305,40 @@ class FreeProductsController extends Controller
             return redirect()->route('freeproducts.show', [$id]);
         } else {
             Session::flash('message', trans('freeproduct.freeproduct_not_exist'));
+
             return redirect(route('products'));
         }
     }
 
     public function myFreeProducts(Request $request)
     {
-        $filter=$request->get('filter');
+        $filter = $request->get('filter');
         $user = \Auth::user();
-        if ($filter && $filter!='') {
+        if ($filter && $filter != '') {
             switch (strtolower($filter)) {
-                case 'active': $freeproducts=FreeProduct::auth()->where('status', '1')->with('orders')->paginate(8); break;
-                case 'inactive': $freeproducts=FreeProduct::auth()->where('status', '0')->with('orders')->paginate(8); break;
+                case 'active': $freeproducts = FreeProduct::auth()->where('status', '1')->with('orders')->paginate(8); break;
+                case 'inactive': $freeproducts = FreeProduct::auth()->where('status', '0')->with('orders')->paginate(8); break;
                 case 'participations':
                     $userholdings = FreeProductParticipant::where('user_id', $user->id)->select('freeproduct_id')->get()->toArray();
-                    $freeproducts=FreeProduct::whereIn('id', $userholdings)->with('orders')->paginate(8);
+                    $freeproducts = FreeProduct::whereIn('id', $userholdings)->with('orders')->paginate(8);
                     break;
-                default: $freeproducts=FreeProduct::auth()->with('orders')->paginate(8); break;
+                default: $freeproducts = FreeProduct::auth()->with('orders')->paginate(8); break;
             }
         } else {
-            $freeproducts=FreeProduct::auth()->with('orders')->paginate(8);
+            $freeproducts = FreeProduct::auth()->with('orders')->paginate(8);
         }
 
-        $panel = array( 'left'=>['width'=>'2'],    'center'=>['width'=>'10']);
+        $panel = ['left' => ['width' => '2'],    'center' => ['width' => '10']];
         $route = route('freeproducts.my_free_products');
 
         return view('freeproducts.index', compact('panel', 'freeproducts', 'filter', 'route'));
     }
 
     /**
-     * build the free prodcuts tree where parent will be a free product and children are the products list associated
-     * @param [array] $select [array to ask for products table field]
-     * @param [integer] $limit [to control the request limit]
+     * build the free prodcuts tree where parent will be a free product and children are the products list associated.
+     *
+     * @param [array]   $select [array to ask for products table field]
+     * @param [integer] $limit  [to control the request limit]
      */
     public static function getParentAndChildren($select = ['id', 'description'], $limit = 5)
     {
@@ -343,7 +350,6 @@ class FreeProductsController extends Controller
             ->take($limit);
 
         $list = [];
-
 
         $events->each(function ($event) use (&$list, $select) {
             foreach ($select as $value) {
@@ -362,14 +368,14 @@ class FreeProductsController extends Controller
             unset($products);
         });
 
-
         return $list;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -380,7 +386,8 @@ class FreeProductsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function update($id)
@@ -391,7 +398,8 @@ class FreeProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)

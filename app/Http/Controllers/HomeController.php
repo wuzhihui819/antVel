@@ -1,17 +1,18 @@
-<?php namespace app\Http\Controllers;
+<?php
 
-/**
+namespace app\Http\Controllers;
+
+/*
  * Antvel - Home Controller
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-
+use App\FreeProduct;
+use App\Helpers\productsHelper;
+use App\Http\Controllers\Controller;
 use App\Order;
 use App\Product;
-use App\FreeProduct;
-use App\Http\Controllers\Controller;
-use App\Helpers\productsHelper;
 
 class HomeController extends Controller
 {
@@ -19,26 +20,26 @@ class HomeController extends Controller
     {
         $panel = [
             'center' => [
-                'width' => 10
+                'width' => 10,
             ],
             'left' => [
                 'width' => 2,
-                'class' => 'home-no-padding'
-            ]
+                'class' => 'home-no-padding',
+            ],
         ];
 
         $helperProd = new productsHelper();
 
         $carousel = $helperProd->suggest('carousel');
-        $viewed   = $helperProd->suggest('viewed', 8);
+        $viewed = $helperProd->suggest('viewed', 8);
         $categories = $helperProd->suggest('categories');
         $purchased = $helperProd->suggest('purchased');
 
         $suggestion = [
-            'carousel' => $carousel,
-            'viewed' => $viewed ,
+            'carousel'   => $carousel,
+            'viewed'     => $viewed,
             'categories' => $categories,
-            'purchased' => $purchased
+            'purchased'  => $purchased,
         ];
 
         $helperProd->resetHaystack(); //reseting session id validator
@@ -52,7 +53,7 @@ class HomeController extends Controller
                 'max_participants',
                 'participation_cost',
                 'start_date',
-                'end_date'
+                'end_date',
             ], 4, date('Y-m-d'));
         }
 
@@ -71,7 +72,7 @@ class HomeController extends Controller
             '/img/banner/01.png',
             '/img/banner/02.png',
             '/img/banner/03.png',
-            '/img/banner/04.png'
+            '/img/banner/04.png',
         ];
 
         // $this->createTags();
