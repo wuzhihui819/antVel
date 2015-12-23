@@ -2,31 +2,30 @@
 
 /**
  * Antvel - Seeder
- * Logs Table
+ * Logs Table.
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
-
-use Illuminate\Database\Seeder;
-use Faker\Factory as Faker;
 use App\ActionType;
 use App\Log;
 use App\User;
+use Faker\Factory as Faker;
+use Illuminate\Database\Seeder;
 
 class LogsTableSeeder extends Seeder
 {
     public function run()
     {
-        $faker=Faker::create();
-        $actions=ActionType::get();
-        $users=User::get();
+        $faker = Faker::create();
+        $actions = ActionType::get();
+        $users = User::get();
         #Category
         foreach (range(1, 20) as $void) {
             Log::create([
-                'user_id'=>$users->random(1)->id,
-                'action_type_id'=>$actions->random(1)->id,
-                'source_id'=>$faker->numberBetween(50, 1000000),
-                'details'=>$faker->text(50)
+                'user_id'        => $users->random(1)->id,
+                'action_type_id' => $actions->random(1)->id,
+                'source_id'      => $faker->numberBetween(50, 1000000),
+                'details'        => $faker->text(50),
             ]);
         }
     }

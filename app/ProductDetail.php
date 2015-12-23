@@ -1,6 +1,8 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Product Detail Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
@@ -27,7 +29,7 @@ class ProductDetail extends Model
         'helpMessageArray',
         'defaultValuesArray',
         'validationRulesArray',
-        'upperName'
+        'upperName',
     ];
     protected $fillable = [
         'name',
@@ -37,7 +39,7 @@ class ProductDetail extends Model
         'help_message',
         'type_products',
         'max_num_values',
-        'status'
+        'status',
     ];
 
     public function product()
@@ -52,69 +54,76 @@ class ProductDetail extends Model
 
     public function getIndexByNameAttribute()
     {
-        return str_replace(" ", "", $this->name);
+        return str_replace(' ', '', $this->name);
     }
+
     public function getHelpMessageArrayAttribute()
     {
         return json_decode($this->help_message, true);
     }
+
     public function getDefaultValuesArrayAttribute()
     {
         return json_decode($this->default_values, true);
     }
+
     public function getValidationRulesArrayAttribute()
     {
         return json_decode($this->validation_rules, true);
     }
+
     public function getUpperNameAttribute()
     {
         return ucwords($this->name);
     }
 
     /**
-    * organize old data for the product form
-    *   @param [array] old product features or empty array
-    *   @return array
-    */
+     * organize old data for the product form.
+     *
+     *   @param [array] old product features or empty array
+     *
+     *   @return array
+     */
     public static function oldFeatures($productFeatures)
     {
-        $return=[];
+        $return = [];
 
         foreach (self::all() as $row) {
             if (isset($productFeatures[$row->indexByName])) {
                 $value = $productFeatures[$row->indexByName];
 
-                if ($row->max_num_values*1==1) {
+                if ($row->max_num_values * 1 == 1) {
                     if (is_array($value[0])) {
-                        $return['feature_'.$row->indexByName]=$value[0][0];
+                        $return['feature_'.$row->indexByName] = $value[0][0];
                     } elseif (is_array($value)) {
-                        $return['feature_'.$row->indexByName]=$value[0];
+                        $return['feature_'.$row->indexByName] = $value[0];
                     } else {
-                        $return['feature_'.$row->indexByName]=$value;
+                        $return['feature_'.$row->indexByName] = $value;
                     }
                 } else {
-                    for ($i=0;$i<=$row->max_num_values;$i++) {
+                    for ($i = 0; $i <= $row->max_num_values; $i++) {
                         if (isset($value[$i])) {
                             if (is_array($value[$i])) {
-                                $return['feature_'.$row->indexByName.'_'.($i+1)]=$value[$i][0];
+                                $return['feature_'.$row->indexByName.'_'.($i + 1)] = $value[$i][0];
                             } else {
-                                $return['feature_'.$row->indexByName.'_'.($i+1)]=$value[$i];
+                                $return['feature_'.$row->indexByName.'_'.($i + 1)] = $value[$i];
                             }
                         } else {
-                            $return['feature_'.$row->indexByName.'_'.($i+1)]='';
+                            $return['feature_'.$row->indexByName.'_'.($i + 1)] = '';
                         }
                     }
                 }
             } else {
-                if ($row->max_num_values*1==1) {
-                    $return['feature_'.$row->indexByName]='';
+                if ($row->max_num_values * 1 == 1) {
+                    $return['feature_'.$row->indexByName] = '';
                 } else {
-                    for ($i=1;$i<=$row->max_num_values;$i++) {
-                        $return['feature_'.$row->indexByName.'_'.$i]='';
+                    for ($i = 1; $i <= $row->max_num_values; $i++) {
+                        $return['feature_'.$row->indexByName.'_'.$i] = '';
                     }
                 }
             }
         }
+
         return $return;
     }
 }

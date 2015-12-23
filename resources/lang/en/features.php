@@ -1,4 +1,5 @@
 <?php
+
 return [
    'one_is_required'           => '(at less one image is required)',
    'default_values'            => 'default values',
@@ -31,34 +32,34 @@ return [
    'view_product_detail'       => 'View Product Detail',
    'view_product_form'         => 'View Product Form',
    //'only_numerical_values'     => 'only numerical values',
-   'is_invalid'                => 'is invalid',
-   'is_required'               => 'is required',
-   'validation_rules_numerical_validation_array'=>[
+   'is_invalid'                                  => 'is invalid',
+   'is_required'                                 => 'is required',
+   'validation_rules_numerical_validation_array' => [
       ''              => '',
       'maximum_value' => 'Maximum value',
       'minimum_value' => 'Minimum value',
-      'range_values'  => 'Range of values'
+      'range_values'  => 'Range of values',
    ],
-   'validation_rules_number_characters_array'=>[
+   'validation_rules_number_characters_array' => [
       ''                   => '',
       'maximum_characters' => 'Maximum characters',
       'minimum_characters' => 'Minimum characters',
       'character_range'    => 'Character range',
    ],
-   'validation_rules_type_data_array'=>[
+   'validation_rules_type_data_array' => [
       ''             => '',
       'alphanumeric' => 'Alphanumeric',
       'letters'      => 'letters',
       'numeric'      => 'numeric',
       // 'personalized_value' => 'Personalized according to the value',
    ],
-   'validation_rules_array'=>[
+   'validation_rules_array' => [
       ''                => '',
       'all_required'    => 'All required',
       'one_required'    => 'At least one required',
       'required_number' => 'Required number of securities',
    ],
-   'validation_rules__msg_help_array'=>[
+   'validation_rules__msg_help_array' => [
       'msg_help_all_required'       => 'All values of this feature are required',
       'msg_help_alphanumeric'       => 'All values are alphanumeric',
       'msg_help_character_range'    => 'Specify the range of characters',
@@ -73,39 +74,39 @@ return [
       'msg_help_range_values'       => 'Specify the range of possible values',
       'msg_help_required_number'    => 'It required a value if the next value is specified',
    ],
-   'default_values_array'=>[
+   'default_values_array' => [
       ''                     => '',
       'general'              => 'General',
       'specific_data'        => 'By specific data',
       'custom_General'       => 'Custom General',
-      'custom_specific_data' => 'Custom for specific data'
+      'custom_specific_data' => 'Custom for specific data',
    ],
-   'default_values_msg_help_array'=>[
+   'default_values_msg_help_array' => [
       'msg_help_checkbox_data'        => 'Separate them with bar "|", or specify the name of the helper method, the method must be preprogrammed',
       // 'msg_help_checkbox_data'        => 'Separate them with commas, or specify the name of the helper method, the method must be preprogrammed',
       'msg_help_custom_General'       => 'Values to be selected with special behavior or defined in the code',
       'msg_help_custom_specific_data' => 'Values to be selected with special behavior or defined in the code for each data (minimum number of values = 2)',
       'msg_help_general'              => 'Values to select',
       'msg_help_specific_data'        => 'To select values for each data (minimum number of values = 2)',
-      'msg_help_repeat_values'       => 'Default data for value No.'
+      'msg_help_repeat_values'        => 'Default data for value No.',
    ],
-   'help_messages_array'=>[
+   'help_messages_array' => [
       ''                   => '',
       'general'            => 'General',
       'specific'           => 'Specific',
       'general_selection'  => 'General selection',
       'specific_selection' => 'Specific selection',
    ],
-   'help_messages_msg_help_array'=>[
-      'msg_help_general'            => 'A unique message for the attribute',
-      'msg_help_general_selection'  => 'Enter a group of messages separated by bars "|", which will be the options the user can choose for this attribute.',
-      'msg_help_help_messages'      => 'Help messages can complete the information representing the attribute data (eg for weight attribute the help message can be, grams, kilograms, pounds, ounces).',
-      'msg_help_specific'           => 'A message for each of the attribute values',
-      'msg_help_specific_selection' => 'Log groups of  messages  separated by bars "|", which will be the options the user can choose for each of the attribute values.',
-      'msg_help_type_message'       => 'It represents the different ways to view help messages, in the form of product and the other views.',
+   'help_messages_msg_help_array' => [
+      'msg_help_general'             => 'A unique message for the attribute',
+      'msg_help_general_selection'   => 'Enter a group of messages separated by bars "|", which will be the options the user can choose for this attribute.',
+      'msg_help_help_messages'       => 'Help messages can complete the information representing the attribute data (eg for weight attribute the help message can be, grams, kilograms, pounds, ounces).',
+      'msg_help_specific'            => 'A message for each of the attribute values',
+      'msg_help_specific_selection'  => 'Log groups of  messages  separated by bars "|", which will be the options the user can choose for each of the attribute values.',
+      'msg_help_type_message'        => 'It represents the different ways to view help messages, in the form of product and the other views.',
       'msg_help_repeat_values'       => 'Message to the value No.',
    ],
-   'validation_messages'=>[
+   'validation_messages' => [
       'status.in'                        => 'Invalid status',
       'name.required'                    => 'The name is required',
       'input_type.required'              => 'Input type is required',
@@ -122,6 +123,6 @@ return [
       'start_value_characters.numeric'   => 'The number of characters must be numeric',
       'end_value_characters.required_if' => 'The maximum number of characters required',
       'end_value_characters.numeric'     => 'The maximum number of characters must be a number',
-      'type_message.in'                  => 'Type message is invalid'
-   ]
+      'type_message.in'                  => 'Type message is invalid',
+   ],
 ];

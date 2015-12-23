@@ -2,13 +2,12 @@
 
 /**
  * Antvel - Data Base
- * Person Table
+ * Person Table.
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
-
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreatePersonsTable extends Migration
 {

@@ -1,16 +1,16 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Products Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-use Nicolaslopezj\Searchable\SearchableTrait;
-use App\Eloquent\Model;
-use App\Helpers\ColorsHelper;
-use App\ProductDetail;
 use App\Category;
+use App\Eloquent\Model;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Product extends Model
 {
@@ -43,28 +43,29 @@ class Product extends Model
         //'currency',
         'low_stock',
         'status',
-        'parent_id'
+        'parent_id',
     ];
 
     /**
-     * Columns for search rules
+     * Columns for search rules.
+     *
      * @var array
      */
     protected $searchable = [
         'columns' => [
-            'name' => 100,
+            'name'        => 100,
             'description' => 500,
-            'features' => 255,
-            'brand' => 30,
-            'tags' => 255
-        ]
+            'features'    => 255,
+            'brand'       => 30,
+            'tags'        => 255,
+        ],
     ];
 
     // protected $casts = ['features'];
 
 //	protected $appends = ['last_comments'];
 
-    protected $hidden = ['details','created_at'];
+    protected $hidden = ['details', 'created_at'];
 
     public function details()
     {
@@ -88,9 +89,10 @@ class Product extends Model
 
     public static function create(array $attr = [])
     {
-        if (isset($attr['features'])&&is_array($attr['features'])) {
-            $attr['features']=json_encode($attr['features']);
+        if (isset($attr['features']) && is_array($attr['features'])) {
+            $attr['features'] = json_encode($attr['features']);
         }
+
         return parent::create($attr);
     }
 
@@ -102,6 +104,7 @@ class Product extends Model
     public function getFirstImageAttribute()
     {
         $features_array = $this->features;
+
         return $features_array['images'][0];
     }
 
@@ -123,42 +126,37 @@ class Product extends Model
 
     public function scopeRefine($query, $filters)
     {
-        foreach ($filters as $key => $value)
-        {
+        foreach ($filters as $key => $value) {
             switch ($key) {
                 case 'category':
                     $children = \Cache::remember('progeny_of_'.$value, 15, function () use ($value) {
                         Category::progeny($value, $children, ['id']);
+
                         return $children;
                     });
-                    $children[] = ["id" => $value*1];
+                    $children[] = ['id' => $value * 1];
                     $query->whereIn('category_id', $children);
                 break;
 
                 case 'conditions':
-                    $query->where('condition', 'LIKE' , $value);
+                    $query->where('condition', 'LIKE', $value);
                 break;
 
                 case 'brands':
-                   $query->where('brand', 'LIKE' , $value);
+                   $query->where('brand', 'LIKE', $value);
                 break;
 
                 case 'min':
                 case 'max':
-                    $min = array_key_exists('min', $filters) ? (trim($filters['min'])!='' ? $filters['min'] : '') : '';
-                    $max = array_key_exists('max', $filters) ? (trim($filters['max'])!='' ? $filters['max'] : '') : '';
+                    $min = array_key_exists('min', $filters) ? (trim($filters['min']) != '' ? $filters['min'] : '') : '';
+                    $max = array_key_exists('max', $filters) ? (trim($filters['max']) != '' ? $filters['max'] : '') : '';
 
-                    if ($min != '' && $max != '')
-                    {
+                    if ($min != '' && $max != '') {
                         $query->whereBetween('price', [$min, $max]);
-                    }
-                    elseif ($min == '' && $max != '')
-                    {
-                        $query->where('price', '<=',  $max);
-                    }
-                    elseif ($min != '' && $max == '')
-                    {
-                        $query->where('price', '>=',  $min);
+                    } elseif ($min == '' && $max != '') {
+                        $query->where('price', '<=', $max);
+                    } elseif ($min != '' && $max == '') {
+                        $query->where('price', '>=', $min);
                     }
                 break;
 
@@ -169,7 +167,7 @@ class Product extends Model
                         $value = urldecode($value);
 
                         //applying filter to json field
-                        $query->whereRaw("features LIKE '%\"".$key."\":%\"%".str_replace('/','%',$value)."%\"%'");
+                        $query->whereRaw("features LIKE '%\"".$key.'":%"%'.str_replace('/', '%', $value)."%\"%'");
                     }
                 break;
             }
@@ -182,17 +180,20 @@ class Product extends Model
             $query->where('name', 'LIKE', "%$input%");
         }
     }
+
     public function scopeType($query, $input)
     {
-        if (count($input)>0) {
+        if (count($input) > 0) {
             $query->whereIn('category_id', $input);
         }
     }
+
     public function getStatusLettersAttribute()
     {
-        if ($this->status==0) {
+        if ($this->status == 0) {
             return trans('globals.inactive');
         }
+
         return trans('globals.active');
     }
 
@@ -204,12 +205,13 @@ class Product extends Model
     }
 
     /**
-     * Products tags filter
-     * @param  [object] $query, which is the laravel builder
-     * @param  [string] $attr, which is used to evaluate the where In (categories requiered)
-     * @param  [array] $data, which is the info to be evaluated
+     * Products tags filter.
+     *
+     * @param [object] $query, which is the laravel builder
+     * @param [string] $attr,  which is used to evaluate the where In (categories requiered)
+     * @param [array]  $data,  which is the info to be evaluated
      */
-    public function scopeLike($query, $attr=[], $search=[])
+    public function scopeLike($query, $attr = [], $search = [])
     {
         #if the search contains a string of words, we split them in an array
         if (!is_array($search)) {
@@ -219,11 +221,11 @@ class Product extends Model
         $needle = '(';
 
         if (!is_array($attr)) {
-            $attr=[$attr];
+            $attr = [$attr];
         }
         foreach ($attr as $key) {
             foreach ($search as $word) {
-                if (trim($word)!='') {
+                if (trim($word) != '') {
                     $needle .= $key." like '%".$word."%' or ";
                 }
             }
@@ -237,10 +239,11 @@ class Product extends Model
     }
 
     /**
-     * categories filter
-     * @param  [object] $query, which is the laravel builder
-     * @param  [string] $attr, which is used to evaluate the where In (categories requiered)
-     * @param  [array] $data, which is the info to be evaluated
+     * categories filter.
+     *
+     * @param [object] $query, which is the laravel builder
+     * @param [string] $attr,  which is used to evaluate the where In (categories requiered)
+     * @param [array]  $data,  which is the info to be evaluated
      */
     public function scopeInCategories($query, $attr, $data = [])
     {
@@ -249,6 +252,7 @@ class Product extends Model
         } elseif (isset($data['category'])) {
             $query->where($attr, '=', $data['category']);
         }
+
         return $query;
     }
 

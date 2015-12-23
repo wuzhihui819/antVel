@@ -1,16 +1,16 @@
 <?php
 
 return [
-   'icono'            =>'Icono',
-   'no_father'        =>'Main',
-   'parent_category'  =>'Parent Category',
-   'insert_message'   =>'Category saved successfully.',
-   'update_message'   =>'Category updated successfully.',
-   'product_category' =>'Product Category',
-   'select_icon'      =>'Select Icon',
-   'registration_category'     =>'Create Category',
-   'update_title'     =>'Update Category',
-   'class_icons'=>   [
+   'icono'                     => 'Icono',
+   'no_father'                 => 'Main',
+   'parent_category'           => 'Parent Category',
+   'insert_message'            => 'Category saved successfully.',
+   'update_message'            => 'Category updated successfully.',
+   'product_category'          => 'Product Category',
+   'select_icon'               => 'Select Icon',
+   'registration_category'     => 'Create Category',
+   'update_title'              => 'Update Category',
+   'class_icons'               => [
          'fui-alert-circle',
          'fui-android',
          'fui-apple',

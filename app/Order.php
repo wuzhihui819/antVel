@@ -1,22 +1,23 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Order Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-use App\Http\Controllers\UserController as UserController;
+use App\Address;
+use App\Eloquent\Model;
 use App\Http\Controllers\ProductsController as ProductsController;
+use App\Http\Controllers\UserController as UserController;
+use App\Log;
+use App\Notice;
 use App\OrderDetail;
 use App\Product;
-use App\Log;
-use App\Address;
-use App\Notice;
 use App\UserAddress;
-use App\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
 
 class Order extends Model
 {
@@ -59,34 +60,36 @@ class Order extends Model
         return $this->belongsToMany('App\FreeProduct')->withTimestamps();
     }
 
-
     public static function create(array $options = [])
     {
         #separate order details
-        $details=[];
+        $details = [];
         if (isset($options['details'])) {
-            $details=$options['details'];
+            $details = $options['details'];
         }
         if (isset($options['detail'])) {
-            $details[]=$options['detail'];
+            $details[] = $options['detail'];
         }
         unset($options['detail'], $options['details']);
-        $order=parent::create($options);
+        $order = parent::create($options);
         if (count($details)) {
             $order->inDetail()->saveMany(OrderDetail::createModels($details));
         }
+
         return $order;
     }
-    public function save(array $options = array())
+
+    public function save(array $options = [])
     {
-        $status_changed=(isset($this->original['status'])&&$this->attributes['status']!=$this->original['status'])||(isset($options['status'])&&$this->attributes['status']!=$options['status']);
-        $saved=parent::save($options);
+        $status_changed = (isset($this->original['status']) && $this->attributes['status'] != $this->original['status']) || (isset($options['status']) && $this->attributes['status'] != $options['status']);
+        $saved = parent::save($options);
         if ($saved) {
             $this->createLog();
             if ($status_changed) {
                 $this->sendNotice();
             }
         }
+
         return $saved;
     }
 
@@ -107,64 +110,66 @@ class Order extends Model
 
     public function createLog()
     {
-        $actions=[];
+        $actions = [];
         foreach (trans('globals.action_types') as $value) {
-            if ($value['source_type']=='order') {
-                $actions[$value['action']]=$value['id'];
+            if ($value['source_type'] == 'order') {
+                $actions[$value['action']] = $value['id'];
             }
         }
 
         if (isset($actions[$this->status])) {
             Log::create([
-            'action_type_id'=>$actions[$this->status],
-            'source_id'=>$this->id,
-            'user_id'=>$this->user_id,
-            'details'=>"Order #$this->id $this->status",
+            'action_type_id' => $actions[$this->status],
+            'source_id'      => $this->id,
+            'user_id'        => $this->user_id,
+            'details'        => "Order #$this->id $this->status",
         ]);
         }
+
         return $this;
     }
+
     public function sendNotice()
     {
-        if (!empty($this->seller_id)&&!empty($this->user_id)&&$this->type=='order') {
+        if (!empty($this->seller_id) && !empty($this->user_id) && $this->type == 'order') {
             switch ($this->status) {
             case 'open':
                 Notice::create([
-                    'action_type_id'=>1,
-                    'source_id'=>$this->id,
-                    'user_id'=>$this->seller_id,
-                    'sender_id'=>$this->user_id,
+                    'action_type_id' => 1,
+                    'source_id'      => $this->id,
+                    'user_id'        => $this->seller_id,
+                    'sender_id'      => $this->user_id,
                 ]);
             break;
             case 'pending':
                 Notice::create([
-                    'action_type_id'=>2,
-                    'source_id'=>$this->id,
-                    'user_id'=>$this->user_id,
-                    'sender_id'=>$this->seller_id,
+                    'action_type_id' => 2,
+                    'source_id'      => $this->id,
+                    'user_id'        => $this->user_id,
+                    'sender_id'      => $this->seller_id,
                 ]);
             break;
             case 'closed':
                 Notice::create([
-                    'action_type_id'=>8,
-                    'source_id'=>$this->id,
-                    'user_id'=>$this->seller_id,
-                    'sender_id'=>$this->user_id,
+                    'action_type_id' => 8,
+                    'source_id'      => $this->id,
+                    'user_id'        => $this->seller_id,
+                    'sender_id'      => $this->user_id,
                 ]);
             break;
             case 'cancelled':
                 Notice::create([
-                    'action_type_id'=>9,
-                    'source_id'=>$this->id,
-                    'users'=>[$this->seller_id, $this->user_id],
+                    'action_type_id' => 9,
+                    'source_id'      => $this->id,
+                    'users'          => [$this->seller_id, $this->user_id],
                 ]);
             break;
             case 'sent':
                 Notice::create([
-                    'action_type_id'=>11,
-                    'source_id'=>$this->id,
-                    'user_id'=>$this->user_id,
-                    'sender_id'=>$this->seller_id,
+                    'action_type_id' => 11,
+                    'source_id'      => $this->id,
+                    'user_id'        => $this->user_id,
+                    'sender_id'      => $this->seller_id,
                 ]);
             break;
         }
@@ -172,7 +177,6 @@ class Order extends Model
         // $this->sendMail();
         return $this;
     }
-
 
     public function sendMail()
     {
@@ -183,7 +187,7 @@ class Order extends Model
                 $buyer_user = User::findOrFail($this->user_id);
                 $email = $buyer_user->email;
                 $email_message = trans('email.status_changed.changed_to_pending');
-                $subject=trans('email.status_changed.subject1').$this->id.' '.trans('email.status_changed.subject2').' '.trans('store.pending');
+                $subject = trans('email.status_changed.subject1').$this->id.' '.trans('email.status_changed.subject2').' '.trans('store.pending');
             break;
             case 'closed':
                 //Sends the buyer a mail to notify that the Order is Closed
@@ -191,7 +195,7 @@ class Order extends Model
                 $seller_user = User::findOrFail($this->seller_id);
                 $email = $seller_user->email;
                 $email_message = trans('email.status_changed.changed_to_closed');
-                $subject=trans('email.status_changed.subject1').$this->id.' '.trans('email.status_changed.subject2').' '.trans('store.closed');
+                $subject = trans('email.status_changed.subject1').$this->id.' '.trans('email.status_changed.subject2').' '.trans('store.closed');
             break;
             case 'sent':
                 //Sends the user a mail to notify that the order is Sent
@@ -202,12 +206,12 @@ class Order extends Model
                 $subject = trans('email.status_changed.subject1').$this->id.' '.trans('email.status_changed.subject2').' '.trans('store.sent');
             break;
         }
-        $data=[
-            'order_id'=>$this->id,
-            'email'=>$email,
-            'email_message'=>$email_message,
-            'new_status'=>$this->status,
-            'subject'=>$subject,
+        $data = [
+            'order_id'      => $this->id,
+            'email'         => $email,
+            'email_message' => $email_message,
+            'new_status'    => $this->status,
+            'subject'       => $subject,
         ];
         if (isset($template)) {
             Mail::queue($template, $data, function ($message) use ($data) {
@@ -217,14 +221,15 @@ class Order extends Model
     }
 
     /**
-     * Start the checkout process for any type of order
+     * Start the checkout process for any type of order.
      *
-     * @param  int  $type_order Type of order to be processed
+     * @param int $type_order Type of order to be processed
+     *
      * @return Response
      */
     public static function placeOrders($type_order)
     {
-        $cart = Order::ofType($type_order)->auth()->whereStatus('open')->orderBy('id', 'desc')->first();
+        $cart = self::ofType($type_order)->auth()->whereStatus('open')->orderBy('id', 'desc')->first();
 
         $show_order_route = ($type_order == 'freeproduct') ? 'freeproducts.show' : 'orders.show_cart';
 
@@ -250,7 +255,7 @@ class Order extends Model
         //and set the order prices to the current ones if different
         //Creates the lists or sellers to send mail to
         $total_points = 0;
-        $seller_email = array();
+        $seller_email = [];
         foreach ($cartDetail as $orderDetail) {
             $product = Product::find($orderDetail->product_id);
             $seller = User::find($product->user_id);
@@ -258,13 +263,13 @@ class Order extends Model
                 $seller_email[] = $seller->email;
             }
             $total_points += $orderDetail->quantity * $product->price;
-            if ($orderDetail->price <> $product->price) {
+            if ($orderDetail->price != $product->price) {
                 $orderDetail->price = $product->price;
                 $orderDetail->save();
             }
-            if ($product->type!='item') {
-                $virtual=VirtualProduct::where('product_id', $orderDetail->product_id)->get();
-                $first=$virtual->first();
+            if ($product->type != 'item') {
+                $virtual = VirtualProduct::where('product_id', $orderDetail->product_id)->get();
+                $first = $virtual->first();
                 //$first=null;
                 //foreach ($virtual as $row){
                     //$first=$row;
@@ -272,10 +277,10 @@ class Order extends Model
                 //}
                 switch ($product->type) {
                     case 'key': case 'software_key':
-                        $virtualOrder=VirtualProductOrder::where('virtual_product_id', $first->id)
+                        $virtualOrder = VirtualProductOrder::where('virtual_product_id', $first->id)
                                                          ->where('order_id', $orderDetail->order_id)
                                                          ->where('status', 1)->get();
-                        if ((count($virtual)-1)<count($virtualOrder)) {
+                        if ((count($virtual) - 1) < count($virtualOrder)) {
                             return trans('store.insufficientStock');
                         }
                     break;
@@ -300,19 +305,18 @@ class Order extends Model
             $pointsModified = true;
         }
 
-
         if ($pointsModified) {
             //Separate the order for each seller
             //Looks for all the different sellers in the cart
             $sellers = [];
             foreach ($cartDetail as $orderDetail) {
                 if (!in_array($orderDetail->product->user_id, $sellers)) {
-                    $sellers[]=$orderDetail->product->user_id;
+                    $sellers[] = $orderDetail->product->user_id;
                 }
             }
             foreach ($sellers as $seller) {
                 //Creates a new order and address for each seller
-                $newOrder = new Order();
+                $newOrder = new self();
                 $newOrder->user_id = $user->id;
                 $newOrder->address_id = $address->id;
                 $newOrder->status = ($type_order == 'freeproduct') ? 'paid' : 'open';
@@ -331,7 +335,7 @@ class Order extends Model
                     ProductsController::setCounters($orderDetail->product, ['sale_counts' => trans('globals.product_value_counters.sale')], 'orders');
 
                     //saving tags in users preferences
-                    if (trim($orderDetail->product->tags)!='') {
+                    if (trim($orderDetail->product->tags) != '') {
                         UserController::setPreferences('product_purchased', explode(',', $orderDetail->product->tags));
                     }
                 }
@@ -343,19 +347,19 @@ class Order extends Model
                 $product = Product::find($orderDetail->product_id);
                 $product->stock = $product->stock - $orderDetail->quantity;
                 $product->save();
-                if ($product->type!='item') {
-                    $virtual=VirtualProduct::where('product_id', $orderDetail->product_id)->where('status', 'open')->get();
+                if ($product->type != 'item') {
+                    $virtual = VirtualProduct::where('product_id', $orderDetail->product_id)->where('status', 'open')->get();
                     switch ($product->type) {
                         case 'key':
-                            $first=VirtualProduct::where('product_id', $orderDetail->product_id)->where('status', 'cancelled')->first();
+                            $first = VirtualProduct::where('product_id', $orderDetail->product_id)->where('status', 'cancelled')->first();
                             foreach ($virtual as $row) {
-                                $virtualOrder=VirtualProductOrder::where('order_id', $cart->id)->where('virtual_product_id', $first->id)->where('status', 1)->first();
+                                $virtualOrder = VirtualProductOrder::where('order_id', $cart->id)->where('virtual_product_id', $first->id)->where('status', 1)->first();
                                 if ($virtualOrder) {
-                                    $virtualOrder->virtual_product_id=$row->id;
-                                    $virtualOrder->order_id=$orderDetail->order_id;
-                                    $virtualOrder->status=2;
+                                    $virtualOrder->virtual_product_id = $row->id;
+                                    $virtualOrder->order_id = $orderDetail->order_id;
+                                    $virtualOrder->status = 2;
                                     $virtualOrder->save();
-                                    $row->status='paid';
+                                    $row->status = 'paid';
                                     $row->save();
                                 } else {
                                     break;
@@ -367,24 +371,25 @@ class Order extends Model
                 }
             }
             foreach ($seller_email as $email) {
-                $mailed_order = Order::where('id', $newOrder->id)->with('details')->get()->first();
+                $mailed_order = self::where('id', $newOrder->id)->with('details')->get()->first();
 
                 //Send a mail to the user: Order has been placed
                 $data = [
-                    'orderId'=>$newOrder->id,
-                    'order'=>$mailed_order,
+                    'orderId' => $newOrder->id,
+                    'order'   => $mailed_order,
                 ];
                 //dd($data['order']->details,$newOrder->id);
-                $title=trans('email.new_order_for_user.subject')." (#$newOrder->id)";
+                $title = trans('email.new_order_for_user.subject')." (#$newOrder->id)";
                 Mail::queue('emails.neworder', compact('data', 'title'), function ($message) use ($user) {
                     $message->to($user->email)->subject(trans('email.new_order_for_user.subject'));
                 });
                 //Send a mail to the seller: Order has been placed
-                $title=trans('email.new_order_for_seller.subject')." (#$newOrder->id)";
+                $title = trans('email.new_order_for_seller.subject')." (#$newOrder->id)";
                 Mail::queue('emails.sellerorder', compact('data', 'title'), function ($message) use ($email) {
                     $message->to($email)->subject(trans('email.new_order_for_seller.subject'));
                 });
             }
+
             return;
         } else {
             return trans('store.insufficientFunds');

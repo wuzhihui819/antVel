@@ -3,7 +3,7 @@
 //////TEMPLATES
 
 return [
-   'refund' => "Returns
+   'refund' => 'Returns
 
 Our policy lasts 30 days. If 30 days have gone by since your purchase, unfortunately we can’t offer you a refund or exchange.
 
@@ -55,9 +55,9 @@ You will be responsible for paying for your own shipping costs for returning you
 Depending on where you live, the time it may take for your exchanged product to reach you, may vary.
 
 If you are shipping an item over $75, you should consider using a trackable shipping service or purchasing shipping insurance. We don’t guarantee that we will receive your returned item.
-",
+',
 
-'privacy' => "PRIVACY STATEMENT
+'privacy' => 'PRIVACY STATEMENT
 
 
 
@@ -183,7 +183,7 @@ If you would like to: access, correct, amend or delete any personal information 
 [[ [  Address ] ] [ [ City ] ] [ [ State ] ] [ [ Country ] ] [ [ PostCode ] ]]
 
 ----
-",
+',
 
 'terms' => "TERMS OF SERVICE
 

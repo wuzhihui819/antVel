@@ -1,6 +1,8 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Log Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
@@ -17,11 +19,11 @@ class Log extends Model
      */
     protected $table = 'logs';
 
-    protected $fillable = [ 'action_type_id', 'details', 'source_id', 'user_id' ];
+    protected $fillable = ['action_type_id', 'details', 'source_id', 'user_id'];
 
-    protected $appends = [ 'source_type', 'action_type' ];
+    protected $appends = ['source_type', 'action_type'];
 
-    protected $hidden = [ 'action', 'source' ];
+    protected $hidden = ['action', 'source'];
 
     public function action()
     {

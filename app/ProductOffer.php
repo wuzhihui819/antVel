@@ -1,6 +1,8 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Products Offers Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
@@ -28,6 +30,6 @@ class ProductOffer extends Model
         'day_end',
         'percentage',
         'price',
-        'quantity'
+        'quantity',
     ];
 }

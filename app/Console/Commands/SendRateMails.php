@@ -1,13 +1,15 @@
-<?php namespace app\Console\Commands;
+<?php
+
+namespace app\Console\Commands;
 
 use App\Order;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class SendRateMails extends Command
 {
@@ -53,19 +55,19 @@ class SendRateMails extends Command
             ->where('updated_at', '<', Carbon::now()->subDays($days_to_wait))
             ->get();
         //$this->info(print_r(\DB::getQueryLog()));
-        $this->info("Orders That need mail: " . $orders->count());
+        $this->info('Orders That need mail: '.$orders->count());
         foreach ($orders as $order) {
-            $this->info("Order: " . $order->id . ' Needs to be rated, and mail has not been sent');
+            $this->info('Order: '.$order->id.' Needs to be rated, and mail has not been sent');
             $buyer = User::find($order->user_id);
 
             if ($buyer) {
                 $email = $buyer->email;
                 $mail_subject = trans('email.cron_emails.remind_rate_order_subject');
                 $data = [
-                    'email_message'=>$mail_subject,
-                    'email'=>$email,
-                    'subject'=>$mail_subject,
-                    'order_id'=>$order->id,
+                    'email_message' => $mail_subject,
+                    'email'         => $email,
+                    'subject'       => $mail_subject,
+                    'order_id'      => $order->id,
                 ];
                 Mail::queue('emails.cron.rate_order', $data, function ($message) use ($data) {
                     $message->to($data['email'])->subject($data['subject']);

@@ -1,14 +1,14 @@
-<?php namespace app\Http\Controllers;
+<?php
 
-/**
+namespace app\Http\Controllers;
+
+/*
  * Antvel - Admin Panel Controller
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class WpanelController extends Controller
 {
@@ -19,11 +19,10 @@ class WpanelController extends Controller
      */
     public function index()
     {
-        $panel=[
-            'left'=>['width'=>'2'],
-            'center'=>['width'=>'10']
+        $panel = [
+            'left'   => ['width' => '2'],
+            'center' => ['width' => '10'],
         ];
-
 
         return view('wpanel.home', compact('panel'));
     }
@@ -51,7 +50,8 @@ class WpanelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -62,7 +62,8 @@ class WpanelController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -73,7 +74,8 @@ class WpanelController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function update($id)
@@ -84,7 +86,8 @@ class WpanelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)

@@ -1,20 +1,20 @@
-<?php namespace app\Console\Commands;
+<?php
 
-use App\Product;
+namespace app\Console\Commands;
+
 use App\FreeProduct;
-use App\FreeProductOrder;
 use App\FreeProductParticipant;
 use App\Order;
 use App\OrderDetail;
+use App\Product;
 use App\User;
 use App\UserAddress;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class SelectWinnersFreeProducts extends Command
 {
@@ -51,14 +51,14 @@ class SelectWinnersFreeProducts extends Command
     {
         try {
             //Find all freeproducts that can be processed; that is, they are in the correct date range and are active.
-            $this->info("----- STARTING THE PROCESS FOR SELECTION OF WINNERS -----");
+            $this->info('----- STARTING THE PROCESS FOR SELECTION OF WINNERS -----');
             $dateactual = date('Y-m-d');
             $freeproducts = FreeProduct::where('status', 1)
                                 ->where('draw_date', $dateactual)
                                 ->get();
 
             if ($freeproducts) {
-                $this->info("Free Products to be processed: " . $freeproducts->count());
+                $this->info('Free Products to be processed: '.$freeproducts->count());
 
                 foreach ($freeproducts as $freeproduct) {
                     //Check the total participants. Depending on this the freeproduct be processed. Remember that there is a minimum of participation to select the winners. Still it not defined to do if the minimum is not met.
@@ -69,19 +69,19 @@ class SelectWinnersFreeProducts extends Command
 
                     if ($freeproduct->min_participants <= $participants->count()) {
                         //Select the winners, as defined in the product free draw_number field.
-                        $list_winners=[];
+                        $list_winners = [];
 
-                        for ($i=0; $i < $freeproduct->draw_number; $i++) {
-                            $user_winner=$participants->random(1);
+                        for ($i = 0; $i < $freeproduct->draw_number; $i++) {
+                            $user_winner = $participants->random(1);
                             $list_winners[] = $user_winner->user_id;
 
                             $user_winner->status = 'winner';
                             $user_winner->save();
                         }
 
-                        $this->info("Total winners -> ".count($list_winners));
+                        $this->info('Total winners -> '.count($list_winners));
                         //We mail to notify the winners and create an order for you to communicate with the seller of the product. The first is to list all the products contained in the orders associated with that freeproduct
-                        
+
                         //Collection Orders with Products in details
                         $orders = FreeProduct::find($freeproduct->id)->orders()->with('products')->get();
                         //Collection Products
@@ -90,17 +90,17 @@ class SelectWinnersFreeProducts extends Command
                             $list_products_orders = $list_products_orders->merge($order->products);
                         }
 
-                        $this->info("Total Products to prize: ".count($list_products_orders));
-                        $list_awards=[];
+                        $this->info('Total Products to prize: '.count($list_products_orders));
+                        $list_awards = [];
                         foreach ($list_winners as $user_id) {
                             $winner = User::find($user_id);
                             $this->info("Processing user -> ID=$winner->id ");
                             //In this part of the process, we should when creating the freeproduct, indicate how the prizes will be distributed, something like for position, and indicate that many products will be delivered by position. For now, a product be taken at random.
                             do {
-                                $product_award=$list_products_orders->random(1);
-                                $in_product_award_list=true;
+                                $product_award = $list_products_orders->random(1);
+                                $in_product_award_list = true;
                                 if (in_array($product_award->id, $list_awards)) {
-                                    $in_product_award_list=false;
+                                    $in_product_award_list = false;
                                 } else {
                                     $list_awards[] = $product_award->id;
                                     $this->info("Product selected-> ID=$product_award->id ");
@@ -133,36 +133,35 @@ class SelectWinnersFreeProducts extends Command
                             $product_award->save();
 
                             //Notify the user that was selected as winner of that freeproduct
-                            $data = ['product'=>$product_award];
+                            $data = ['product' => $product_award];
                             Mail::queue('emails.freeproducts.winner', $data, function ($message) use ($winner) {
                                 $message->to($winner->email)->subject(trans('email.free_products_winner.subject'));
                             });
-                            $this->info("email sent notice that won");
+                            $this->info('email sent notice that won');
                             //He also sent an email indicating that a new order was created.(tracking)
-                            $data = ['orderId'=>$newOrder->id];
+                            $data = ['orderId' => $newOrder->id];
                             Mail::queue('emails.neworder', $data, function ($message) use ($winner) {
                                 $message->to($winner->email)->subject(trans('email.new_order_for_user.subject'));
                             });
-                            $this->info("email I sent notice that an order for the product won");
+                            $this->info('email I sent notice that an order for the product won');
                         }
 
                         //Freeproduct inactive, so they do not take into account again for next draw
-                        $freeproduct->status=0;
+                        $freeproduct->status = 0;
                         $freeproduct->save();
 
                         //Se le notifica al dueno del freeproduct que se seleccionaron a los ganadores
-                        
-                        
+
                         $this->info("FreeProduct -> ID=$freeproduct->id PROCESSED");
                     } else {
                         $this->info("FreeProduct -> ID=$freeproduct->id The minimum participation condition for the free product does not comply.");
                     }
                 }
             }
-            $this->info("----- FINISHED THE PROCESS FOR SELECTION OF WINNERS -----");
+            $this->info('----- FINISHED THE PROCESS FOR SELECTION OF WINNERS -----');
         } catch (ModelNotFoundException $e) {
             Log::error($e);
-            $this->error("They received errors when running the process. View Log File.");
+            $this->error('They received errors when running the process. View Log File.');
         }
     }
 

@@ -1,19 +1,18 @@
-<?php namespace app\Http\Controllers;
+<?php
 
-/**
+namespace app\Http\Controllers;
+
+/*
  * Antvel - Addresses Controller
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\UserAddress;
 use App\Address;
+use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AddressesController extends Controller
@@ -26,17 +25,18 @@ class AddressesController extends Controller
         'zipcode'      => 'required|numeric|min:3',
         'city'         => 'required|string',
         'country'      => 'required',
-        'state'        => 'required|string'
+        'state'        => 'required|string',
     ];
 
     //Paneles por defecto Usuarios
-    private $view_panel = array(
-        'left'=>['width'=>'2','class'=>'user-panel'],
-        'center'=>['width'=>'10'],
-    );
+    private $view_panel = [
+        'left'   => ['width' => '2', 'class' => 'user-panel'],
+        'center' => ['width' => '10'],
+    ];
 
     /**
-     * Pasa todas las direcciones a default 0
+     * Pasa todas las direcciones a default 0.
+     *
      * @return [type] [description]
      */
     private function resetDefault()
@@ -45,9 +45,10 @@ class AddressesController extends Controller
     }
 
     /**
-     * Establece una direccion por defecto para el usuario
+     * Establece una direccion por defecto para el usuario.
+     *
      * @param Request $request [description]
-     * @param integer  $id      ID del usuario
+     * @param int     $id      ID del usuario
      */
     public function setDefault(Request $request)
     {
@@ -57,7 +58,7 @@ class AddressesController extends Controller
             ->where('id', $request->get('id'))
             ->update(['default' => 1]);
 
-        return \Response::json(['success'=>true, 'url' => '/user/address'], 200);
+        return \Response::json(['success' => true, 'url' => '/user/address'], 200);
     }
 
     /**
@@ -98,7 +99,7 @@ class AddressesController extends Controller
         $v = \Validator::make($request->all(), $this->form_rules);
 
         if ($v->fails()) {
-            return \Response::json(['success' => false, 'message'=>trans('address.error_validation'), 'class'=>'alert alert-danger']);
+            return \Response::json(['success' => false, 'message' => trans('address.error_validation'), 'class' => 'alert alert-danger']);
         }
 
         $this->resetDefault();
@@ -119,16 +120,18 @@ class AddressesController extends Controller
         if ($address) {
             \Session::put('message', trans('address.success_save'));
             \Session::save();
+
             return \Response::json(['success' => true, 'callback' => '/user/address']);
         } else {
-            return \Response::json(['success' => false, 'message'=>trans('address.error_updating'), 'class'=>'alert alert-danger']);
+            return \Response::json(['success' => false, 'message' => trans('address.error_updating'), 'class' => 'alert alert-danger']);
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -139,7 +142,8 @@ class AddressesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -156,7 +160,8 @@ class AddressesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function update(Request $request, $id)
@@ -164,7 +169,7 @@ class AddressesController extends Controller
         $v = \Validator::make($request->all(), $this->form_rules);
 
         if ($v->fails()) {
-            return \Response::json(['success' => false, 'message'=>trans('address.error_validation'), 'class'=>'alert alert-danger']);
+            return \Response::json(['success' => false, 'message' => trans('address.error_validation'), 'class' => 'alert alert-danger']);
         }
 
         $address = Address::find($id);
@@ -174,22 +179,24 @@ class AddressesController extends Controller
         if ($address) {
             \Session::put('message', trans('address.success_update'));
             \Session::save();
+
             return \Response::json(['success' => true, 'callback' => '/user/address']);
         } else {
-            return \Response::json(['success' => false, 'message'=>trans('address.error_updating'), 'class'=>'alert alert-danger']);
+            return \Response::json(['success' => false, 'message' => trans('address.error_updating'), 'class' => 'alert alert-danger']);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy(Request $request)
     {
         Address::destroy($request->get('id'));
 
-        return \Response::json(['success'=>true, 'url' => '/user/address'], 200);
+        return \Response::json(['success' => true, 'url' => '/user/address'], 200);
     }
 }

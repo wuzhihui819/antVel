@@ -1,6 +1,8 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - PayPal Order Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>

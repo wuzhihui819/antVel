@@ -1,36 +1,34 @@
-<?php namespace app\Http\Controllers;
+<?php
 
-/**
+namespace app\Http\Controllers;
+
+/*
  * Antvel - Orders Controller
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-
+use App\Address;
 use App\Business;
 use App\Comment;
-use App\Http\Controllers\UserController as UserController;
-use App\Http\Controllers\ProductsController as ProductsController;
+use App\Helpers\productsHelper;
 use App\Http\Controllers\Controller;
-use App\Address;
-use App\Http\Requests;
+use App\Http\Controllers\ProductsController as ProductsController;
+use App\Log;
+use App\Notice;
 use App\Order;
 use App\OrderDetail;
+use App\Product;
+use App\User;
 use App\VirtualProduct;
 use App\VirtualProductOrder;
-use App\User;
-use App\Product;
-use App\Log;
-use App\UserAddress;
-use App\Notice;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use App\Helpers\productsHelper;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class OrdersController extends Controller
@@ -48,8 +46,9 @@ class OrdersController extends Controller
     /**
      * Adds the selected product to the BASE cart.
      *
-     * @param  string  $destination type or order ('cart','later',etc)
-     * @param  int  $productId The id of the product to be added
+     * @param string $destination type or order ('cart','later',etc)
+     * @param int    $productId   The id of the product to be added
+     *
      * @return Response
      */
     public function addToOrder($destination, $productId, Request $request)
@@ -72,7 +71,6 @@ class OrdersController extends Controller
 
         //checking if the user is logged
         if ($user) {
-
             $basicCart = Order::ofType($destination)->where('user_id', $user->id)->first();
 
             if (!$basicCart) {
@@ -84,9 +82,9 @@ class OrdersController extends Controller
 
                 $log = Log::create([
                     'action_type_id' => '1',
-                    'details' => $destination,
-                    'source_id' => $basicCart->id,
-                    'user_id' => $user->id
+                    'details'        => $destination,
+                    'source_id'      => $basicCart->id,
+                    'user_id'        => $user->id,
                 ]);
             }
 
@@ -130,20 +128,23 @@ class OrdersController extends Controller
 
             $log = Log::create([
                 'action_type_id' => '4',
-                'details' => $basicCart->id,
-                'source_id' =>$orderDetail->id,
-                'user_id' =>$user->id
+                'details'        => $basicCart->id,
+                'source_id'      => $orderDetail->id,
+                'user_id'        => $user->id,
             ]);
 
             //callback url
             if ($destination == 'wishlist') {
                 Session::push('message', trans('store.productAddedToWishList'));
+
                 return redirect()->route('orders.show_wish_list');
             } elseif ($destination == 'later') {
                 Session::push('message', trans('store.productsSavedForLater'));
+
                 return redirect()->route('products.show', [$productId]);
             } else {
                 Session::push('message', trans('store.productAdded'));
+
                 return redirect()->route('orders.show_cart');
             }
         }
@@ -152,12 +153,13 @@ class OrdersController extends Controller
         else {
 
             /**
-             * $user_cart is used to keep track the user shopping cart
+             * $user_cart is used to keep track the user shopping cart.
+             *
              * @var [array]
              */
             $user_cart = Session::get('user.cart');
 
-            /**
+            /*
              * $user_cart is used to keep track the user shopping cart details
              * @var [array]
              */
@@ -192,13 +194,14 @@ class OrdersController extends Controller
             Session::push('message', trans('store.productAdded'));
 
             if ($destination == 'wishlist') {
-                /**
+                /*
                  * flashWishList lets you save the product wished after login action.
                  * This var will be delete automatic in show show wishlist route.
                  */
                 Session::put('flashWishList.productId', $productId);
                 Session::put('flashWishList.quantity', $quantity);
                 Session::save();
+
                 return redirect()->route('orders.show_wish_list');
             } else {
                 return redirect()->route('orders.show_cart');
@@ -207,7 +210,8 @@ class OrdersController extends Controller
     }
 
     /**
-     * Allows adding products to a specific order and create new wish lists
+     * Allows adding products to a specific order and create new wish lists.
+     *
      * @param [type]  $orderId   [order id]
      * @param [type]  $productId [product id]
      * @param Request $request   [laravel object]
@@ -257,9 +261,9 @@ class OrdersController extends Controller
             $log = Log::create(
                 [
                     'action_type_id' => '4',
-                    'details' => $order->id,
-                    'source_id' =>$orderDetail->id,
-                    'user_id' =>$user->id
+                    'details'        => $order->id,
+                    'source_id'      => $orderDetail->id,
+                    'user_id'        => $user->id,
                 ]
             );
 
@@ -273,7 +277,7 @@ class OrdersController extends Controller
     }
 
     /**
-     * Show the create wish list form
+     * Show the create wish list form.
      *
      * @return view for orders.cart
      */
@@ -283,7 +287,7 @@ class OrdersController extends Controller
     }
 
     /**
-     * Create the new wishList with a description
+     * Create the new wishList with a description.
      *
      * @return Response JSON
      */
@@ -321,7 +325,8 @@ class OrdersController extends Controller
             if ($newList) {
                 Session::push('messageClass', 'alert-danger');
                 Session::push('message', trans('store.form_create_list_view.message_fail'));
-                return \Response::json(array('success'=>true), 200);
+
+                return \Response::json(['success' => true], 200);
             } else {
                 //Creates the new wishlist with the provided description
                 $newList = new Order();
@@ -332,19 +337,20 @@ class OrdersController extends Controller
                 $newList->save();
 
                 Session::push('message', trans('store.form_create_list_view.message_success'));
-                return \Response::json(array('success'=>true), 200);
+
+                return \Response::json(['success' => true], 200);
             }
         }
     }
 
     /**
-     * Show the contents of a wish list
+     * Show the contents of a wish list.
      *
      * @return view for orders.wish
      */
     public function showWishList($id = '')
     {
-        /**
+        /*
          * Checking if there is a product in flashWishList, if so, it will be saved into the basic wish list.
          * This process happens just before the user add a product to wishlist being not logged.
          * flashWishList will be deleted after being used into addToOrder method
@@ -374,7 +380,7 @@ class OrdersController extends Controller
         $wishListName = trans('store.basic_wish_list');
 
         if ($user) {
-            /**
+            /*
              * it is used to verify whether the order required exist or not.
              * if the order exists, its content is returned, otherwise,
              * the basic wish list is retrieved
@@ -382,14 +388,14 @@ class OrdersController extends Controller
              */
             $order = '';
 
-            /**
+            /*
              * validating if there's a order requested.
              * if it fails, there will be an 404 exception threw
              */
             try {
                 $order = Order::findOrFail($id);
             } catch (ModelNotFoundException $e) {
-                if (trim($id)!='') {
+                if (trim($id) != '') {
                     throw new NotFoundHttpException();
                 }
             }
@@ -403,7 +409,8 @@ class OrdersController extends Controller
                     ->first();
 
                 /**
-                 * $wishListName will have the wish list name to be showed in the view
+                 * $wishListName will have the wish list name to be showed in the view.
+                 *
                  * @var string
                  */
                 $wishListName = $cart ? $cart->description : $wishListName;
@@ -417,7 +424,7 @@ class OrdersController extends Controller
                     ->first();
             }
 
-            /**
+            /*
              * listing the user wish lists saved in his account.
              * if there was a specific wish list requiered, it will be excluded from the directory list
              */
@@ -427,7 +434,7 @@ class OrdersController extends Controller
                 ->with('details')
                 ->where('description', '<>', '')
                 ->where('user_id', $user->id)
-                ->where('id', '<>', $cart?$cart->id:'')
+                ->where('id', '<>', $cart ? $cart->id : '')
                 ->take(5)
                 ->get();
 
@@ -467,7 +474,7 @@ class OrdersController extends Controller
         }
 
         $panel = [
-            'center'=>['width'=>'12']
+            'center' => ['width' => '12'],
         ];
 
         //suggestions based on cart content
@@ -492,7 +499,7 @@ class OrdersController extends Controller
     }
 
     /**
-     * wish list directory
+     * wish list directory.
      *
      * @return view for orders.cart
      */
@@ -511,7 +518,7 @@ class OrdersController extends Controller
         }
 
         $panel = [
-            'center'=>['width'=>'12']
+            'center' => ['width' => '12'],
         ];
 
         return view('orders.wishListsDirectory', compact('orders', 'panel'));
@@ -526,38 +533,43 @@ class OrdersController extends Controller
     {
         $user = \Auth::user();
 
-        /**
+        /*
          * $suggest-listed keeps tracking listed products to control the suggestion view
          */
         Session::forget('suggest-listed');
 
         /**
-         * $totalAmount saves the shopping cart total amount
+         * $totalAmount saves the shopping cart total amount.
+         *
          * @var decimal
          */
         $totalAmount = 0;
 
         /**
-         * $totalItems saves the shopping cart total items
-         * @var integer
+         * $totalItems saves the shopping cart total items.
+         *
+         * @var int
          */
         $totalItems = 0;
 
         if ($user) {
             /**
-             * $cart has all the shopping cart information, which comes from an type of order called "cart"
+             * $cart has all the shopping cart information, which comes from an type of order called "cart".
+             *
              * @var [type]
              */
             $cart = Order::ofType('cart')->where('user_id', $user->id)->with('details')->first();
 
             /**
-             * $laterCart has all the shopping cart (saved for later) information, which comes from an type of order called "later"
+             * $laterCart has all the shopping cart (saved for later) information, which comes from an type of order called "later".
+             *
              * @var [type]
              */
             $laterCart = Order::ofType('later')->where('user_id', $user->id)->with('details')->first();
 
             /**
-             * $validation_message keeps the message for those items that has a different stock since they were added to a shopping cart
+             * $validation_message keeps the message for those items that has a different stock since they were added to a shopping cart.
+             *
              * @var array
              */
             $validation_message = [];
@@ -583,12 +595,13 @@ class OrdersController extends Controller
 
             //if there are validation messages to show, they'll be saved in message session var
 
-            if (count($validation_message)>0) {
+            if (count($validation_message) > 0) {
                 Session::push('message', $validation_message);
             }
         } else {
             /**
-             * $session_cart keeps saved all the items added to the shopping cart befor the user ins logged
+             * $session_cart keeps saved all the items added to the shopping cart befor the user ins logged.
+             *
              * @var [array]
              */
             $session_cart = Session::get('user.cart');
@@ -612,24 +625,24 @@ class OrdersController extends Controller
                     }
 
                     $cart_details[] = [
-                        'id'=>0,
-                        'order_id'=>0,
-                        'product_id'=>$product->id,
-                        'price'=>$product->price,
-                        'quantity'=>$quantity,
-                        'product'=>[
-                            'id'=>$product->id,
-                            'name'=>$product->name,
-                            'description'=>$product->description,
-                            'price'=>$product->price,
-                            'stock'=>$product->stock,
-                            'type'=>$product->type,
-                            'features'=>[
-                                'images'=>[
+                        'id'         => 0,
+                        'order_id'   => 0,
+                        'product_id' => $product->id,
+                        'price'      => $product->price,
+                        'quantity'   => $quantity,
+                        'product'    => [
+                            'id'          => $product->id,
+                            'name'        => $product->name,
+                            'description' => $product->description,
+                            'price'       => $product->price,
+                            'stock'       => $product->stock,
+                            'type'        => $product->type,
+                            'features'    => [
+                                'images' => [
                                     $product->FirstImage,
-                                ]
-                            ]
-                        ]
+                                ],
+                            ],
+                        ],
                     ];
 
                     Session::push('suggest-listed', $product->id);
@@ -640,27 +653,26 @@ class OrdersController extends Controller
                 }
 
                 $cart = [
-                    'id' => 0,
+                    'id'      => 0,
                     'user_id' => 0,
                     'details' => $cart_details,
                 ];
 
-
                 $totalItems = count($cart_details);
             } else {
                 $cart = [
-                    'id' => 0,
+                    'id'      => 0,
                     'user_id' => 0,
-                    'details' => []
+                    'details' => [],
                 ];
             }
 
             $laterCart = [];
         }
 
-        $panel = array(
-            'center'=>['width'=>'12']
-        );
+        $panel = [
+            'center' => ['width' => '12'],
+        ];
 
         //suggestions based on cart content
         $suggestions = ProductsController::getSuggestions(['preferences_key' => Session::get('suggest-listed'), 'limit' => 4]);
@@ -671,13 +683,14 @@ class OrdersController extends Controller
     }
 
     /**
-     * Removes the selected item from the cart
+     * Removes the selected item from the cart.
      *
-     * @param  string $orderName type or order ('cart','later',etc)
-     * @param  int $productId Product id to be removed from the order
+     * @param string $orderName type or order ('cart','later',etc)
+     * @param int    $productId Product id to be removed from the order
+     *
      * @return Redirects back to de cart
      */
-    public function removeFromOrder($orderName, $productId, $idOrder='')
+    public function removeFromOrder($orderName, $productId, $idOrder = '')
     {
         $product = Product::findOrFail($productId);
         $user = \Auth::user();
@@ -686,12 +699,13 @@ class OrdersController extends Controller
             $cart_content = Session::get('user.cart_content');
             unset($cart_content[$productId]);
             Session::put('user.cart_content', $cart_content);
+
             return redirect()->route('orders.show_cart');
         }
 
         $basicCart = Order::ofType($orderName)->where('user_id', $user->id);
 
-        if ($idOrder!='') {
+        if ($idOrder != '') {
             $basicCart = $basicCart->where('id', $idOrder);
         }
 
@@ -700,10 +714,10 @@ class OrdersController extends Controller
         if (!($basicCart)) {
             Session::push('message', trans('store.productNotFound'));
         } else {
-            if ($product->type!='item') {
+            if ($product->type != 'item') {
                 switch ($product->type) {
                     case 'key':
-                        $idVirtual=VirtualProduct::where('product_id', $product->id)->where('status', 'cancelled')->first();
+                        $idVirtual = VirtualProduct::where('product_id', $product->id)->where('status', 'cancelled')->first();
                         VirtualProductOrder::where('virtual_product_id', $idVirtual->id)->where('order_id', $basicCart->id)->delete();
                     break;
                 }
@@ -714,7 +728,7 @@ class OrdersController extends Controller
             Session::push('message', trans('store.productDeleted'));
         }
 
-        if (($orderName=='wishlist')||($orderName=='later')) {
+        if (($orderName == 'wishlist') || ($orderName == 'later')) {
             return redirect()->route('orders.show_wish_list');
         } else {
             return redirect()->route('orders.show_cart');
@@ -722,16 +736,17 @@ class OrdersController extends Controller
     }
 
     /**
-     * Removes the selected item from the cart, and stores it back in the Later Cart
+     * Removes the selected item from the cart, and stores it back in the Later Cart.
      *
-     * @param  int  $origin type of the origin order ('cart','later',etc)
-     * @param  int  $destination type of the destination order ('cart','later',etc)
-     * @param  int  $productId of the product
+     * @param int $origin      type of the origin order ('cart','later',etc)
+     * @param int $destination type of the destination order ('cart','later',etc)
+     * @param int $productId   of the product
+     *
      * @return Redirects back to de cart
      */
     public function moveFromOrder($origin, $destination, $productId)
     {
-        /**
+        /*
          * validating if the product requested is valid.
          * if it fails, there will be an 404 exception threw
          */
@@ -744,13 +759,14 @@ class OrdersController extends Controller
         $user = \Auth::user();
 
         /**
-         * $originType allows tracking the type of origin, if it is coming from a specific wish list
+         * $originType allows tracking the type of origin, if it is coming from a specific wish list.
+         *
          * @var string
          */
         $originType = '';
 
         //if it came from a specific wish list
-        if ($origin!='later' && $origin != 'cart' && $origin != 'wishlist' && is_string($origin)) {
+        if ($origin != 'later' && $origin != 'cart' && $origin != 'wishlist' && is_string($origin)) {
             //getting the list type
             $originType = Order::select(['id', 'type'])->where('description', 'LIKE', $origin)->first();
 
@@ -785,10 +801,9 @@ class OrdersController extends Controller
             $log = Log::create(
                 [
                     'action_type_id' => '1',
-                    'details' =>
-                    $destinationOrder->id,
-                    'source_id' => $destinationOrder->id,
-                    'user_id' =>$user->id
+                    'details'        => $destinationOrder->id,
+                    'source_id'      => $destinationOrder->id,
+                    'user_id'        => $user->id,
                 ]
             );
         }
@@ -806,7 +821,7 @@ class OrdersController extends Controller
         }
 
         //checking if the product exist in the destination, if so, it can be updated
-        $orderMoved =  OrderDetail::where('order_id', $destinationOrder->id)
+        $orderMoved = OrderDetail::where('order_id', $destinationOrder->id)
             ->where('product_id', $product->id)
             ->first();
 
@@ -826,13 +841,13 @@ class OrdersController extends Controller
         //save new order
         $orderMoved->save();
 
-        if ($product->type!='item') {
+        if ($product->type != 'item') {
             $virtual = VirtualProduct::where('product_id', $product->id)->first();
 
             //updating the virtual product order
             VirtualProductOrder::where('virtual_product_id', $virtual->id)
                 ->where('order_id', $basicCart->id)
-                ->update(['order_id'=>$destinationOrder->id]);
+                ->update(['order_id' => $destinationOrder->id]);
         }
 
         if ($destination == 'later') {
@@ -845,11 +860,12 @@ class OrdersController extends Controller
     }
 
     /**
-     * this method is able to update the quantities values in the shopping cart
+     * this method is able to update the quantities values in the shopping cart.
      *
      * @param  $orderId is the shopping cart order id
      * @param  $orderDetailId is the shopping cart order details
      * @param  $newValue is new quantity to be used in the update
+     *
      * @return Response
      */
     public function updateQuantity($orderId, $orderDetailId, $newValue)
@@ -864,32 +880,32 @@ class OrdersController extends Controller
             $virtual = VirtualProduct::where('product_id', $orderDetail->product_id)->first();
 
             if ($virtual) {
-                return \Response::json(array('success'=>false), 404);
+                return \Response::json(['success' => false], 404);
             }
 
             if ($orderDetail) {
                 $oldQuantity = $orderDetail->quantity;
                 $orderDetail->quantity = $newValue;
                 $orderDetail->save();
+
                 return \Response::json(
                     [
-                        'success'=>true,
+                        'success'     => true,
                         'oldQuantity' => $oldQuantity,
-                        'detail' => $orderDetail->toArray(),
-                        'price' => $orderDetail->price
+                        'detail'      => $orderDetail->toArray(),
+                        'price'       => $orderDetail->price,
                     ], 200);
             } else {
-                return \Response::json(array('success'=>false), 404);
+                return \Response::json(['success' => false], 404);
             }
         }
     }
 
-
-
     /**
      * Starts the checkout process.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function checkOut()
@@ -919,11 +935,11 @@ class OrdersController extends Controller
         }
 
         if ($user->current_points < $total_points && config('app.payment_method') == 'Points') {
-            return redirect()->route('orders.show_cart')->withErrors(array('main_error'=>array(trans('store.cart_view.insufficient_funds'))));
+            return redirect()->route('orders.show_cart')->withErrors(['main_error' => [trans('store.cart_view.insufficient_funds')]]);
         } else {
-            $panel = array(
-                'center'=>['width'=>'12']
-            );
+            $panel = [
+                'center' => ['width' => '12'],
+            ];
 
             $callBackUrl = 'user/orders/checkOut';
 
@@ -934,7 +950,8 @@ class OrdersController extends Controller
     /**
      * Starts the checkout process.
      *
-     * @param  int  $addressId The address id selected to be copied
+     * @param int $addressId The address id selected to be copied
+     *
      * @return Response
      */
     public function checkOutResume($addressId)
@@ -965,13 +982,13 @@ class OrdersController extends Controller
                 $totalAmount += ($orderDetail->quantity * $orderDetail->price);
 
                 if ($product->stock < $orderDetail->quantity) {
-                    return redirect()->route('orders.show_cart')->withErrors(array('main_error'=>array(trans('store.insufficientStock'))));
+                    return redirect()->route('orders.show_cart')->withErrors(['main_error' => [trans('store.insufficientStock')]]);
                 }
             }
 
             //Checks if the user has points for the cart price
             if ($user->current_points < $total_points && config('app.payment_method') == 'Points') {
-                return redirect()->route('orders.show_cart')->withErrors(array('main_error'=>array(trans('store.cart_view.insufficient_funds'))));
+                return redirect()->route('orders.show_cart')->withErrors(['main_error' => [trans('store.cart_view.insufficient_funds')]]);
             } else {
                 //Copies the Address to a new one and attaches it to the order or replaces the old one
                 $cartAddress = Address::find($cart->address_id);
@@ -1003,9 +1020,9 @@ class OrdersController extends Controller
                     $cartAddress->save();
                 }
 
-                $panel = array(
-                    'center'=>['width'=>'12']
-                );
+                $panel = [
+                    'center' => ['width' => '12'],
+                ];
                 //Sets the resume option to use the same view
                 $isResume = true;
                 $is_logged = true;
@@ -1013,14 +1030,15 @@ class OrdersController extends Controller
                 return view('orders.cart', compact('cart', 'user', 'panel', 'isResume', 'cartAddress', 'totalItems', 'totalAmount'));
             }
         } else {
-            return redirect()->route('orders.show_cart')->withErrors(array('main_error'=>array(trans('store.errorOnAddress'))));
+            return redirect()->route('orders.show_cart')->withErrors(['main_error' => [trans('store.errorOnAddress')]]);
         }
     }
 
     /**
      * Starts the checkout process.
      *
-     * @param  int  $addressId The address id selected to be copied
+     * @param int $addressId The address id selected to be copied
+     *
      * @return Response
      */
     public function placeOrder($type)
@@ -1028,9 +1046,10 @@ class OrdersController extends Controller
         $errors = Order::placeOrders($type);
 
         if ($errors) {
-            return redirect()->route('orders.show_cart')->withErrors(array('main_error'=>array($errors)));
+            return redirect()->route('orders.show_cart')->withErrors(['main_error' => [$errors]]);
         } else {
             Session::push('message', trans('store.order_placed'));
+
             return redirect()->route('orders.show_orders');
         }
     }
@@ -1046,12 +1065,13 @@ class OrdersController extends Controller
 
         /**
          * $route description
-         * destination route after process the action
+         * destination route after process the action.
+         *
          * @var string
          */
         $route = 'orders.pendingOrders';
 
-        /**
+        /*
          * $message
          * provide control on the processed message to users
          * @var array
@@ -1062,7 +1082,8 @@ class OrdersController extends Controller
         /**
          * $order
          * retrieve the evaluated order information. So what, we can update
-         * its status and return  its items stock
+         * its status and return  its items stock.
+         *
          * @var [type]
          */
         $order = Order::where('id', $orderId)
@@ -1102,7 +1123,7 @@ class OrdersController extends Controller
 
             if ($existsVirtual) {
                 $virtualProductsId = VirtualProductOrder::select('virtual_product_id')->where('order_id', $order->id)->get()->toArray();
-                VirtualProduct::whereIn('id', $virtualProductsId)->update(['status'=>'open']);
+                VirtualProduct::whereIn('id', $virtualProductsId)->update(['status' => 'open']);
                 VirtualProductOrder::where('order_id', $order->id)->delete();
             }
 
@@ -1120,7 +1141,7 @@ class OrdersController extends Controller
     }
 
     /**
-     * Changes the status of an order to pending, so the process can start
+     * Changes the status of an order to pending, so the process can start.
      *
      * @param order_id The order id to be updated
      */
@@ -1139,14 +1160,15 @@ class OrdersController extends Controller
             $order->save();
 
             Notice::create([
-                'user_id' => $order->user_id,
-                'sender_id' => $order->seller_id,
+                'user_id'        => $order->user_id,
+                'sender_id'      => $order->seller_id,
                 'action_type_id' => 15,
-                'source_id' => $order->id,
-                'status' => 'new'
+                'source_id'      => $order->id,
+                'status'         => 'new',
             ]);
 
             Session::push('message', trans('store.orders_index.order_started').' (#'.$order->id.')');
+
             return redirect(route('orders.pendingOrders'));
         } else {
             return redirect(route('orders.pendingOrders'));
@@ -1154,7 +1176,7 @@ class OrdersController extends Controller
     }
 
     /**
-     * Changes the status of an order to pending, so the process can start
+     * Changes the status of an order to pending, so the process can start.
      *
      * @param order_id The order id to be updated
      */
@@ -1174,22 +1196,23 @@ class OrdersController extends Controller
             $order->save();
 
             Notice::create([
-                'user_id' => $order->user_id,
-                'sender_id' => $order->seller_id,
+                'user_id'        => $order->user_id,
+                'sender_id'      => $order->seller_id,
                 'action_type_id' => 11,
-                'source_id' => $order->id,
-                'status' => 'new'
+                'source_id'      => $order->id,
+                'status'         => 'new',
             ]);
 
             $order_content = OrderDetail::where('order_id', $order->id)->get();
-            $band=false;
+            $band = false;
             foreach ($order_content as $row) {
-                if ($row->product->type!='item') {
-                    $band=$this->deliveryVirtualProduct($order->id, $row->product_id, new Request, false);
-                    $band=$band==='closed'?true:false;
+                if ($row->product->type != 'item') {
+                    $band = $this->deliveryVirtualProduct($order->id, $row->product_id, new Request(), false);
+                    $band = $band === 'closed' ? true : false;
                 }
             }
-            Session::push('message', trans('store.orders_index.order_sent').' (#'.$order->id.')'.(!$band?'':trans('store.order_closed_message')));
+            Session::push('message', trans('store.orders_index.order_sent').' (#'.$order->id.')'.(!$band ? '' : trans('store.order_closed_message')));
+
             return redirect(route('orders.pendingOrders'));
         } else {
             return redirect(route('orders.pendingOrders'));
@@ -1197,7 +1220,7 @@ class OrdersController extends Controller
     }
 
     /**
-     * Changes the status of an order to close, so the user can now check if received
+     * Changes the status of an order to close, so the user can now check if received.
      *
      * @param order_id The order id to be updated
      */
@@ -1215,11 +1238,11 @@ class OrdersController extends Controller
             Session::push('message', trans('store.orders_index.order_received').' (#'.$order->id.')');
 
             Notice::create([
-                'user_id' => $order->seller_id,
-                'sender_id' => $order->user_id,
+                'user_id'        => $order->seller_id,
+                'sender_id'      => $order->user_id,
                 'action_type_id' => 10,
-                'source_id' => $order->id,
-                'status' => 'new'
+                'source_id'      => $order->id,
+                'status'         => 'new',
             ]);
 
             if (config('app.offering_user_points')) {
@@ -1230,13 +1253,13 @@ class OrdersController extends Controller
                     $total_points = 0;
                     foreach ($order_content as $order_detail) {
                         $total_points += $order_detail->quantity * $order_detail->price;
-                        $order_detail->status=0;
-                        $order_detail->delivery_date=DB::raw('NOW()');
+                        $order_detail->status = 0;
+                        $order_detail->delivery_date = DB::raw('NOW()');
                         $order_detail->save();
-                        if ($order_detail->product->type!='item') {
+                        if ($order_detail->product->type != 'item') {
                             switch ($order_detail->product->type) {
                                 case 'key':
-                                    $virtualProductsId=VirtualProductOrder::select('virtual_product_id')->where('order_id', $order->id)->get()->toArray();
+                                    $virtualProductsId = VirtualProductOrder::select('virtual_product_id')->where('order_id', $order->id)->get()->toArray();
                                     VirtualProduct::where('product_id', $order_detail->product_id)->whereIn('id', $virtualProductsId)->update(['status' => 'closed']);
                                 break;
                             }
@@ -1279,12 +1302,12 @@ class OrdersController extends Controller
                 $summary = \Utility::totalByStatusOrder($orders);
 
                 $data = [
-                    'title' => 'Order History',
+                    'title'    => 'Order History',
                     'dateFrom' => $dateFrom,
-                    'dateTo' => $dateTo,
-                    'view' => 'orders.history',
-                    'orders' => $orders,
-                    'summary' => $summary
+                    'dateTo'   => $dateTo,
+                    'view'     => 'orders.history',
+                    'orders'   => $orders,
+                    'summary'  => $summary,
                 ];
             break;
         }
@@ -1354,10 +1377,10 @@ class OrdersController extends Controller
             ->ofDates($dateFrom, $dateTo)
             ->paginate(20);
 
-        $panel = array(
-            'left'=>['width'=>'2','class'=>'user-panel'],
-            'center'=>['width'=>'10'],
-        );
+        $panel = [
+            'left'   => ['width' => '2', 'class' => 'user-panel'],
+            'center' => ['width' => '10'],
+        ];
 
         $select = $request->get('show') ? $request->get('show') : '';
 
@@ -1367,80 +1390,86 @@ class OrdersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)
     {
         //
     }
+
     /**
-    *   function, to lift the Modal to display the details product in the card (Only this seller)
-    *   @return view
-    */
+     *   function, to lift the Modal to display the details product in the card (Only this seller).
+     *
+     *   @return view
+     */
     public function modalDetailsProductCart()
     {
         return view('orders.showDetailsProductInCart');
     }
+
     /**
-    *   get keys registered (Only this seller)
-    *   @param  $id         int|string  id product
-    *   @param  $request    Request     object to validate the type of request
-    *   @return json
-    */
+     *   get keys registered (Only this seller).
+     *
+     *   @param  $id         int|string  id product
+     *   @param  $request    Request     object to validate the type of request
+     *
+     *   @return json
+     */
     public function showDetailsProductCart($id, Request $request)
     {
         if (!$request->wantsJson()) {
-            return json_encode(['message'=>trans('globals.error_not_available')]);
+            return json_encode(['message' => trans('globals.error_not_available')]);
         }
         $cart = Order::ofType('cart')->select('id')->where('user_id', \Auth::user()->id)->first();
         if (!$cart) {
-            return json_encode(['message'=>trans('globals.error_not_available')]);
+            return json_encode(['message' => trans('globals.error_not_available')]);
         }
-        $product=Product::find($id);
+        $product = Product::find($id);
         if (!$product) {
-            return json_encode(['message'=>trans('globals.error_not_available')]);
+            return json_encode(['message' => trans('globals.error_not_available')]);
         }
-        $order= OrderDetail::where('order_id', $cart->id)->where('product_id', $product->id)->first();
+        $order = OrderDetail::where('order_id', $cart->id)->where('product_id', $product->id)->first();
         if (!$order) {
-            return json_encode(['message'=>trans('globals.error_not_available')]);
+            return json_encode(['message' => trans('globals.error_not_available')]);
         }
-        $seller=User::select('nickname')->find($product->user_id);
-        $product->seller=$seller->nickname;
-        $return=['product'=>$product,'order'=>$order];
-        if ($product->type!='item') {
-            $virtual=VirtualProduct::where('product_id', $product->id)->first();
-            $arrayV=['type'=>$product->type,'title'=>trans('product.globals.digital_item').' '.trans('product.'.$product->type)];
+        $seller = User::select('nickname')->find($product->user_id);
+        $product->seller = $seller->nickname;
+        $return = ['product' => $product, 'order' => $order];
+        if ($product->type != 'item') {
+            $virtual = VirtualProduct::where('product_id', $product->id)->first();
+            $arrayV = ['type' => $product->type, 'title' => trans('product.globals.digital_item').' '.trans('product.'.$product->type)];
             switch ($product->type) {
                 case 'key':
-                    $virtualOrder=VirtualProductOrder::where('virtual_product_id', $virtual->id)->where('order_id', $order->order_id)->where('status', 1)->get();
-                    $email=[];
+                    $virtualOrder = VirtualProductOrder::where('virtual_product_id', $virtual->id)->where('order_id', $order->order_id)->where('status', 1)->get();
+                    $email = [];
                     foreach ($virtualOrder as $row) {
                         if (isset($email[$row->email])) {
                             $email[$row->email]['num']++;
                         } else {
-                            $email[$row->email]['num']=1;
-                            $email[$row->email]['email']=$row->email;
+                            $email[$row->email]['num'] = 1;
+                            $email[$row->email]['email'] = $row->email;
                         }
                     }
-                    $arrayV['data']=$email;
+                    $arrayV['data'] = $email;
                 break;
             }
-            $return['virtual']=$arrayV;
+            $return['virtual'] = $arrayV;
         }
+
         return json_encode($return);
     }
 
     /**
-     *
      *   @return view
      */
     public function showOrder($id)
     {
-        $panel = array(
-            'left'=>['width'=>'2','class'=>'user-panel'],
-            'center'=>['width'=>'10'],
-        );
+        $panel = [
+            'left'   => ['width' => '2', 'class' => 'user-panel'],
+            'center' => ['width' => '10'],
+        ];
 
         $user = \Auth::user();
         if ($user) {
@@ -1475,7 +1504,8 @@ class OrdersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function showSellerOrder($id)
@@ -1500,34 +1530,31 @@ class OrdersController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
 
-        $panel = array(
-            'left'=>['width'=>'2','class'=>'user-panel'],
-            'center'=>['width'=>'10'],
-        );
+        $panel = [
+            'left'   => ['width' => '2', 'class' => 'user-panel'],
+            'center' => ['width' => '10'],
+        ];
 
         $is_seller = true;
 
         return view('orders.detail', compact('user', 'is_seller', 'panel', 'orderAddress', 'order', 'order_comments', 'totalItems', 'grandTotal'));
     }
 
-
-
     /**
-     *
      *   @return view
      */
-    private function addToCartVirtualsProduct($product, $email, $orderId, $quantity=0)
+    private function addToCartVirtualsProduct($product, $email, $orderId, $quantity = 0)
     {
-        if ($product->type!='item') {
-            $virtual=VirtualProduct::where('product_id', $product->id)->first();
+        if ($product->type != 'item') {
+            $virtual = VirtualProduct::where('product_id', $product->id)->first();
             switch ($product->type) {
                 case 'key':
-                    for ($i=0;$i<$quantity;$i++) {
-                        $VirtualProductOrder= new VirtualProductOrder();
-                        $VirtualProductOrder->order_id=$orderId;
-                        $VirtualProductOrder->status=1;
-                        $VirtualProductOrder->email=$email;
-                        $VirtualProductOrder->virtual_product_id=$virtual->id;
+                    for ($i = 0; $i < $quantity; $i++) {
+                        $VirtualProductOrder = new VirtualProductOrder();
+                        $VirtualProductOrder->order_id = $orderId;
+                        $VirtualProductOrder->status = 1;
+                        $VirtualProductOrder->email = $email;
+                        $VirtualProductOrder->virtual_product_id = $virtual->id;
                         $VirtualProductOrder->save();
                     }
                 break;
@@ -1536,72 +1563,76 @@ class OrdersController extends Controller
     }
 
     /**
-    *   function to action to deliver virtual products
-    *   @param  $orderId    int|string  id order
-    *   @param  $productId  int|string  id product
-    *   @param  $request    Request     object to validate the type of request
-    *   @return json    message error or message success
-    */
-    public function deliveryVirtualProduct($orderId, $productId, Request $request, $ajax=true)
+     *   function to action to deliver virtual products.
+     *
+     *   @param  $orderId    int|string  id order
+     *   @param  $productId  int|string  id product
+     *   @param  $request    Request     object to validate the type of request
+     *
+     *   @return json    message error or message success
+     */
+    public function deliveryVirtualProduct($orderId, $productId, Request $request, $ajax = true)
     {
         if ($ajax && !$request->wantsJson()) {
-            return json_encode(['message'=>trans('globals.error_not_available'), 'json'=>false]);
+            return json_encode(['message' => trans('globals.error_not_available'), 'json' => false]);
         }
         $Order = Order::find($orderId);
-        $product=Product::find($productId);
+        $product = Product::find($productId);
         if (!$Order || !$product) {
-            return json_encode(['message'=>trans('globals.error_not_available'), 'id'=>false]);
+            return json_encode(['message' => trans('globals.error_not_available'), 'id' => false]);
         }
-        if ($Order->status!='pending' && $Order->status!='sent') {
-            return json_encode(['message'=>trans('globals.error_not_available'), 'status'=>false]);
+        if ($Order->status != 'pending' && $Order->status != 'sent') {
+            return json_encode(['message' => trans('globals.error_not_available'), 'status' => false]);
         }
-        $virtuals=VirtualProduct::where('product_id', $product->id)->where('status', 'paid')->get();
+        $virtuals = VirtualProduct::where('product_id', $product->id)->where('status', 'paid')->get();
         if (!count($virtuals->toArray())) {
-            return json_encode(['message'=>trans('globals.error_not_available'), 'virtual'=>false]);
+            return json_encode(['message' => trans('globals.error_not_available'), 'virtual' => false]);
         }
-        $detail=OrderDetail::where('order_id', $Order->id)->where('product_id', $product->id)->first();
-        $user=User::find($Order->user_id);
+        $detail = OrderDetail::where('order_id', $Order->id)->where('product_id', $product->id)->first();
+        $user = User::find($Order->user_id);
         foreach ($virtuals as $row) {
-            $virtualOrders=VirtualProductOrder::where('virtual_product_id', $row->id)->where('order_id', $Order->id)->first();
+            $virtualOrders = VirtualProductOrder::where('virtual_product_id', $row->id)->where('order_id', $Order->id)->first();
             if ($virtualOrders) {
                 if ($virtualOrders->email) {
-                    Mail::queue('emails.virtualsProducts', ['product'=>$product, 'row'=>$row, 'order'=>$virtualOrders, 'user'=>$user], function ($message) use ($virtualOrders) {
+                    Mail::queue('emails.virtualsProducts', ['product' => $product, 'row' => $row, 'order' => $virtualOrders, 'user' => $user], function ($message) use ($virtualOrders) {
                         $message->to($virtualOrders->email)->subject(trans('email.delivery_virtuals_products.subject'));
                     });
                 }
-                $row->status='Sent';
+                $row->status = 'Sent';
                 $row->save();
-                $virtualOrders->status=0;
+                $virtualOrders->status = 0;
                 $virtualOrders->save();
             }
         }
-        $detail->status=0;
-        $detail->delivery_date=DB::raw('NOW()');
+        $detail->status = 0;
+        $detail->delivery_date = DB::raw('NOW()');
         $detail->save();
         if ($ajax) {
-            $detail=OrderDetail::where('order_id', $Order->id)->where('status', 1)->first();
+            $detail = OrderDetail::where('order_id', $Order->id)->where('status', 1)->first();
         }
         if ($ajax && !$detail) {
-            $Order->end_date=DB::raw('NOW()');
-            $Order->status='Sent';
+            $Order->end_date = DB::raw('NOW()');
+            $Order->status = 'Sent';
             $Order->save();
             if (!$ajax) {
                 return 'Sent';
             } else {
-                return json_encode(['message'=>trans('store.delivery_successfully').' '.trans('store.closedOrders'), 'success'=>true, 'closed'=>true]);
+                return json_encode(['message' => trans('store.delivery_successfully').' '.trans('store.closedOrders'), 'success' => true, 'closed' => true]);
             }
         } else {
             if (!$ajax) {
                 return 'success';
             } else {
-                return json_encode(['message'=>trans('store.delivery_successfully'), 'success'=>true]);
+                return json_encode(['message' => trans('store.delivery_successfully'), 'success' => true]);
             }
         }
     }
 
     /**
-     *   function to action to deliver virtual products
+     *   function to action to deliver virtual products.
+     *
      *   @param  $order_id    int
+     *
      *   @return json    message error or message success
      */
     public function commentOrder($order_id)
@@ -1610,8 +1641,10 @@ class OrdersController extends Controller
     }
 
     /**
-     *   function to action to deliver virtual products
+     *   function to action to deliver virtual products.
+     *
      *   @param  $order_id    int
+     *
      *   @return json    message error or message success
      */
     public function storeComment(Request $request)
@@ -1622,13 +1655,13 @@ class OrdersController extends Controller
         if ($user) {
             $order = Order::find($order_id);
             //Checks if the order belongs to the current user, or if the user is the seller of the order
-            if (($order->user_id == $user->id)||($order->seller_id == $user->id)) {
-                $data = array(
-                    'user_id' => $user->id,
-                    'action_type_id'=>3,
-                    'source_id'=>$order_id,
-                    'comment'=>$text,
-                );
+            if (($order->user_id == $user->id) || ($order->seller_id == $user->id)) {
+                $data = [
+                    'user_id'        => $user->id,
+                    'action_type_id' => 3,
+                    'source_id'      => $order_id,
+                    'comment'        => $text,
+                ];
 
                 $new_comment = Comment::create($data);
 
@@ -1644,30 +1677,33 @@ class OrdersController extends Controller
                 }
 
                 $data = [
-                    'order_id'=>$order_id,
-                    'subject'=>$mail_subject,
-                    'email_message'=>$mail_subject,
-                    'email'=>$email,
-                    'comment'=> $text,
-                    'title' => $mail_subject
+                    'order_id'      => $order_id,
+                    'subject'       => $mail_subject,
+                    'email_message' => $mail_subject,
+                    'email'         => $email,
+                    'comment'       => $text,
+                    'title'         => $mail_subject,
                 ];
 
                 Mail::queue('emails.order_comment', $data, function ($message) use ($user, $data) {
                     $message->to($data['email'])->subject($data['subject']);
                 });
             } else {
-                return \Response::json(array('success'=>false, 'order_id'=>$order_id), 200);
+                return \Response::json(['success' => false, 'order_id' => $order_id], 200);
             }
         } else {
-            return \Response::json(array('success'=>false, 'order_id'=>$order_id), 200);
+            return \Response::json(['success' => false, 'order_id' => $order_id], 200);
         }
         Session::push('message', trans('store.create_comment_modal.added_order_comment'));
-        return \Response::json(array('success'=>true, 'order_id'=>$order_id), 200);
+
+        return \Response::json(['success' => true, 'order_id' => $order_id], 200);
     }
 
     /**
-     *   function to action to rate both the order and its content
+     *   function to action to rate both the order and its content.
+     *
      *   @param  $order_id  int
+     *
      *   @return
      */
     public function rateOrder($order_id)
@@ -1745,10 +1781,10 @@ class OrdersController extends Controller
                 $email = $seller_user->email;
                 $mail_subject = trans('email.order_rated.subject');
                 $data = [
-                    'order_id'=>$order_id,
-                    'subject'=>$mail_subject,
-                    'email_message'=>$mail_subject,
-                    'email'=>$email,
+                    'order_id'      => $order_id,
+                    'subject'       => $mail_subject,
+                    'email_message' => $mail_subject,
+                    'email'         => $email,
                 ];
                 Mail::queue('emails.order_rated', $data, function ($message) use ($user, $data) {
                     $message->to($data['email'])->subject($data['subject']);
@@ -1759,22 +1795,22 @@ class OrdersController extends Controller
                 $order->save();
                 $seller->save();
 
-                $noticeType = (trim($seller_comment)!='') ? '3' : '14';
+                $noticeType = (trim($seller_comment) != '') ? '3' : '14';
 
                 Notice::create([
-                    'user_id' => $seller->user_id,
-                    'sender_id' => $user->id,
+                    'user_id'        => $seller->user_id,
+                    'sender_id'      => $user->id,
                     'action_type_id' => 14,
-                    'source_id' => $order->id,
-                    'status' => 'new'
+                    'source_id'      => $order->id,
+                    'status'         => 'new',
                 ]);
 
-                return \Response::json(array('success'=>true, 'message' => trans('store.order_rate_view.http_messages.success'), 'order_id'=>$order_id, 'seller_rate'=>$seller_rate), 200);
+                return \Response::json(['success' => true, 'message' => trans('store.order_rate_view.http_messages.success'), 'order_id' => $order_id, 'seller_rate' => $seller_rate], 200);
             } else {
-                return \Response::json(array('success'=>false, 'message'=>trans('store.order_rate_view.http_messages.no_order'), 'order_id'=>$order_id, 'seller_rate'=>$seller_rate), 200);
+                return \Response::json(['success' => false, 'message' => trans('store.order_rate_view.http_messages.no_order'), 'order_id' => $order_id, 'seller_rate' => $seller_rate], 200);
             }
         } else {
-            return \Response::json(array('success'=>false, 'message'=>trans('store.order_rate_view.http_messages.no_user'), 'order_id'=>$order_id, 'seller_rate'=>$seller_rate), 200);
+            return \Response::json(['success' => false, 'message' => trans('store.order_rate_view.http_messages.no_user'), 'order_id' => $order_id, 'seller_rate' => $seller_rate], 200);
         }
     }
 
@@ -1793,7 +1829,6 @@ class OrdersController extends Controller
                     ->where('user_id', $user->id)
                     ->first();
 
-
                 if ($order && $order->rate == '') {
                     $product = Product::find($detail->product_id);
 
@@ -1809,17 +1844,17 @@ class OrdersController extends Controller
                         //Checks if the user has rated this product on this order before
                         if ($detail->rate) {
                             if ($product_old_rate > $product_rate) {
-                                $product->rate_val = $product->rate_val - (($product_old_rate - $product_rate)/($product_old_rate_count));
+                                $product->rate_val = $product->rate_val - (($product_old_rate - $product_rate) / ($product_old_rate_count));
                             }
                             if ($product_old_rate < $product_rate) {
-                                $product->rate_val = $product->rate_val + (($product_rate - $product_old_rate)/($product_old_rate_count));
+                                $product->rate_val = $product->rate_val + (($product_rate - $product_old_rate) / ($product_old_rate_count));
                             }
                         } else {
                             if ($product_old_rate > $product_rate) {
-                                $product->rate_val = $product->rate_val - (($product_old_rate - $product_rate)/($product_old_rate_count + 1));
+                                $product->rate_val = $product->rate_val - (($product_old_rate - $product_rate) / ($product_old_rate_count + 1));
                             }
                             if ($product_old_rate < $product_rate) {
-                                $product->rate_val = $product->rate_val + (($product_rate - $product_old_rate)/($product_old_rate_count + 1));
+                                $product->rate_val = $product->rate_val + (($product_rate - $product_old_rate) / ($product_old_rate_count + 1));
                             }
                             $product->rate_count = $product_old_rate_count + 1;
                         }
@@ -1829,10 +1864,10 @@ class OrdersController extends Controller
                     $email = $seller_user->email;
                     $mail_subject = trans('email.product_rated.subject');
                     $data = [
-                        'product_id'=>$product->id,
-                        'subject'=>$mail_subject,
-                        'email_message'=>$mail_subject,
-                        'email'=>$email,
+                        'product_id'    => $product->id,
+                        'subject'       => $mail_subject,
+                        'email_message' => $mail_subject,
+                        'email'         => $email,
                     ];
                     Mail::queue('emails.product_rated', $data, function ($message) use ($user, $data) {
                         $message->to($data['email'])->subject($data['subject']);
@@ -1844,35 +1879,36 @@ class OrdersController extends Controller
                     $detail->save();
 
                     Notice::create([
-                        'user_id' => $seller_user->id,
-                        'sender_id' => $user->id,
+                        'user_id'        => $seller_user->id,
+                        'sender_id'      => $user->id,
                         'action_type_id' => 14,
-                        'source_id' => $order->id,
-                        'status' => 'new'
+                        'source_id'      => $order->id,
+                        'status'         => 'new',
                     ]);
 
-                    return \Response::json(array('success'=>true, 'message' => trans('store.order_rate_view.http_messages.success'), 'detail_id'=>$detail_id, 'product_rate'=>$product_rate), 200);
+                    return \Response::json(['success' => true, 'message' => trans('store.order_rate_view.http_messages.success'), 'detail_id' => $detail_id, 'product_rate' => $product_rate], 200);
                 } else {
-                    return \Response::json(array('success'=>false, 'message'=>trans('store.order_rate_view.http_messages.no_order'), 'detail_id'=>$detail_id, 'product_rate'=>$product_rate), 200);
+                    return \Response::json(['success' => false, 'message' => trans('store.order_rate_view.http_messages.no_order'), 'detail_id' => $detail_id, 'product_rate' => $product_rate], 200);
                 }
             } else {
-                return \Response::json(array('success'=>false, 'message'=>trans('store.order_rate_view.http_messages.no_user'), 'detail_id'=>$detail_id, 'product_rate'=>$product_rate), 200);
+                return \Response::json(['success' => false, 'message' => trans('store.order_rate_view.http_messages.no_user'), 'detail_id' => $detail_id, 'product_rate' => $product_rate], 200);
             }
         } else {
-            return \Response::json(array('success'=>false, 'message'=>trans('store.order_rate_view.http_messages.no_user'), 'detail_id'=>$detail_id, 'product_rate'=>$product_rate), 200);
+            return \Response::json(['success' => false, 'message' => trans('store.order_rate_view.http_messages.no_user'), 'detail_id' => $detail_id, 'product_rate' => $product_rate], 200);
         }
     }
 
     public function mailtest()
     {
-        $orderid='4';
+        $orderid = '4';
         $mailed_order = Order::where('id', $orderid)->with('details')->get()->first();
        // dd($mailed_order->details);
         $data = [
-            'orderId'=>$orderid,
-            'order'=>$mailed_order,
+            'orderId' => $orderid,
+            'order'   => $mailed_order,
         ];
-        $title='Title email';
+        $title = 'Title email';
+
         return view('emails.neworder', compact('data', 'title'));
     }
 
@@ -1880,12 +1916,14 @@ class OrdersController extends Controller
      * fromGuestToUser
      * This method is able to transfer all the guest shopping cart user to an user cart order.
      * It happens when a guest user has a shopping cart and press in checkout button.
-     * @param  [object] $ordersController. Order controller object, which is passed through Authentication middleware.
+     *
+     * @param [object] $ordersController. Order controller object, which is passed through Authentication middleware.
      */
     public static function fromGuestToUser($ordersController)
     {
         /**
-         * $cart_content contains the guest shopping cart information
+         * $cart_content contains the guest shopping cart information.
+         *
          * @var [array]
          */
         $cart_content = Session::get('user.cart_content');
@@ -1898,8 +1936,8 @@ class OrdersController extends Controller
                 $product,
                 new Request(
                     [
-                        'quantity' => $cart_content[$product] != '' ? $cart_content[$product] : 1,
-                        'guestToUser' => 1
+                        'quantity'    => $cart_content[$product] != '' ? $cart_content[$product] : 1,
+                        'guestToUser' => 1,
                     ]
                 )
             );

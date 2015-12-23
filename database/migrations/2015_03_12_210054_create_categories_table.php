@@ -2,13 +2,12 @@
 
 /**
  * Antvel - Data Base
- * Categories Table
+ * Categories Table.
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
-
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateCategoriesTable extends Migration
 {

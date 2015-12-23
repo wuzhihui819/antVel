@@ -1,4 +1,6 @@
-<?php namespace app\Providers;
+<?php
+
+namespace app\Providers;
 
 use Illuminate\Bus\Dispatcher;
 use Illuminate\Support\ServiceProvider;
@@ -8,7 +10,8 @@ class BusServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      *
-     * @param  \Illuminate\Bus\Dispatcher  $dispatcher
+     * @param \Illuminate\Bus\Dispatcher $dispatcher
+     *
      * @return void
      */
     public function boot(Dispatcher $dispatcher)

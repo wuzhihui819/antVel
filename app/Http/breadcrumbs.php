@@ -1,36 +1,34 @@
 <?php
 
 /**
- * Antvel - Breadcrumbs Menus
+ * Antvel - Breadcrumbs Menus.
  *
- * @package davejamesmiller/laravel-breadcrumbs
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
 //home
-Breadcrumbs::register('home', function($breadcrumbs) {
+Breadcrumbs::register('home', function ($breadcrumbs) {
     $breadcrumbs->push('Home', route('home'));
 });
 
 //products list
-Breadcrumbs::register('products', function($breadcrumbs)
-{
-	$breadcrumbs->parent('home');
+Breadcrumbs::register('products', function ($breadcrumbs) {
+    $breadcrumbs->parent('home');
     $breadcrumbs->push(trans('store.products_list_label'), route('products'));
 });
 
 //products detail
-Breadcrumbs::register('productDetail', function($breadcrumbs, $product) {
+Breadcrumbs::register('productDetail', function ($breadcrumbs, $product) {
 
     $breadcrumbs->parent('products');
-	$list = [];
-	$catProd = app\Category::find($product->categories->id);
-	$categriesTree = app\Category::parentsTree($catProd->category_id, $list);
+    $list = [];
+    $catProd = app\Category::find($product->categories->id);
+    $categriesTree = app\Category::parentsTree($catProd->category_id, $list);
 
-	$list = array_reverse($list);
+    $list = array_reverse($list);
 
     foreach ($list as $value) {
-    	$breadcrumbs->push($value['name'], 'products?category='.urlencode($value['id'].'|'.$value['name']));
+        $breadcrumbs->push($value['name'], 'products?category='.urlencode($value['id'].'|'.$value['name']));
     }
 
     $breadcrumbs->push($catProd->name, 'products?category='.urlencode($catProd->id.'|'.$catProd->name));
@@ -38,31 +36,24 @@ Breadcrumbs::register('productDetail', function($breadcrumbs, $product) {
 });
 
 //products list
-Breadcrumbs::register('dashboard', function($breadcrumbs)
-{
+Breadcrumbs::register('dashboard', function ($breadcrumbs) {
     $breadcrumbs->parent('products');
     $breadcrumbs->push('Dashboard');
 });
 
 //shopping cart
-Breadcrumbs::register('shoppingCart', function($breadcrumbs)
-{
+Breadcrumbs::register('shoppingCart', function ($breadcrumbs) {
     $breadcrumbs->parent('products');
     $breadcrumbs->push(trans('store.cart_view.your_shopping_cart'), route('orders.show_cart'));
 });
 
-Breadcrumbs::register('shoppingCartResume', function($breadcrumbs)
-{
+Breadcrumbs::register('shoppingCartResume', function ($breadcrumbs) {
     $breadcrumbs->parent('shippingAddresses');
     $breadcrumbs->push(trans('store.cart_view.your_shopping_cart_resume'), route('orders.check_out_address'));
 });
 
 //shipping addresses
-Breadcrumbs::register('shippingAddresses', function($breadcrumbs)
-{
+Breadcrumbs::register('shippingAddresses', function ($breadcrumbs) {
     $breadcrumbs->parent('shoppingCart');
     $breadcrumbs->push(trans('address.my_addresses'), route('orders.check_out'));
 });
-
-
-?>

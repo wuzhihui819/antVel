@@ -14,7 +14,7 @@
 */
 
 Route::controllers([
-    'auth' => 'Auth\AuthController',
+    'auth'     => 'Auth\AuthController',
     'password' => 'Auth\PasswordController',
 ]);
 
@@ -22,7 +22,7 @@ Route::controllers([
 Route::get('verification/{token}', 'UserController@accountVerification');
 
 // home control
-Route::get('/', ['as'=>'home', 'uses'=>'HomeController@index']);
+Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 
 Route::group(['prefix' => 'home'], function () {
 
@@ -31,7 +31,7 @@ Route::group(['prefix' => 'home'], function () {
 });
 
 //Product list
-Route::get('products', ['uses'=>'ProductsController@index', 'as' =>'products']);
+Route::get('products', ['uses' => 'ProductsController@index', 'as' => 'products']);
 
 //Orders Reports
 Route::get('orders/report/{type}/{filter}', ['uses' => 'OrdersController@reports', 'as' => 'orders.report']);
@@ -42,7 +42,7 @@ Route::get('search/', 'ProductsController@searchAll');
 Route::get('categories', 'CategoriesController@index');
 
 //Acceso Usuario General(Admin,Persona,Empresa)
-Route::group(['prefix' => 'user', 'roles'=>array_keys(trans('globals.roles')), 'middleware'=>['auth', 'roles']], function () {
+Route::group(['prefix' => 'user', 'roles' => array_keys(trans('globals.roles')), 'middleware' => ['auth', 'roles']], function () {
 
     Route::get('dashboard', 'UserController@dashBoard');
 
@@ -104,13 +104,13 @@ Route::group(['prefix' => 'user', 'roles'=>array_keys(trans('globals.roles')), '
 
     //Route used to login an user and send it back to the product show
 
-    Route::get('logAndShow/{productId}', ['uses'=>'ProductsController@show', 'as'=>'products.log_and_show']);
+    Route::get('logAndShow/{productId}', ['uses' => 'ProductsController@show', 'as' => 'products.log_and_show']);
 
     Route::get('orders/close/{order_id}', ['uses' => 'OrdersController@closeOrder', 'as' => 'orders.close']);
 
-    Route::get('modalSeeKeysPurchased', ['uses'=>'VirtualProductOrdersController@modalSeeKeysPurchased', 'as'=>'VirtualProductOrders.modalSeeKeysPurchased']);
+    Route::get('modalSeeKeysPurchased', ['uses' => 'VirtualProductOrdersController@modalSeeKeysPurchased', 'as' => 'VirtualProductOrders.modalSeeKeysPurchased']);
 
-    Route::get('showKeyVirtualProductPurchased/{idProduct}/{idOrder}', ['uses'=>'VirtualProductOrdersController@showKeyVirtualProductPurchased', 'as'=>'VirtualProductOrders.showKeyVirtualProductPurchased']);
+    Route::get('showKeyVirtualProductPurchased/{idProduct}/{idOrder}', ['uses' => 'VirtualProductOrdersController@showKeyVirtualProductPurchased', 'as' => 'VirtualProductOrders.showKeyVirtualProductPurchased']);
 
     Route::get('orders/comment/{order_id}', ['uses' => 'OrdersController@commentOrder', 'as' => 'orders.comment']);
 
@@ -122,7 +122,7 @@ Route::group(['prefix' => 'user', 'roles'=>array_keys(trans('globals.roles')), '
     Route::post('rates/product', ['uses' => 'OrdersController@rateProduct', 'as' => 'orders.rate_seller']);
 
     //Freeproducts
-    Route::put('freeproducts/suscribe/{id}', ['uses'=>'FreeProductsController@suscribe', 'as' =>'freeproducts.suscribe']);
+    Route::put('freeproducts/suscribe/{id}', ['uses' => 'FreeProductsController@suscribe', 'as' => 'freeproducts.suscribe']);
 
     Route::get('myFreeProducts', ['uses' => 'FreeProductsController@myFreeProducts', 'as' => 'freeproducts.my_free_products']);
 
@@ -133,34 +133,33 @@ Route::group(['prefix' => 'user', 'roles'=>array_keys(trans('globals.roles')), '
 });
 
 //Acceso solo Empresas
-Route::group(['roles'=>['business', 'nonprofit', 'admin'], 'middleware'=>['auth', 'roles']], function () {
-
+Route::group(['roles' => ['business', 'nonprofit', 'admin'], 'middleware' => ['auth', 'roles']], function () {
 
     Route::resource('productsGroup', 'ProductsGroupController');
 
-    Route::get('products/create', ['uses' =>'ProductsController@create', 'as' =>'products.create']);
+    Route::get('products/create', ['uses' => 'ProductsController@create', 'as' => 'products.create']);
 
-    Route::get('products/{id}/edit', ['uses' =>'ProductsController@edit', 'as' =>'products.edit']);
+    Route::get('products/{id}/edit', ['uses' => 'ProductsController@edit', 'as' => 'products.edit']);
 
-    Route::get('products/downloadExample', ['uses'=>'ProductsController@downloadExample', 'as' =>'products.downloadExample']);
+    Route::get('products/downloadExample', ['uses' => 'ProductsController@downloadExample', 'as' => 'products.downloadExample']);
 
-    Route::post('products', ['uses'=>'ProductsController@store', 'as' =>'products.store']);
+    Route::post('products', ['uses' => 'ProductsController@store', 'as' => 'products.store']);
 
-    Route::post('products/upload', ['uses'=>'ProductsController@upload', 'as' =>'products.upload']);
+    Route::post('products/upload', ['uses' => 'ProductsController@upload', 'as' => 'products.upload']);
 
-    Route::post('products/upload_key', ['uses'=>'ProductsController@upload_key', 'as' =>'products.upload_key']);
+    Route::post('products/upload_key', ['uses' => 'ProductsController@upload_key', 'as' => 'products.upload_key']);
 
-    Route::post('products/upload_software', ['uses'=>'ProductsController@upload_software', 'as' =>'products.upload_software']);
+    Route::post('products/upload_software', ['uses' => 'ProductsController@upload_software', 'as' => 'products.upload_software']);
 
-    Route::put('products/{id}', ['uses'=>'ProductsController@update', 'as' =>'products.update']);
+    Route::put('products/{id}', ['uses' => 'ProductsController@update', 'as' => 'products.update']);
 
-    Route::get('modalAllKeys', ['uses'=>'VirtualProductsController@modalAllKeys', 'as'=>'virtualproducts.modalAllKeys']);
+    Route::get('modalAllKeys', ['uses' => 'VirtualProductsController@modalAllKeys', 'as' => 'virtualproducts.modalAllKeys']);
 
-    Route::get('showAllKeys/{id}', ['uses'=>'VirtualProductsController@showAllKeys', 'as'=>'virtualproducts.showAllKeys']);
+    Route::get('showAllKeys/{id}', ['uses' => 'VirtualProductsController@showAllKeys', 'as' => 'virtualproducts.showAllKeys']);
 
-    Route::get('deleteKey/{id}', ['uses'=>'VirtualProductsController@deleteKey', 'as'=>'virtualproducts.deleteKey']);
+    Route::get('deleteKey/{id}', ['uses' => 'VirtualProductsController@deleteKey', 'as' => 'virtualproducts.deleteKey']);
 
-    Route::post('products/change/status/{id}', ['uses'=>'ProductsController@changeStatus', 'as' =>'products.change_status']);
+    Route::post('products/change/status/{id}', ['uses' => 'ProductsController@changeStatus', 'as' => 'products.change_status']);
 
     Route::get('orders/usersOrders', ['uses' => 'OrdersController@usersOrders', 'as' => 'orders.pendingOrders']);
 
@@ -183,15 +182,15 @@ Route::group(['roles'=>['business', 'nonprofit', 'admin'], 'middleware'=>['auth'
 });
 
 // Acceso solo a Wpanel
-Route::group(['prefix'=>'wpanel', 'roles'=>'admin', 'middleware'=>['auth', 'roles']], function () {
+Route::group(['prefix' => 'wpanel', 'roles' => 'admin', 'middleware' => ['auth', 'roles']], function () {
 
     Route::resource('/', 'WpanelController');
 
     Route::resource('category', 'CategoriesController');
 
-    Route::post('category/upload', ['uses'=>'CategoriesController@upload', 'as' =>'category.upload']);
+    Route::post('category/upload', ['uses' => 'CategoriesController@upload', 'as' => 'category.upload']);
 
-    Route::get('categories', ['uses'=>'CategoriesController@showList', 'as' =>'categories']);
+    Route::get('categories', ['uses' => 'CategoriesController@showList', 'as' => 'categories']);
 
     Route::resource('productsdetails', 'ProductDetailsController');
 
@@ -201,12 +200,12 @@ Route::group(['prefix'=>'wpanel', 'roles'=>'admin', 'middleware'=>['auth', 'role
 
 });
 
-/**
+/*
  * WISH LISTS
  * here you will be able to find all the routes related to users wish list
  */
 
-Route::group(['prefix' => 'wishes', 'roles'=>array_keys(trans('globals.roles')), 'middleware'=>['auth', 'roles']], function () {
+Route::group(['prefix' => 'wishes', 'roles' => array_keys(trans('globals.roles')), 'middleware' => ['auth', 'roles']], function () {
 
     //create
     Route::get('/create', ['uses' => 'OrdersController@createWishList', 'as' => 'orders.create_wish_list']);
@@ -241,19 +240,19 @@ Route::put('user/orders/updateQuantity/{detailId}/{newQuantity}', ['uses' => 'Or
 Route::get('getPoints', 'UserController@getPoints');
 
 // Ramon
-Route::get('modalDetailsProductCart/', ['uses'=>'OrdersController@modalDetailsProductCart', 'as'=>'orders.modalDetailsProductCart']);
+Route::get('modalDetailsProductCart/', ['uses' => 'OrdersController@modalDetailsProductCart', 'as' => 'orders.modalDetailsProductCart']);
 
-Route::get('showDetailsProductCart/{id}', ['uses'=>'OrdersController@showDetailsProductCart', 'as'=>'orders.showDetailsProductCart']);
+Route::get('showDetailsProductCart/{id}', ['uses' => 'OrdersController@showDetailsProductCart', 'as' => 'orders.showDetailsProductCart']);
 
-Route::post('editKeyVirtualProductsOrders/{id}', ['uses'=>'VirtualProductOrdersController@editKey', 'as'=>'virtualProductOrdersController.editKey']);
+Route::post('editKeyVirtualProductsOrders/{id}', ['uses' => 'VirtualProductOrdersController@editKey', 'as' => 'virtualProductOrdersController.editKey']);
 
 Route::resource('virtualproducts', 'VirtualProductsController');
 
-Route::get('products/{id}', ['uses'=>'ProductsController@show', 'as' =>'products.show']);
+Route::get('products/{id}', ['uses' => 'ProductsController@show', 'as' => 'products.show']);
 
 Route::get('img/{file?}', 'FileController@img')->where('file', '(.*)');
 
-Route::get('freeproducts/{id}', ['uses'=>'FreeProductsController@show', 'as' =>'freeproducts.show']);
+Route::get('freeproducts/{id}', ['uses' => 'FreeProductsController@show', 'as' => 'freeproducts.show']);
 
 Route::get('freeproducts/show/all', ['uses' => 'FreeProductsController@index', 'as' => 'freeproducts.search']);
 
@@ -283,19 +282,18 @@ Route::resource('typepreferences', 'TypePreferencesController');
 Route::resource('virtualproductorders', 'VirtualProductOrdersController');
 
 // Add this route for checkout or submit form to pass the item into paypal
-Route::post('payment', ['uses' => 'PaypalController@postPayment', 'as' => 'payment', ]);
+Route::post('payment', ['uses' => 'PaypalController@postPayment', 'as' => 'payment']);
 
 // this is after make the payment, PayPal redirect back to your site
-Route::get('payment/status', ['uses' => 'PaypalController@getPaymentStatus', 'as' => 'payment.status', ]);
+Route::get('payment/status', ['uses' => 'PaypalController@getPaymentStatus', 'as' => 'payment.status']);
 
 //Octasan Delete Fast Mail test
 Route::get('mailTest', 'OrdersController@mailtest');
 
-
 //About Controller
-Route::get('contact',  ['as' => 'contact', 'uses' => 'AboutController@create']);
+Route::get('contact', ['as' => 'contact', 'uses' => 'AboutController@create']);
 Route::post('contact', ['as' => 'contact_store', 'uses' => 'AboutController@store']);
-Route::get('about',    ['as' => 'about', 'uses' => 'AboutController@about']);
-Route::get('refunds',  ['as' => 'refunds', 'uses' => 'AboutController@refunds']);
-Route::get('privacy',  ['as' => 'privacy', 'uses' => 'AboutController@privacy']);
-Route::get('terms',    ['as' => 'terms', 'uses' => 'AboutController@terms']);
+Route::get('about', ['as' => 'about', 'uses' => 'AboutController@about']);
+Route::get('refunds', ['as' => 'refunds', 'uses' => 'AboutController@refunds']);
+Route::get('privacy', ['as' => 'privacy', 'uses' => 'AboutController@privacy']);
+Route::get('terms', ['as' => 'terms', 'uses' => 'AboutController@terms']);

@@ -1,6 +1,8 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Address Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
@@ -33,7 +35,7 @@ class Address extends Model
         'zipcode',
         'city',
         'country',
-        'state'
+        'state',
     ];
 
     protected $hidden = ['id'];

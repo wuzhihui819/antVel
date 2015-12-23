@@ -1,6 +1,8 @@
-<?php namespace app;
+<?php
 
-/**
+namespace app;
+
+/*
  * Antvel - Free Prodcuts Order Model
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
@@ -24,11 +26,12 @@ class FreeProductOrder extends Model
      */
     protected $fillable = [
         'freeproduct_id',
-        'order_id'
+        'order_id',
     ];
 
     /**
-     * Obtains information order header
+     * Obtains information order header.
+     *
      * @return Collection Order Information
      */
     public function Orders()

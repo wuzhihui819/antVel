@@ -1,4 +1,5 @@
 <?php
+
 //-------- For enums in Seeders --------
 return [
     // 'roles'					=>[
@@ -107,12 +108,12 @@ return [
     // 	'sale' => '1'
     // ],
     '404_error' => [
-        'title' => 'página no encontrada',
+        'title'      => 'página no encontrada',
         'message_01' => 'La página web que estas buscando fue removida, editada o no existe. Puedes volver a la página',
-        'link_01' => 'donde estabas',
+        'link_01'    => 'donde estabas',
         'message_02' => 'o ir a nuestra',
-        'link_02' => 'página principal'
-    ]
+        'link_02'    => 'página principal',
+    ],
     // ,
     // 'about'               =>'About',
     // 'all'                 =>'All',

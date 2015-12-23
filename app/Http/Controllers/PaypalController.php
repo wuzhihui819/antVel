@@ -1,41 +1,40 @@
-<?php namespace app\Http\Controllers;
+<?php
 
-/**
+namespace app\Http\Controllers;
+
+/*
  * Antvel - PayPal Controller
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-
+use App\Http\Controllers\Controller;
 use App\PaypalOrder;
 use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Http\Request;
-use PayPal\Rest\ApiContext;
-use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Api\Amount;
-use PayPal\Api\Details;
 use PayPal\Api\Item;
 use PayPal\Api\ItemList;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
-use PayPal\Api\RedirectUrls;
-use PayPal\Api\ExecutePayment;
 use PayPal\Api\PaymentExecution;
+use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
-use Illuminate\Support\Facades\Config;
-use App\Http\Controllers\Controller;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Rest\ApiContext;
 
 class PaypalController extends Controller
 {
     private $_api_context;
 
-    private $panel = array(
-        'center'=>['width'=>'12']
-    );
+    private $panel = [
+        'center' => ['width' => '12'],
+    ];
 
     public function __construct()
     {
@@ -48,12 +47,13 @@ class PaypalController extends Controller
     public function buyPoints()
     {
         $panel = $this->panel;
+
         return view('paypal.get_points', compact('panel'));
     }
 
     public function postPayment(Request $request)
     {
-        $quantity=$request->get('quantity');
+        $quantity = $request->get('quantity');
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
         $item_1 = new Item();
@@ -63,7 +63,7 @@ class PaypalController extends Controller
             ->setPrice('1'); // unit price
         // add item to list
         $item_list = new ItemList();
-        $item_list->setItems(array($item_1));
+        $item_list->setItems([$item_1]);
         $amount = new Amount();
         $amount->setCurrency('USD')
             ->setTotal($quantity);
@@ -78,12 +78,12 @@ class PaypalController extends Controller
         $payment->setIntent('Sale')
             ->setPayer($payer)
             ->setRedirectUrls($redirect_urls)
-            ->setTransactions(array($transaction));
+            ->setTransactions([$transaction]);
         try {
             $payment->create($this->_api_context);
         } catch (\PayPal\Exception\PPConnectionException $ex) {
             if (\Config::get('app.debug')) {
-                echo "Exception: " . $ex->getMessage() . PHP_EOL;
+                echo 'Exception: '.$ex->getMessage().PHP_EOL;
                 $err_data = json_decode($ex->getData(), true);
                 exit;
             } else {
@@ -103,6 +103,7 @@ class PaypalController extends Controller
             // redirect to paypal
             return Redirect::away($redirect_url);
         }
+
         return Redirect::route('original.route')
             ->with('error', 'Unknown error occurred');
     }
@@ -115,7 +116,7 @@ class PaypalController extends Controller
         Session::forget('paypal_payment_id');
         if (empty(Input::get('PayerID')) || empty(Input::get('token'))) {
             return Redirect::route('paypal.buy_points')
-                ->withErrors(array('main_error'=>array(trans('store.paypal.user_cancelled'))));
+                ->withErrors(['main_error' => [trans('store.paypal.user_cancelled')]]);
         }
         $payment = Payment::get($payment_id, $this->_api_context);
         // PaymentExecution object includes information necessary
@@ -156,10 +157,12 @@ class PaypalController extends Controller
             $user->modifyPoints($total_points, 13, $paypal_order->id);
 
             Session::flash('message', trans('store.paypal.approved').' '.$amount);
+
             return Redirect::route('paypal.buy_points')
                 ->with('success', 'Payment success');
         }
+
         return Redirect::route('paypal.buy_points')
-            ->withErrors(array('main_error'=>array(trans('store.paypal.error'))));
+            ->withErrors(['main_error' => [trans('store.paypal.error')]]);
     }
 }

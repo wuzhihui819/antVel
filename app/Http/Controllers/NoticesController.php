@@ -1,15 +1,15 @@
-<?php namespace app\Http\Controllers;
+<?php
 
-/**
+namespace app\Http\Controllers;
+
+/*
  * Antvel - Notice Controller
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\ActionType;
+use App\Http\Controllers\Controller;
 use App\Notice;
 
 class NoticesController extends Controller
@@ -20,7 +20,7 @@ class NoticesController extends Controller
             return false;
         }
         if (\Request::wantsJson()) {
-            return json_encode(['error'=>'need login']);
+            return json_encode(['error' => 'need login']);
         } else {
             return redirect('/auth/login');
         }
@@ -28,10 +28,11 @@ class NoticesController extends Controller
 
     protected function getActions($notices)
     {
-        $actions=[];
+        $actions = [];
         foreach ($notices as $notice) {
-            $actions[]=$notice['action_type_id'];
+            $actions[] = $notice['action_type_id'];
         }
+
         return ActionType::unique($actions)->get()->each(function ($action) { $action->useAs('notice'); })->toIdArray();
     }
 
@@ -42,60 +43,61 @@ class NoticesController extends Controller
      */
     public function index()
     {
-        if ($unauth=$this->unauth()) {
+        if ($unauth = $this->unauth()) {
             return $unauth;
         }
-        $request=\Request::all();
-        $paginator=Notice::auth()->desc()->paginate(20);
-        $data=$paginator->toArray();
-        $notices=$data['notices']=$data['data'];
+        $request = \Request::all();
+        $paginator = Notice::auth()->desc()->paginate(20);
+        $data = $paginator->toArray();
+        $notices = $data['notices'] = $data['data'];
         unset($data['data']);
-        $data['action_types']=$this->getActions($data['notices']);
+        $data['action_types'] = $this->getActions($data['notices']);
 
         extract($data);
-        $panel = array(
-            'left'=>['width'=>'2','class'=>'user-panel'],
-            'center'=>['width'=>'10'],
-        );
+        $panel = [
+            'left'   => ['width' => '2', 'class' => 'user-panel'],
+            'center' => ['width' => '10'],
+        ];
+
         return View('notices.index', compact('paginator', 'panel', 'data', array_keys($data)));
     }
 
-    public function push($force=false)
+    public function push($force = false)
     {
-        $date=date('Y-m-d H:i:s');
+        $date = date('Y-m-d H:i:s');
 
-        $data=[
-            'push'=>Notice::auth()->ofStatus('new')->count(),
+        $data = [
+            'push' => Notice::auth()->ofStatus('new')->count(),
         ];
 
-        $request=\Request::all();
+        $request = \Request::all();
         if (!isset($request['date'])) {
-            $data['date']=$date;
-            $data['notices']=Notice::auth()->desc()->get()->slice(0, 10)->toArray();
+            $data['date'] = $date;
+            $data['notices'] = Notice::auth()->desc()->get()->slice(0, 10)->toArray();
         } else {
-            $data['date']=$request['date'];
+            $data['date'] = $request['date'];
             if ($force || Notice::auth()->after($data['date'])->count()) {
-                $data['notices']=Notice::auth()->desc()->get()->slice(0, 10)->toArray();
+                $data['notices'] = Notice::auth()->desc()->get()->slice(0, 10)->toArray();
             }
             if (isset($data['notices']) && count($data['notices'])) {
-                $data['date']=$date;
+                $data['date'] = $date;
             } else {
                 unset($data['notices']);
             }
         }
         if (isset($data['notices'])) {
-            $data['action_types']=$this->getActions($data['notices']);
+            $data['action_types'] = $this->getActions($data['notices']);
         }
         $this->json_or_dd($data);
     }
 
-    public function check($id=0)
+    public function check($id = 0)
     {
-        $request=\Request::all();
+        $request = \Request::all();
         if ($id) {
-            Notice::auth()->find($id)->update(['status'=>'read']);
+            Notice::auth()->find($id)->update(['status' => 'read']);
         } elseif (isset($request['date'])) {
-            Notice::auth()->ofStatus('new')->before($request['date'])->update(['status'=>'unread']);
+            Notice::auth()->ofStatus('new')->before($request['date'])->update(['status' => 'unread']);
         }
         $this->push(true);
     }
@@ -116,7 +118,7 @@ class NoticesController extends Controller
      */
     public function store()
     {
-        $data=\Request::all();
+        $data = \Request::all();
         $this->json_or_dd($data);
         $notice = Notice::create($data);
         $this->json_or_dd($notice);
@@ -126,19 +128,21 @@ class NoticesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
     {
-        $notice=Notice::auth()->desc()->find($id);
+        $notice = Notice::auth()->desc()->find($id);
         $this->json_or_dd($notice->toArray());
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -148,22 +152,24 @@ class NoticesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function update($id)
     {
-        $data=\Request::all();
+        $data = \Request::all();
         $this->json_or_dd($data);
 
-        $notice=Notice::find($id)->fill($data)->save();
+        $notice = Notice::find($id)->fill($data)->save();
         $this->json_or_dd($notice->toArray());
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)
