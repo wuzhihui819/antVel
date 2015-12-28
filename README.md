@@ -6,7 +6,7 @@
 
 ***Antvel*** aim is giving to you and your clients the best eCommerse experience in a different aproach!
 
-## Chats and License
+## Chat Rooms
 
 <a href="https://www.hipchat.com/gU00TAMff" target="_blank">HipChat</a>
 
