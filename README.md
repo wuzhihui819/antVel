@@ -3,9 +3,10 @@
 [![Join the chat at https://gitter.im/ant-vel/antVel](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ant-vel/antVel?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-``` 
-Hipchat Room 
-```
+## Hipchat
+
+Now you can talk to us through our ```hipchat``` chat as well. Click the link below
+
 https://www.hipchat.com/gU00TAMff
 
 
