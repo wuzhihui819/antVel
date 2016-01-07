@@ -1,5 +1,7 @@
 ## Antvel Introduction
 
+[![StyleCI](https://styleci.io/repos/44852299/shield)](https://styleci.io/repos/44852299)
+
 **This is an alpha, experimental release of Antvel. Everything will change gradually, looking forward to get the best of this awesome product. Thank you for testing!**
 
 ***Antvel*** is a eCommerce project written in Laravel 5.* intended for building a friendly eStore either for startups or big companies, and is highly opinionated towards that use case. Because it is a platform already built, you only will need to add as many products as you need  to start selling and taking orders from customers
