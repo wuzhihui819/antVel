@@ -20,12 +20,12 @@ class FileController extends Controller
             return $this->notFound();
         }
 
-        #if you need security add it here
-        #can validate here alternative default pictures
+        //if you need security add it here
+        //can validate here alternative default pictures
         $this->showImg("img/$file", ['w' => $request->get('w'), 'h' => $request->get('h')]);
     }
 
-    #validation functions
+    //validation functions
 
     protected function valid($type, $file)
     {

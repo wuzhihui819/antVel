@@ -31,7 +31,7 @@ class ProductsGroupController extends Controller
                             ->with(['group' => function ($query) {  $query->select('id', 'products_group'); }])
                             ->find($id);
 
-        #is necesary re make the actual group before add to new one because is the principal product of the last one
+        //is necesary re make the actual group before add to new one because is the principal product of the last one
         if ($product->products_group == $id &&
             count($product->group) > 1 &&
             $product->products_group != $group) {
@@ -100,7 +100,7 @@ class ProductsGroupController extends Controller
                             ->with(['group' => function ($query) {  $query->select('id', 'products_group'); }])
                             ->find($id);
 
-        #is necesary re make the actual group before add to new one because is the principal product of the last one
+        //is necesary re make the actual group before add to new one because is the principal product of the last one
         if ($product->products_group == $id && count($product->group) > 1) {
             $newPrincipal = Product::select('id')
                                     ->where('products_group', $id)

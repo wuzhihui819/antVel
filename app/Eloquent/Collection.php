@@ -89,7 +89,7 @@ class Collection extends BaseCollection
      */
     public function buildTree($parent_id = 'parent_id', $children = 'children', $list = null)
     {
-        #get all ids in the collection
+        //get all ids in the collection
         $all_ids = [];
         foreach ($this as $item) {
             $all_ids[] = $item->id;
@@ -98,7 +98,7 @@ class Collection extends BaseCollection
             $list = $this;
         }
         $tree = $this->filter(function ($item) use (&$parent_id, &$all_ids) {
-            #get all items without parent or their parent is not in the list
+            //get all items without parent or their parent is not in the list
             return !$item->$parent_id || !in_array($item->$parent_id, $all_ids);
         });
         $all_ids = [];
@@ -106,7 +106,7 @@ class Collection extends BaseCollection
             $all_ids[] = $item->id;
         }
         $list = $list->filter(function ($item) use (&$parent_id, &$all_ids) {
-            #the remaining items
+            //the remaining items
             return $item->$parent_id && !in_array($item->id, $all_ids);
         });
         $builder = function (&$childs) use (&$builder, &$list, &$children, &$parent_id) {
