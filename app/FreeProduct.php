@@ -80,7 +80,7 @@ class FreeProduct extends Model
         return $freeproducts;
     }
 
-    public static function getNextEvents($fields = ['*'], $limit = 5, $date)
+    public static function getNextEvents($fields, $limit, $date)
     {
         $events = self::
                     select($fields)

@@ -39,7 +39,7 @@ class Comment extends Model
                 $data = $data + $this->attribute;
             }
             $data = $data + $options;
-            #here we validate the type and return the source reference
+            //here we validate the type and return the source reference
             switch (ActionType::find($data['action_type_id'])->source_type) {
                 case 'order':
                     $action = 3;
@@ -67,7 +67,7 @@ class Comment extends Model
 
     public function source()
     {
-        #here we validate the type and return the source reference
+        //here we validate the type and return the source reference
         switch ($this->action->source_type) {
             case 'order':
                 $source = 'App\Order';

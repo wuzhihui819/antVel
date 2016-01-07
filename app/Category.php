@@ -110,7 +110,7 @@ class Category extends Model
         if (!$this->hasParent()) {
             return;
         }
-        #family tree (return all category parents)
+        //family tree (return all category parents)
         $tree = $this->parent;
         $tree->child = null;
         while ($tree->hasParent()) {
