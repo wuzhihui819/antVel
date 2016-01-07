@@ -122,16 +122,16 @@ RECAPTCHA_PRIVATE_KEY = antvelRecaptcahPrivateKey
 * Downloadable Products
 * Automatic Image Resizing
 * Multiple Tax Rates
-* Related Products
+* Related Products (What other customers are looking at, Recommendations for you in our categories, Store Trending)
 * Search Engine Optimization
 * Sales Reports
 * Wish Lists
 * Products Suggestions
-* Products Grouping
+* Products Grouping (http://antvel.com/products/42)
 * Addresses Book
 * User Profiles (Sellers & Buyers)
 * Produducts barcode
-* Administrative Panel (wpanel)
+* Administrative Panel - (http://antvel.com/wpanel)
 * Users Orders list with action status (process, Placed, Cancel, Rated)
 * Products Rate
 * Products Reviews
@@ -148,6 +148,12 @@ RECAPTCHA_PRIVATE_KEY = antvelRecaptcahPrivateKey
 * Search Engine Suggestions
 * Dinamic Breadcrumbs
 
+### Demo Information
+
+* ```Demo:``` http://antvel.com
+* Admin: admin@antvel.com / admin
+* Buyer: buyer@antvel.com / admin
+* Seller: seller@gmail.com / admin
 
 ### Contact
 

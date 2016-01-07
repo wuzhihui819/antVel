@@ -39,7 +39,7 @@
 											  </div>
 											</div>
 											<div class="user-photo">
-												<img src="[[picture!=''?picture:'img/no-avatar.png']]" class="thumbnail" style="width:80px;"  alt="Photo" ng-file-select ng-model="files" ngf-accept="'image/*'" accept="image/*">
+												<img src="[[picture]]" class="thumbnail" style="width:80px;"  alt="Photo" ng-file-select ng-model="files" ngf-accept="'image/*'" accept="image/*">
 												<input type="hidden" value="[[file!=''?file:picture]]" name="pic_url">
 											</div>
 										</div>
