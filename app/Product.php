@@ -213,7 +213,7 @@ class Product extends Model
      */
     public function scopeLike($query, $attr = [], $search = [])
     {
-        #if the search contains a string of words, we split them in an array
+        //if the search contains a string of words, we split them in an array
         if (!is_array($search)) {
             $search = explode(' ', preg_replace('/\s+/', ' ', trim($search)));
         }

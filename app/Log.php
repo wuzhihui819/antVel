@@ -32,7 +32,7 @@ class Log extends Model
 
     public function source()
     {
-        #here we validate the type of sources and return de parent reference
+        //here we validate the type of sources and return de parent reference
         //return $this->belongTo('App\xxx');
         return [];
     }

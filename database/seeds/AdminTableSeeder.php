@@ -16,7 +16,7 @@ class AdminTableSeeder extends Seeder
 {
     public function run()
     {
-        #create basic admin user
+        //create basic admin user
         $faker = Faker::create();
         Person::create([
             'first_name' => 'Admin',
@@ -34,7 +34,7 @@ class AdminTableSeeder extends Seeder
             ],
         ]);
 
-        #developer (admin)
+        //developer (admin)
         $admin = Person::create([
             'first_name' => 'AntVel',
             'last_name'  => 'Developer',
@@ -49,7 +49,7 @@ class AdminTableSeeder extends Seeder
                 'facebook' => 'websarrollo',
             ],
         ]);
-        #seller
+        //seller
         $company_name = 'antvel seller';
         $seller = Business::create([
             'business_name' => $company_name,
@@ -64,7 +64,7 @@ class AdminTableSeeder extends Seeder
                 'facebook' => $company_name,
             ],
         ])->user;
-        #buyer
+        //buyer
         $buyer = Person::create([
             'first_name' => $faker->firstName,
             'last_name'  => $faker->lastName,

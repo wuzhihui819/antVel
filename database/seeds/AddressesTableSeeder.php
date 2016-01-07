@@ -16,7 +16,7 @@ class AddressesTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        #Category
+        //Category
         for ($i = 0; $i < 10; $i++) {
             $user = User::select(['id'])->orderByRaw('RAND()')->first();
 

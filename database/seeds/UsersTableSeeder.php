@@ -17,9 +17,9 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        #create some users for every role
+        //create some users for every role
         for ($i = 0; $i < 10; $i++) {
-            #persons
+            //persons
             Person::create([
                 'first_name' => $faker->firstName,
                 'last_name'  => $faker->lastName,
@@ -39,7 +39,7 @@ class UsersTableSeeder extends Seeder
         }
         for ($i = 0; $i < 8; $i++) {
             $company_name = $faker->company;
-            #business
+            //business
             Business::create([
                 'business_name' => $company_name,
                 'creation_date' => $faker->date(),
