@@ -62,7 +62,7 @@ class Order extends Model
 
     public static function create(array $options = [])
     {
-        #separate order details
+        //separate order details
         $details = [];
         if (isset($options['details'])) {
             $details = $options['details'];

@@ -61,14 +61,14 @@ class CategoriesTableSeeder extends Seeder
                     'Home Services'           => ['Home Improvement & Repair', 'Lawn & Garden Care', 'Automotive Services',
                                                     'Computer & Electronics', 'Lessons & Tutoring', ], ];
 
-        #create some Categories for every role
+        //create some Categories for every role
         foreach ($categorias as $categoria => $subCategorias) {
             if ($temptype == 'group') {
                 $temptype = 'store';
             } else {
                 $temptype = 'group';
             }
-            #Category
+            //Category
             $inserted = Category::create([
                 'name'        => $categoria,
                 'description' => $faker->text(90),

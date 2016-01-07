@@ -114,7 +114,7 @@ class Notice extends Model
 
     public function source()
     {
-        #here we validate the type and return the source reference
+        //here we validate the type and return the source reference
         switch ($this->action->source_type) {
             case 'orders':
                 $source = $this->hasOne('App\Order')->first();
