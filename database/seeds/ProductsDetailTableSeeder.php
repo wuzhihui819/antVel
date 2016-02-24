@@ -6,7 +6,7 @@
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
-use App\ProductDetail as ProductDetail;
+use App\ProductDetail;
 use Illuminate\Database\Seeder;
 
 class ProductsDetailTableSeeder extends Seeder
