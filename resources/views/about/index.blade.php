@@ -1,9 +1,9 @@
 @extends('layouts.master')
-@section('page_class')@parent- {{ trans('about.contact_us') }}@stop
+@section('page_class')@parent- {{ trans('about.contact_us') }}@endsection
 {{-- NAVBAR --}}
 @section('navigation')
 @include('partial.navigation_basic')
-@stop
+@endsection
 {{-- CONTENT --}}
 @section('content')
 <div class="container-fluid">
@@ -30,15 +30,14 @@
 		</div>
 	</div>
 </div>
-@stop
 @endsection
 {{-- Pie de pagina --}}
 @section('footer')
 @parent
-@stop
+@endsection
 {{-- Angular --}}
-@section('before.angular') @stop
+@section('before.angular') @endsection
 {{-- Javascript --}}
 @section('scripts')
 @parent
-@stop
+@endsection
