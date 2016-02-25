@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Person;
 use App\User;
-use Validator;
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Http\Request;
+use Validator;
 
 class AuthController extends Controller
 {
@@ -132,7 +132,7 @@ class AuthController extends Controller
      */
     public function postLogin(Request $request)
     {
-// dd($request);
+        // dd($request);
 
         if ($request->input('newuser')) {
             \Session::flash('email', $request->input('email'));

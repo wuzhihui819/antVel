@@ -40,7 +40,7 @@ class CreateUsersTable extends Migration
             $table->json('preferences')->nullable();
             $table->rememberToken();
             $table->timestamps();
-            $table->timestamp('disabled_at')->nullable();           
+            $table->timestamp('disabled_at')->nullable();
             $table->softDeletes();
         });
     }
