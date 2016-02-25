@@ -52,7 +52,7 @@ class ProductsDetailTableSeeder extends Seeder
             'type_products'    => 'item',
             'max_num_values'   => 1,
         ]);
-{}
+        {}
         ProductDetail::create([
             'name'             => 'dimensions',
             'input_type'       => 'text',
