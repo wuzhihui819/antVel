@@ -103,7 +103,7 @@ class ProductsRatesSeeder extends Seeder
             'low_stock'  => $faker->randomElement([5, 10, 15]),
             'rate_val'   => '3',
             'rate_count' => '5',
-            'tags'       => $faker->word.','.$faker->word.','.$faker->word,
+            'tags'       => json_encode($faker->word.','.$faker->word.','.$faker->word),
         ]);
 
         for ($j = 0; $j < 5; $j++) {
@@ -155,7 +155,7 @@ class ProductsRatesSeeder extends Seeder
             'low_stock'  => $faker->randomElement([5, 10, 15]),
             'rate_val'   => '4',
             'rate_count' => '5',
-            'tags'       => $faker->word.','.$faker->word.','.$faker->word,
+            'tags'       => json_encode($faker->word.','.$faker->word.','.$faker->word),
         ]);
 
         $seededProduct3 = Product::create([
@@ -186,7 +186,7 @@ class ProductsRatesSeeder extends Seeder
             'low_stock'  => $faker->randomElement([5, 10, 15]),
             'rate_val'   => '4',
             'rate_count' => '5',
-            'tags'       => $faker->word.','.$faker->word.','.$faker->word,
+            'tags'       => json_encode($faker->word.','.$faker->word.','.$faker->word),
         ]);
 
         //Creates closed orders for rates and mails

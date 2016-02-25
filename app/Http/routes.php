@@ -126,10 +126,6 @@ Route::group(['prefix' => 'user', 'roles' => array_keys(trans('globals.roles')),
 
     Route::get('myFreeProducts', ['uses' => 'FreeProductsController@myFreeProducts', 'as' => 'freeproducts.my_free_products']);
 
-    //Buy Points
-    Route::get('get/points', ['uses' => 'PaypalController@buyPoints', 'as' => 'paypal.buy_points']);
-
-    Route::post('get/points/post', ['uses' => 'PaypalController@postPayment', 'as' => 'paypal.post_payment']);
 });
 
 //Acceso solo Empresas
@@ -280,12 +276,6 @@ Route::resource('productsoffers', 'ProductOffersController');
 Route::resource('typepreferences', 'TypePreferencesController');
 
 Route::resource('virtualproductorders', 'VirtualProductOrdersController');
-
-// Add this route for checkout or submit form to pass the item into paypal
-Route::post('payment', ['uses' => 'PaypalController@postPayment', 'as' => 'payment']);
-
-// this is after make the payment, PayPal redirect back to your site
-Route::get('payment/status', ['uses' => 'PaypalController@getPaymentStatus', 'as' => 'payment.status']);
 
 //Octasan Delete Fast Mail test
 Route::get('mailTest', 'OrdersController@mailtest');
