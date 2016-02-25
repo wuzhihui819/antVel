@@ -8,6 +8,8 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\Request;
+use Auth;
 
 class AuthController extends Controller
 {
@@ -130,6 +132,8 @@ class AuthController extends Controller
      */
     public function postLogin(Request $request)
     {
+// dd($request);
+
         if ($request->input('newuser')) {
             \Session::flash('email', $request->input('email'));
 

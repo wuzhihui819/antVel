@@ -22,9 +22,9 @@ Route::controllers([
 Route::get('verification/{token}', 'UserController@accountVerification');
 
 // home control
-Route::get('/', ['as' => 'home', 'middleware' => 'web', 'uses' => 'HomeController@index']);
+Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 
-Route::group(['prefix' => 'home', 'middleware' => 'web'], function () {
+Route::group(['prefix' => 'home'], function () {
 
     Route::get('/', 'HomeController@index');
 
