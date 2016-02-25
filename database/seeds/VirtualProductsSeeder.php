@@ -39,7 +39,7 @@ class VirtualProductsSeeder extends Seeder
                     ],
                 ]),
                 'condition' => $faker->randomElement(['new', 'refurbished', 'used']),
-                'tags'      => $faker->word.','.$faker->word.','.$faker->word,
+                'tags'      => json_encode($faker->word.','.$faker->word.','.$faker->word),
                 'type'      => 'key',
             ]);
             $faker->unique($reset = true);

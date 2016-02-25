@@ -53,23 +53,16 @@ return [
             'driver' => 'sqs',
             'key'    => 'your-public-key',
             'secret' => 'your-secret-key',
-            'queue'  => 'your-queue-url',
+            'prefix' => 'https://sqs.us-east-1.amazonaws.com/your-account-id',
+            'queue'  => 'your-queue-name',
             'region' => 'us-east-1',
         ],
 
-        'iron' => [
-            'driver'  => 'iron',
-            'host'    => 'mq-aws-us-east-1.iron.io',
-            'token'   => 'your-token',
-            'project' => 'your-project-id',
-            'queue'   => 'your-queue-name',
-            'encrypt' => true,
-        ],
-
         'redis' => [
-            'driver' => 'redis',
-            'queue'  => 'default',
-            'expire' => 60,
+            'driver'     => 'redis',
+            'connection' => 'default',
+            'queue'      => 'default',
+            'expire'     => 60,
         ],
 
     ],
@@ -86,7 +79,8 @@ return [
     */
 
     'failed' => [
-        'database' => 'mysql', 'table' => 'failed_jobs',
+        'database' => env('DB_CONNECTION', 'mysql'),
+        'table'    => 'failed_jobs',
     ],
 
 ];

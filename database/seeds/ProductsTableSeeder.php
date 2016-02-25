@@ -24,10 +24,10 @@ class ProductsTableSeeder extends Seeder
             $stock = $faker->numberBetween(20, 50);
             $id = Product::create([
                 'category_id' => $faker->numberBetween(1, $numCategories),
-                'user_id'     => '3', //$businesses->random(1)->user_id
+                'user_id'     => '3',
                 'name'        => $faker->unique()->catchPhrase,
                 'description' => $faker->text(500),
-                'price'       => $price, //*1000,
+                'price'       => $price,
                 'stock'       => $stock,
                 'brand'       => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
                 'features'    => json_encode([
@@ -47,7 +47,7 @@ class ProductsTableSeeder extends Seeder
                 ]),
                 'condition' => $faker->randomElement(['new', 'refurbished', 'used']),
                 'low_stock' => $faker->randomElement([5, 10, 15]),
-                'tags'      => $faker->word.','.$faker->word.','.$faker->word,
+                'tags'      => json_encode($faker->word.','.$faker->word.','.$faker->word),
             ]);
             if ($faker->numberBetween(0, 1)) {
                 $percentage = $faker->randomElement([10, 15, 25, 35, 50]);

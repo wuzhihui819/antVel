@@ -34,13 +34,13 @@ class CreateUsersTable extends Migration
             $table->string('time_zone')->nullable();
             $table->integer('rate_val')->nullable();
             $table->integer('rate_count')->nullable();
-            $table->timestamp('disabled_at')->nullable();
             $table->enum('role', array_keys(trans('globals.roles')))->default('person');
             $table->enum('type', array_keys(trans('globals.type_user')))->default('normal');
             $table->enum('verified', array_keys(trans('globals.verification')))->default('no');
             $table->json('preferences')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->timestamp('disabled_at')->nullable();           
             $table->softDeletes();
         });
     }
