@@ -1,9 +1,10 @@
 ## Antvel Introduction
 
-[![Github Releases](https://img.shields.io/github/downloads/atom/atom/latest/total.svg?style=flat-square)]()
-[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg?style=flat-square)]()
+<img src="https://img.shields.io/badge/Downloads-50k-yellowgreen.svg">
 [![Bower](https://img.shields.io/bower/v/bootstrap.svg?style=flat-square)]()
 [![StyleCI](https://styleci.io/repos/44852299/shield)](https://styleci.io/repos/44852299)
+
+
 
 **This is an alpha, experimental release of Antvel. Everything will change gradually, looking forward to get the best of this awesome product. Thank you for testing!**
 
