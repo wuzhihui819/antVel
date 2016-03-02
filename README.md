@@ -165,8 +165,7 @@ RECAPTCHA_PRIVATE_KEY = antvelRecaptcahPrivateKey
 
 You can communicate with us using the following mediums:
 
-* [Follow us on Twitter](http://twitter.com/octobercms) for announcements and updates.
-* [Follow us on Facebook](http://facebook.com/octobercms) for announcements and updates.
+* [Follow us on Twitter](https://twitter.com/_antvel) for announcements and updates.
 * [Join us on hipChat](https://antvel.hipchat.com/home) to chat with us.
 * [Email](gustavoocanto@gmail.com) for questions
 * http://g-ocanto.com
