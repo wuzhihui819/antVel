@@ -251,9 +251,6 @@ class featuresHelper
         }
     }
 
-    /**
-     *
-     */
     public function makeSelectColor()
     {
         $colors = new ColorsHelper();
