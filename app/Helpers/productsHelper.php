@@ -59,8 +59,6 @@ class productsHelper
         }
 
         Session::save();
-
-        return;
     }
 
     public function resetHaystack()

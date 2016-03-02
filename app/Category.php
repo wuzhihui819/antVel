@@ -272,8 +272,6 @@ class Category extends Model
 
             self::progeny($value->id, $list, $fields);
         }
-
-        return;
     }
 
     /**
@@ -300,7 +298,5 @@ class Category extends Model
             $array[] = $value;
             self::parentsTree($value['category_id'], $array, $fields);
         }
-
-        return;
     }
 }
