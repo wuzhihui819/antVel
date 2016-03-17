@@ -98,8 +98,6 @@ class categoriesHelper
                 return;
             }
         }
-
-        return;
     }
 
     public static function searchCategories($categories, $products)
