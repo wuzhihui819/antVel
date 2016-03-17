@@ -21,4 +21,5 @@ return [
     ],
 
     'all_title'   => 'Avisos da Loja',
-    'all_summary' => 'Aqui você será capaz de ver todos os seus avisos até agora. Além disso, você pode clicar para ver seus detalhes .',];
+    'all_summary' => 'Aqui você será capaz de ver todos os seus avisos até agora. Além disso, você pode clicar para ver seus detalhes.',
+];
