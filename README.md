@@ -159,7 +159,7 @@ RECAPTCHA_PRIVATE_KEY = antvelRecaptcahPrivateKey
 * ```Demo:``` http://antvel.com
 * Admin: admin@antvel.com / admin
 * Buyer: buyer@antvel.com / admin
-* Seller: seller@gmail.com / admin
+* Seller: seller@antvel.com / admin
 
 ### Contact
 
