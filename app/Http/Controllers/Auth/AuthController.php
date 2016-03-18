@@ -28,8 +28,6 @@ class AuthController extends Controller
 
     /**
      * Create a new authentication controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -156,7 +154,7 @@ class AuthController extends Controller
                 return redirect()->intended($this->redirectPath());
             }
 
-            return redirect($this->loginPath())
+            return redirect(property_exists($this, 'loginPath') ? $this->loginPath : 'auth/login')
                 ->withInput($request->only('email', 'remember'))
                 ->withErrors([
                     'email' => $this->getFailedLoginMessage(),
