@@ -10,11 +10,9 @@ namespace app;
 
 use App\Category;
 use App\Eloquent\Model;
-use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Product extends Model
 {
-    use SearchableTrait;
     /**
      * The database table used by the model.
      *
@@ -40,30 +38,10 @@ class Product extends Model
         'condition',
         'rate_val',
         'rate_count',
-        //'currency',
         'low_stock',
         'status',
         'parent_id',
     ];
-
-    /**
-     * Columns for search rules.
-     *
-     * @var array
-     */
-    protected $searchable = [
-        'columns' => [
-            'name'        => 100,
-            'description' => 500,
-            'features'    => 255,
-            'brand'       => 30,
-            'tags'        => 255,
-        ],
-    ];
-
-    // protected $casts = ['features'];
-
-//	protected $appends = ['last_comments'];
 
     protected $hidden = ['details', 'created_at'];
 
@@ -122,6 +100,15 @@ class Product extends Model
     public function scopeInactives($query)
     {
         return $query->where('status', 0);
+    }
+
+    public function scopeSearch($query, $seed)
+    {
+        return $query->where('name', 'like', '%'.$seed.'%')
+            ->orWhere('description', 'like', '%'.$seed.'%')
+            ->orWhere('features', 'like', '%'.$seed.'%')
+            ->orWhere('brand', 'like', '%'.$seed.'%')
+            ->orWhere('tags', 'like', '%'.$seed.'%');
     }
 
     public function scopeRefine($query, $filters)

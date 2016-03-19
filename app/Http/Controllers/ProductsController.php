@@ -81,7 +81,7 @@ class ProductsController extends Controller
          * @var [type]
          */
         $products = Product::select('id', 'category_id', 'name', 'price', 'description', 'condition', 'brand', 'rate_val', 'type', 'features', 'parent_id', 'tags')
-            ->search($search, false)
+            ->search($search)
             ->refine($refine)
             ->free()
             ->actives()

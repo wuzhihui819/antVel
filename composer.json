@@ -9,7 +9,6 @@
 		"laravel/framework": "5.2.*",
 		"laravelcollective/html": "5.2.*",
 		"fzaninotto/faker": "^1.5",
-		"nicolaslopezj/searchable": "1.*",
 		"laravel/socialite": "^2.0",
 		"intervention/image": "^2.3",
 		"greggilbert/recaptcha": "dev-master",
