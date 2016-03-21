@@ -4,20 +4,21 @@
  * @copyright Copyright (c) 2016, Mauri de Souza Nunes <github.com/mauri870>
  * @license   https://opensource.org/licenses/MIT MIT License
  */
-
 namespace App\Tests\Front;
 
 use App\Tests\AbstractTestCase;
 
 class FrontEndTest extends AbstractTestCase
 {
-    public function test_if_can_render_the_homepage(){
+    public function test_if_can_render_the_homepage()
+    {
         $this->visit('/')
             ->see('Antvel eCommerce')
             ->assertResponseOk();
     }
 
-    public function test_if_the_homepages_are_equal(){
+    public function test_if_the_homepages_are_equal()
+    {
         $this->assertEquals(
             $this->visit('/'),
             $this->visit('home')
