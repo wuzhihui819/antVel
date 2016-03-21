@@ -5,3 +5,4 @@
 /public/antvel-bower/*
 .env
 composer.lock
+.idea/
