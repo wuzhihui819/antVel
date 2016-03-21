@@ -235,7 +235,6 @@ Route::put('user/orders/updateQuantity/{detailId}/{newQuantity}', ['uses' => 'Or
 //points push notifications
 Route::get('getPoints', 'UserController@getPoints');
 
-// Ramon
 Route::get('modalDetailsProductCart/', ['uses' => 'OrdersController@modalDetailsProductCart', 'as' => 'orders.modalDetailsProductCart']);
 
 Route::get('showDetailsProductCart/{id}', ['uses' => 'OrdersController@showDetailsProductCart', 'as' => 'orders.showDetailsProductCart']);
@@ -277,7 +276,6 @@ Route::resource('typepreferences', 'TypePreferencesController');
 
 Route::resource('virtualproductorders', 'VirtualProductOrdersController');
 
-//Octasan Delete Fast Mail test
 Route::get('mailTest', 'OrdersController@mailtest');
 
 //About Controller

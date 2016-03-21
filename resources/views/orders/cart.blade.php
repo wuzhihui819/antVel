@@ -14,6 +14,7 @@
     @else
 
         {!! Breadcrumbs::render('shoppingCart') !!}
+
     @endif
 
 @stop
