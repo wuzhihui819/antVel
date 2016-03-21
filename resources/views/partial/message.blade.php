@@ -1,14 +1,34 @@
 <?php
-$class = Session::get('messageClass') ? Session::get('messageClass') : 'alert alert-success';
 
+/**
+ * Contains the notify plugin style
+ *
+ * @var string
+ */
+$class = Session::get('messageClass') ? Session::get('messageClass') : 'alert alert-success';
+$class = is_array($class) ? implode('', $class) : $class;
+
+/**
+ * Contains the notify plugin message.
+ *
+ * @var string / array
+ */
 $m = Session::get('message');
 $m = $m ? (is_array($m) ? Html::ul($m) : '<p>'.$m.'</p>') : '';
+$m = $m ? (is_array($m) ? Html::ul($m) : '<p>'.$m.'</p>') : '';
 
+/**
+ * Laravel errors message controller
+ *
+ * @var array
+ */
 $e = $errors->any() ? Html::ul($errors->all()) : '';
 
+//forgetting flash data to control app notify messages.
 Session::forget('message');
 Session::forget('messageClass');
 Session::save();
+
 ?>
 @if($m!='' || $e!='')
     <div ng-controller="MessageController"></div>

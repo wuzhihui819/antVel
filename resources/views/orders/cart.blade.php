@@ -6,7 +6,17 @@
 
 @section('breadcrumbs')
     @parent
-    {!! Breadcrumbs::render(isset($isResume) ? 'shoppingCartResume' : 'shoppingCart') !!}
+
+    @if (isset($isResume))
+
+        {!! Breadcrumbs::render('shoppingCartResume', $cartAddress->id) !!}
+
+    @else
+
+        {!! Breadcrumbs::render('shoppingCart') !!}
+
+    @endif
+
 @stop
 
 @section('content')

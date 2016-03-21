@@ -247,7 +247,7 @@ return [
   'change_label'           => 'Change',
   'file_upload_error'      => "Sorry, you can't upload files over :MaxFilesize",
   'twitter_label'          => 'Twitter',
-  'google_label'           => 'Gloogle+',
+  'google_label'           => 'Google+',
   'facebook_label'         => 'Facebook',
   'about'                  => 'About Us',
   'all'                    => 'All',
@@ -290,7 +290,7 @@ return [
   'success_label'          => 'Success',
   'newsletter_email_error' => 'Email is required!',
   'reach_us_msg'           => 'Reach us by email anytime! We will be in touch as soon as possible.',
-  'send_a_email_label'     => 'Send a email',
+  'send_a_email_label'     => 'Send an email',
   'share_on_facebook'      => 'Share on Facebook',
   'share_on_twitter'       => 'Share on Twitter',
 ];

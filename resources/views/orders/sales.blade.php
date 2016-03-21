@@ -2,6 +2,8 @@
 @section('title')@parent - {{ trans('user.your_sales') }} @stop
 @section('page_class') 'products_view' @stop
 
+@include('partial.message')
+
 @section('css')
     @parent
 @stop
@@ -13,7 +15,6 @@
         @include('user.partial.menu_dashboard')
     @stop
     @section('center_content')
-        @include('partial.message')
 
         <div class="page-header">
             @if (\Auth::user()->role == 'person')
