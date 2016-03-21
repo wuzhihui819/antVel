@@ -47,9 +47,9 @@ Breadcrumbs::register('shoppingCart', function ($breadcrumbs) {
     $breadcrumbs->push(trans('store.cart_view.your_shopping_cart'), route('orders.show_cart'));
 });
 
-Breadcrumbs::register('shoppingCartResume', function ($breadcrumbs) {
+Breadcrumbs::register('shoppingCartResume', function ($breadcrumbs, $addressId) {
     $breadcrumbs->parent('shippingAddresses');
-    $breadcrumbs->push(trans('store.cart_view.your_shopping_cart_resume'), route('orders.check_out_address'));
+    $breadcrumbs->push(trans('store.cart_view.your_shopping_cart_resume'), route('orders.check_out_address', ['addressId' => $addressId]));
 });
 
 //shipping addresses
