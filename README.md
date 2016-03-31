@@ -12,6 +12,11 @@
 
 ***Antvel*** aim is giving to you and your clients the best eCommerse experience in a different aproach!
 
+## Gratipay Profile
+
+<a href="https://gratipay.com/Antvel/" target="_blank">https://gratipay.com/Antvel/</a>
+
+
 ## Chat Rooms
 
 <a href="https://www.hipchat.com/gU00TAMff" target="_blank">HipChat</a>
