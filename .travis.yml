@@ -9,11 +9,13 @@ php:
 services:
   - mysql
 
+before_install:
+  - travis_retry composer self-update
+
 before_script:
   - composer self-update
   - composer install
   - php artisan key:generate
   - mysql -e 'create database antvelDB;'
 
-scripts:
-  - vendor/bin/phpunit
+script: vendor/bin/phpunit
