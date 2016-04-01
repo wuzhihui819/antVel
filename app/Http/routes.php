@@ -116,6 +116,10 @@ Route::group(['prefix' => 'user', 'roles' => array_keys(trans('globals.roles')),
 
     Route::post('orders/storeComment', ['uses' => 'OrdersController@storeComment', 'as' => 'orders.store_comment']);
 
+    Route::post('orders/storeComment', ['uses' => 'OrdersController@storeComment', 'as' => 'orders.store_comment']);
+
+    Route::get('orders/delete/{order_id}/{type}', ['uses' => 'OrdersController@destroy', 'as' => 'orders.delete']);
+
     //Rates
     Route::post('rates/seller', ['uses' => 'OrdersController@rateSeller', 'as' => 'orders.rate_seller']);
 
@@ -128,7 +132,7 @@ Route::group(['prefix' => 'user', 'roles' => array_keys(trans('globals.roles')),
 
 });
 
-//Acceso solo Empresas
+//Companies Routes
 Route::group(['roles' => ['business', 'nonprofit', 'admin'], 'middleware' => ['auth', 'roles']], function () {
 
     Route::resource('productsGroup', 'ProductsGroupController');
@@ -177,7 +181,7 @@ Route::group(['roles' => ['business', 'nonprofit', 'admin'], 'middleware' => ['a
     Route::post('/products/delete_img', ['uses' => 'ProductsController@deleteImg', 'as' => 'products.deleteImg']);
 });
 
-// Acceso solo a Wpanel
+//Wpanel Routes
 Route::group(['prefix' => 'wpanel', 'roles' => 'admin', 'middleware' => ['auth', 'roles']], function () {
 
     Route::resource('/', 'WpanelController');
@@ -217,7 +221,6 @@ Route::group(['prefix' => 'wishes', 'roles' => array_keys(trans('globals.roles')
 
     //store
     Route::post('/store', ['uses' => 'OrdersController@storeWishList', 'as' => 'orders.store_list']);
-
 });
 
 // Acceso sin login Cambios para poder crear carrito y listas

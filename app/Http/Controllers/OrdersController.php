@@ -8,39 +8,50 @@ namespace app\Http\Controllers;
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
+use App\Log;
+use App\User;
+use App\Order;
+use App\Notice;
+use App\Comment;
+use App\Product;
 use App\Address;
 use App\Business;
-use App\Comment;
-use App\Helpers\productsHelper;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\ProductsController as ProductsController;
-use App\Log;
-use App\Notice;
-use App\Order;
-use App\OrderDetail;
-use App\Product;
-use App\User;
-use App\VirtualProduct;
-use App\VirtualProductOrder;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\OrderDetail;
+use App\VirtualProduct;
 use Illuminate\Http\Request;
+use App\VirtualProductOrder;
+use App\Helpers\productsHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\Controller;
+use App\Repositories\OrderRepository;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Http\Controllers\ProductsController as ProductsController;
 
 class OrdersController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * The order repository instance.
      *
-     * @return Response
+     * @var OrderRepository
      */
-    public function index()
+    protected $order;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param  OrderRepository $order
+     * @return void
+     */
+    public function __construct(OrderRepository $order)
     {
-        //
+        $this->middleware('auth');
+
+        $this->order = $order;
     }
 
     /**
@@ -521,7 +532,10 @@ class OrdersController extends Controller
             'center' => ['width' => '12'],
         ];
 
-        return view('orders.wishListsDirectory', compact('orders', 'panel'));
+        //suggestionst
+        $suggestions = ProductsController::getSuggestions(['limit' => 4]);
+
+        return view('orders.wishListsDirectory', compact('orders', 'panel', 'suggestions'));
     }
 
     /**
@@ -1390,13 +1404,27 @@ class OrdersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param int $order_id
+     * @param string $type
      *
-     * @return Response
+     * @return void
      */
-    public function destroy($id)
+    public function destroy($order_id, $type)
     {
-        //
+        if ($this->order->belongToUser(auth()->user(), $order_id, $order) && $this->order->canBeDeleted($type)) {
+
+            $order->details()->delete();
+
+            $order->delete();
+
+            Session::push('message', trans('store.wish_list_view.success_deleting_msg'));
+
+        } else {
+            Session::push('message', trans('store.wish_list_view.error_deleting_msg'));
+        }
+
+        return redirect()->back();
+
     }
 
     /**
