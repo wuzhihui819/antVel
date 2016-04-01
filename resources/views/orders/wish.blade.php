@@ -8,7 +8,7 @@
 
 @section('content')
     @parent
-    
+
     @if (\Auth::user())
         @section('panel_left_content')
             @include('user.partial.menu_dashboard')
@@ -18,7 +18,7 @@
     @section('center_content')
 
         @include('partial.message')
-      
+
         <ol class="breadcrumb">
 
             <li><a href="{{ route('orders.show_list_directory') }}">{{ trans('store.your_wish_lists') }}</a></li>
@@ -28,7 +28,7 @@
         </ol>
         @if ($hasWishList || $hasLaterCart)
             <div class="panel panel-primary">
-                
+
                 <div class="panel-heading">
                     <h6>
                         <span class="glyphicon glyphicon-gift"></span>&nbsp;
@@ -38,11 +38,11 @@
                         @endif
                     </h6>
                 </div>
-                
+
                 <div class="panel-body">
 
                     {{-- cart grid --}}
-                        
+
                     @if ($hasWishList)
                         <div class="row hidden-xs">
                             <div class="col-sm-9 text-left">
@@ -55,11 +55,11 @@
                                 <h6>{{ trans('store.price') }}</h6>
                             </div>
                         </div>
-                        
+
                         <hr>
-                    
+
                         @foreach ($cart->details as $detail)
-                            
+
                             <div class="row">
                                 <div class="col-sm-2 col-xs-4 text-center">
                                     <img  class="img-rounded" src='{{ $detail->product->features['images'][0] }}' alt="{{ $detail->product->name }}" width="90" height="90">
@@ -99,19 +99,19 @@
 
                             </div>
                             <hr>
-                            
+
                         @endforeach
                     @endif
 
                     {{-- later cart grid --}}
-                    
+
                     @if ($hasLaterCart)
                         <div class="page-header">
                             <h5>{{ trans('store.productsSavedForLater') }}</h5>
                         </div>
 
                         @foreach ($laterCart->details as $detail)
-                            
+
                             <div class="row">
                                 <div class="col-lg-2 text-center">
                                     <img  class="img-rounded" src='{{ $detail->product->features['images'][0] }}' alt="{{ $detail->product->name }}" width="90" height="90">
@@ -135,9 +135,9 @@
 
                         @endforeach
                     @endif
-                    
+
                 </div> {{-- panel body --}}
-            
+
                 <div class="panel-footer clearfix">
                     <div class="row">
                         <div class="col-md-12">
@@ -159,11 +159,11 @@
 
         {{-- if there is not products saved in the wish list --}}
         @else
-    
+
             <div class="row">&nbsp;</div>
 
             <div class="alert alert-warning" role="alert">
-                
+
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <strong class="text-center">
@@ -175,13 +175,13 @@
                 <div class="row">
                     <div class="col-lg-12 text-center">{{ trans('store.wish_list_view.empty_list_message') }}</div>
                 </div>
-                
+
             </div>
 
             <div class="row">&nbsp;</div>
 
         @endif {{-- if there is something in the wishes --}}
-        
+
         @if(isset($suggestions) && is_array($suggestions))
             <div class="page-header">
                 <h5>{{ trans('store.suggestions.wish') }}</h5>

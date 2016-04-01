@@ -79,6 +79,8 @@ return [
         'empty_list_title'        => 'Your wish [name] list is empty',
         'empty_list_message'      => 'Explore our suggestions below or search for an item you would like to add.',
         'empty_directory_message' => 'You do not have personal wish lists yet!',
+        'success_deleting_msg'    => 'You wish list was deleted successfully!',
+        'error_deleting_msg'      => 'The wish list given either does not belong to you or cannot be deleted!'
     ],
 
     'show_order_details_view' => [

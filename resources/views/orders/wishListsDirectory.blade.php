@@ -13,8 +13,15 @@
 
     @include('partial.message')
 
+
+    <ol class="breadcrumb">
+
+        <li>{{ trans('store.your_wish_lists') }}</li>
+
+    </ol>
+
     <div class="panel panel-primary">
-        
+
         <div class="panel-heading">
 
             <div class="row">
@@ -30,7 +37,7 @@
             </div>
 
         </div>
-        
+
         <div class="panel-body">
 
             @if (is_object($orders) && count($orders) > 0)
@@ -38,38 +45,55 @@
                     <div class="col-md-6 col-xs-8 text-left">
                         <h6>{{ trans('globals.name') }}</h6>
                     </div>
-                    
+
                     <div class="col-md-3 col-xs-4 text-center">
                         <h6>{{ trans('store.items') }}</h6>
                     </div>
-                    
+
                     <div class="col-sm-3 text-center hidden-xs hidden-sm">
                         <h6>{{ trans('store.wish_list_view.update_label') }}</h6>
                     </div>
                 </div>
-                
+
                 <hr>
-            
+
+                <?php $i=0; ?>
                 @foreach ($orders as $order)
-                    <?php
-                    $order->description = $order->description!='' ? $order->description : trans('store.basic_wish_list');
-                    ?>
+
                     <div class="row">
                         <div class="col-md-6 col-xs-8 text-left">
-                            <a href="@if ($order->details->count()>0) {{ route('orders.show_wish_list_by_id', [$order->id]) }} @else javascript:void(0) @endif">{{ $order->description }}</a>
+                            <a href="{{ $order->details->count()>0 ? route('orders.show_wish_list_by_id', [$order->id]) : 'javascript:void(0)'  }}">
+                                @if ($order->description!='')
+                                    {{ $order->description }}
+                                @else
+                                    {{ trans('store.basic_wish_list') }}
+                                @endif
+                            </a>
+
+                            @if ($order->description!='')
+                                <p>
+                                    <small><a href="{{ route('orders.delete', ['order_id' => $order->id, 'type' => $order->type]) }}"><i class="fa fa-trash"></i>&nbsp;{{ trans('globals.delete') }}</a></small>
+                                </p>
+                            @endif
                         </div>
+
                         <div class="col-md-3 col-xs-4 text-center">
-                            <a href="@if ($order->details->count()>0) {{ route('orders.show_wish_list_by_id', [$order->id]) }} @else javascript:void(0) @endif">{{ $order->details->count() }}</a>
+                            {{ $order->details->count() }}
                         </div>
 
                         <div class="col-sm-3 text-center hidden-xs hidden-sm">
-                            <a href="@if ($order->details->count()>0) {{ route('orders.show_wish_list_by_id', [$order->id]) }} @else javascript:void(0) @endif">{{ $order->updated_at }}</a>
+                            {{ Carbon\Carbon::parse($order->updated_at)->format('F j, Y') }}
                         </div>
                     </div>
-                    <hr>
+
+                    @if ($i++ < (count($orders) - 1))
+                        <hr>
+                    @endif
+
                 @endforeach
+
             @else
-                
+
                 <div class="row">&nbsp;</div>
                 <div class="row">&nbsp;</div>
                 <div class="row">&nbsp;</div>
@@ -79,16 +103,21 @@
                 <div class="row">&nbsp;</div>
                 <div class="row">&nbsp;</div>
                 <div class="row">&nbsp;</div>
-    
+
             @endif
+
+            <div class="row">&nbsp;</div>
 
         </div> {{-- panel body --}}
 
         <div class="panel-footer clearfix">
+
             @if (is_object($orders) && count($orders) > 0)
                 <div class="row">
                     <div class="col-md-12">
-                        {{ trans('store.priceDisclaimer') }}
+                        <small>
+                            {{ trans('store.priceDisclaimer') }}
+                        </small>
                     </div>
                 </div>
                 <div class="row">&nbsp;</div>
@@ -104,6 +133,22 @@
         </div> {{-- panel footer --}}
 
     </div> {{-- panel --}}
+
+
+    @if(isset($suggestions) && is_array($suggestions))
+        <div class="page-header">
+            <h5>{{ trans('store.suggestions.trends_unlogged') }}</h5>
+        </div>
+        <section class="products_view">
+            <div class="container-fluid marketing">
+                <div class="row">
+                    @foreach ($suggestions as $productSuggestion)
+                        @include('products.partial.productBox', $productSuggestion)
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
 
     @endsection
 @stop
