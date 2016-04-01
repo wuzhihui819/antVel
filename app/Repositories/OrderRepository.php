@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\User;
 use App\Order;
+use App\User;
 
 class OrderRepository
 {
@@ -15,19 +15,18 @@ class OrderRepository
     private $deletingAllowed = ['wishlist'];
 
     /**
-     *
      * Make sure order belong to user given.
      *
-     * @param User $user
+     * @param User  $user
      * @param Order $order
      *
-     * @return boolean
+     * @return bool
      */
     public function belongToUser(User $user, $order_id, &$order = null)
     {
         $query = Order::with('details')->where([
-            'id' => $order_id,
-            'user_id' => $user->id
+            'id'      => $order_id,
+            'user_id' => $user->id,
         ])->first();
 
         if (func_num_args() > 1) {

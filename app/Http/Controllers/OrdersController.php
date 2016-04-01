@@ -8,29 +8,29 @@ namespace app\Http\Controllers;
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-use App\Log;
-use App\User;
-use App\Order;
-use App\Notice;
-use App\Comment;
-use App\Product;
 use App\Address;
 use App\Business;
-use Carbon\Carbon;
-use App\OrderDetail;
-use App\VirtualProduct;
-use Illuminate\Http\Request;
-use App\VirtualProductOrder;
+use App\Comment;
 use App\Helpers\productsHelper;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ProductsController as ProductsController;
+use App\Log;
+use App\Notice;
+use App\Order;
+use App\OrderDetail;
+use App\Product;
+use App\Repositories\OrderRepository;
+use App\User;
+use App\VirtualProduct;
+use App\VirtualProductOrder;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use App\Http\Controllers\Controller;
-use App\Repositories\OrderRepository;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use App\Http\Controllers\ProductsController as ProductsController;
 
 class OrdersController extends Controller
 {
@@ -44,7 +44,8 @@ class OrdersController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  OrderRepository $order
+     * @param OrderRepository $order
+     *
      * @return void
      */
     public function __construct(OrderRepository $order)
@@ -1404,7 +1405,7 @@ class OrdersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $order_id
+     * @param int    $order_id
      * @param string $type
      *
      * @return void
@@ -1412,19 +1413,16 @@ class OrdersController extends Controller
     public function destroy($order_id, $type)
     {
         if ($this->order->belongToUser(auth()->user(), $order_id, $order) && $this->order->canBeDeleted($type)) {
-
             $order->details()->delete();
 
             $order->delete();
 
             Session::push('message', trans('store.wish_list_view.success_deleting_msg'));
-
         } else {
             Session::push('message', trans('store.wish_list_view.error_deleting_msg'));
         }
 
         return redirect()->back();
-
     }
 
     /**
