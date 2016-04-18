@@ -150,14 +150,14 @@ RECAPTCHA_PRIVATE_KEY = antvelRecaptcahPrivateKey
 * Free Products Module
 * Users Points
 * Virtual Products Delivery
-* Dinamic Products Features
+* Dynamic Products Features
 * Company Profile
 * Shopping Cart
 * Users preferences control
 * Users Notifications
 * Company Info CMS
 * Search Engine Suggestions
-* Dinamic Breadcrumbs
+* Dynamic Breadcrumbs
 
 ### Demo Information
 
