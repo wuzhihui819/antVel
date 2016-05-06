@@ -141,11 +141,9 @@ RECAPTCHA_PRIVATE_KEY = antvelRecaptcahPrivateKey
 * Products Grouping (http://antvel.com/products/42)
 * Addresses Book
 * User Profiles (Sellers & Buyers)
-* Produducts barcode
+* Products barcode
 * Administrative Panel - (http://antvel.com/wpanel)
 * Users Orders list with action status (process, Placed, Cancel, Rated)
-* Products Rate
-* Products Reviews
 * Virtual Products (products key download integrated)
 * Free Products Module
 * Users Points
