@@ -43,7 +43,7 @@ class ProductsRatesSeeder extends Seeder
                 'source_id'      => 1,
                 'points'         => 10000,
             ]);
-        };
+        }
 
         $userAddress = Address::create([
             'user_id'      => $user->id,
