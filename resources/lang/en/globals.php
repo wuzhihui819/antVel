@@ -9,7 +9,7 @@ return [
     'roles'                    => [
         'admin'             => 'Administrator',
         'business'          => 'Business',
-       // 'nonprofit'                => 'Non Profit',
+        'nonprofit'                => 'Non Profit',
         'person'            => 'Customer',
     ],
 
