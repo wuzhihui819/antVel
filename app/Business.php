@@ -32,7 +32,7 @@ class Business extends Model
 
     public static function create(array $attr = [], $normal = true)
     {
-        $role = $normal ? 'Business' : 'Non Profit';
+        $role = $normal ? 'business' : 'nonprofit';
         if (!isset($attr['user_id']) && isset($attr['user'])) {
             $attr['user']['role'] = $role;
             $user = User::create($attr['user']);
