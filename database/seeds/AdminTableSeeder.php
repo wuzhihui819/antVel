@@ -23,7 +23,7 @@ class AdminTableSeeder extends Seeder
             'last_name'  => 'root',
             'birthday'   => $faker->dateTimeBetween('-40 years', '-16 years'),
             'sex'        => 'male',
-            'home_phone' => '08724732',
+            'home_phone' => $faker->e164PhoneNumber,
             'user'       => [
                 'nickname'    => 'admin',
                 'email'       => 'admin@admin.com',
@@ -43,7 +43,7 @@ class AdminTableSeeder extends Seeder
             'last_name'  => 'Developer',
             'birthday'   => $faker->dateTimeBetween('-40 years', '-16 years'),
             'sex'        => 'male',
-            'home_phone' => '08724732',
+            'home_phone' => $faker->e164PhoneNumber,
             'user'       => [
                 'nickname' => 'dev',
                 'email'    => 'dev@antvel.com',
@@ -60,7 +60,7 @@ class AdminTableSeeder extends Seeder
         $seller = Business::create([
             'business_name' => $company_name,
             'creation_date' => $faker->date(),
-            'local_phone'   => $faker->phoneNumber,
+            'local_phone'   => $faker->e164PhoneNumber,
             'user'          => [
                 'nickname' => 'antvelseller',
                 'email'    => 'seller@antvel.com',
@@ -75,7 +75,7 @@ class AdminTableSeeder extends Seeder
         $buyer = Person::create([
             'first_name' => $faker->firstName,
             'last_name'  => $faker->lastName,
-            'home_phone' => '08724732',
+            'home_phone' => $faker->e164PhoneNumber,
             'birthday'   => $faker->dateTimeBetween('-40 years', '-16 years'),
             'sex'        => 'male',
             'user'       => [

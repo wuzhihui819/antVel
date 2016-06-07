@@ -28,6 +28,8 @@ class VirtualProductsSeeder extends Seeder
                 'description' => $faker->text(500),
                 'price'       => $price,
                 'stock'       => $stock,
+                'sale_counts'  => $faker->randomNumber(9),
+                'view_counts'  => $faker->randomNumber(9),
                 'brand'       => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
                 'features'    => json_encode([
                     'images' => [

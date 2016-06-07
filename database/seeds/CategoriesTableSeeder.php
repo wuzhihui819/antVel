@@ -92,7 +92,7 @@ class CategoriesTableSeeder extends Seeder
                 for ($j = 0; $j < 2; $j++) {
                     Category::create([
                         'category_id' => $subins->id,
-                        'name'        => substr(str_replace(' ', '', $faker->shuffle($subCategoria)), 0, 5),
+                        'name'        => 'another sub',
                         'description' => $faker->text(90),
                         'image'       => 'testsubsub',
                         'icon'        => $faker->randomElement($icons),

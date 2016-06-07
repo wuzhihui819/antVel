@@ -24,7 +24,7 @@ class AddressesTableSeeder extends Seeder
                 'default'      => 0,
                 'line1'        => $faker->streetAddress,
                 'line2'        => $faker->streetAddress,
-                'phone'        => $faker->phoneNumber,
+                'phone'        => $faker->e164PhoneNumber,
                 'name_contact' => $faker->streetName,
                 'zipcode'      => $faker->postcode,
                 'city'         => $faker->city,

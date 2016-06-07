@@ -27,7 +27,7 @@ class ChangeZipcodeAddressesTable extends Migration
     {
         Schema::table('addresses', function (Blueprint $table) {
             //
-            $table->integer('zipcode')->change();
+            $table->dropColumn('zipcode');
         });
     }
 }

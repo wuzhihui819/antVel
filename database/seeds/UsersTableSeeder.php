@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
                 'last_name'  => $faker->lastName,
                 'birthday'   => $faker->dateTimeBetween('-40 years', '-16 years'),
                 'sex'        => $faker->randomElement(['male', 'female']),
-                'home_phone' => $faker->phoneNumber,
+                'home_phone'        => $faker->e164PhoneNumber,
                 'user'       => [
                     'nickname'    => $faker->userName,
                     'email'       => $faker->unique()->email,
@@ -44,7 +44,7 @@ class UsersTableSeeder extends Seeder
             Business::create([
                 'business_name' => $company_name,
                 'creation_date' => $faker->date(),
-                'local_phone'   => $faker->phoneNumber,
+                'local_phone'        => $faker->e164PhoneNumber,
                 'user'          => [
                     'nickname'    => $faker->userName,
                     'email'       => $faker->unique()->email,

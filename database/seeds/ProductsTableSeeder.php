@@ -25,7 +25,10 @@ class ProductsTableSeeder extends Seeder
             $id = Product::create([
                 'category_id' => $faker->numberBetween(1, $numCategories),
                 'user_id'     => '3',
-                'status'      => 'active',
+                'status'      => 1,
+                'type'        => 'software',
+                'sale_counts'  => $faker->randomNumber(9),
+                'view_counts'  => $faker->randomNumber(9),
                 'name'        => $faker->unique()->catchPhrase,
                 'description' => $faker->text(500),
                 'price'       => $price,
