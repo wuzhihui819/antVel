@@ -82,7 +82,9 @@ class Category extends Model
         if (!count($childs)) {
             $childs = null;
         } elseif ($this->family_tree) {
-            $childs->each(function ($cat) { $cat->withFamilyTree(); });
+            $childs->each(function ($cat) {
+                $cat->withFamilyTree();
+            });
         }
 
         return $childs;

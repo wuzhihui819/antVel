@@ -21,12 +21,12 @@ class UsersTableSeeder extends Seeder
         for ($i = 0; $i < 10; $i++) {
             //persons
             Person::create([
-                'first_name' => $faker->firstName,
-                'last_name'  => $faker->lastName,
-                'birthday'   => $faker->dateTimeBetween('-40 years', '-16 years'),
-                'sex'        => $faker->randomElement(['male', 'female']),
+                'first_name'        => $faker->firstName,
+                'last_name'         => $faker->lastName,
+                'birthday'          => $faker->dateTimeBetween('-40 years', '-16 years'),
+                'sex'               => $faker->randomElement(['male', 'female']),
                 'home_phone'        => $faker->e164PhoneNumber,
-                'user'       => [
+                'user'              => [
                     'nickname'    => $faker->userName,
                     'email'       => $faker->unique()->email,
                     'role'        => 'person',
@@ -42,10 +42,10 @@ class UsersTableSeeder extends Seeder
             $company_name = $faker->company;
             //business
             Business::create([
-                'business_name' => $company_name,
-                'creation_date' => $faker->date(),
+                'business_name'      => $company_name,
+                'creation_date'      => $faker->date(),
                 'local_phone'        => $faker->e164PhoneNumber,
-                'user'          => [
+                'user'               => [
                     'nickname'    => $faker->userName,
                     'email'       => $faker->unique()->email,
                     'role'        => 'business', //, 'nonprofit'

@@ -1121,18 +1121,18 @@ class ProductsController extends Controller
             }
 
             $response['products']['results'] = Product::where(function ($query) use ($crit) {
-                                                        $query->where('name', 'like', '%'.$crit.'%')
+                $query->where('name', 'like', '%'.$crit.'%')
                                                               ->orWhere('description', 'like', '%'.$crit.'%');
-                                                        })
+            })
                                                         ->select('id', 'name', 'products_group')
                                                         ->actives()
                                                         ->free()
                                                         ->orderBy('rate_val', 'desc');
             if ($group) {
                 $response['products']['results']->where(function ($query) use ($group) {
-                                                    $query->where('products_group', '<>', $group)
+                    $query->where('products_group', '<>', $group)
                                                           ->orWhereNull('products_group');
-                                                })->where('id', '<>', $group);
+                })->where('id', '<>', $group);
             }
 
             $response['products']['results'] = $response['products']['results']->take(5)->get();
@@ -1153,9 +1153,9 @@ class ProductsController extends Controller
                                                         ->orderBy('rate_val', 'desc');
                 if ($group) {
                     $response['products']['results']->where(function ($query) use ($group) {
-                                                    $query->where('products_group', '<>', $group)
+                        $query->where('products_group', '<>', $group)
                                                           ->orWhereNull('products_group');
-                                                })->where('id', '<>', $group);
+                    })->where('id', '<>', $group);
                 }
 
                 $response['products']['results'] = $response['products']['results']->take(5)->get();

@@ -23,12 +23,12 @@ class ProductsRatesSeeder extends Seeder
     {
         $faker = Faker::create();
         $user = Person::create([
-            'first_name' => $faker->firstName,
-            'last_name'  => $faker->lastName,
-            'birthday'   => $faker->dateTimeBetween('-40 years', '-16 years'),
+            'first_name'        => $faker->firstName,
+            'last_name'         => $faker->lastName,
+            'birthday'          => $faker->dateTimeBetween('-40 years', '-16 years'),
             'home_phone'        => $faker->e164PhoneNumber,
-            'sex'        => $faker->randomElement(['male', 'female']),
-            'user'       => [
+            'sex'               => $faker->randomElement(['male', 'female']),
+            'user'              => [
                 'nickname' => 'seededuser',
                 'email'    => 'user@gmail.com',
                 'password' => Hash::make('123456'),
@@ -77,17 +77,17 @@ class ProductsRatesSeeder extends Seeder
 
         $catforseed = Category::where('type', 'store')->first();
         $seededProduct = Product::create([
-            'category_id' => $catforseed->id,
-            'user_id'     => '3', //$enterprise->id,
-            'name'        => 'My Seeded Product',
-            'description' => $faker->text(90),
-            'price'       => $faker->randomNumber(2),
-            'stock'       => 100,
-            'type'        => 'software',
+            'category_id'  => $catforseed->id,
+            'user_id'      => '3', //$enterprise->id,
+            'name'         => 'My Seeded Product',
+            'description'  => $faker->text(90),
+            'price'        => $faker->randomNumber(2),
+            'stock'        => 100,
+            'type'         => 'software',
             'sale_counts'  => $faker->randomNumber(9),
             'view_counts'  => $faker->randomNumber(9),
-            'brand'       => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
-            'features'    => json_encode([
+            'brand'        => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
+            'features'     => json_encode([
                     'images' => [
                     '/img/pt-default/'.$faker->numberBetween(1, 330).'.jpg',
                     '/img/pt-default/'.$faker->numberBetween(1, 330).'.jpg',
@@ -132,18 +132,18 @@ class ProductsRatesSeeder extends Seeder
         }
 
         $seededProduct2 = Product::create([
-            'category_id' => $catforseed->id,
-            'user_id'     => '3', //$enterprise->id,
-            'name'        => 'Another Seeded Product',
-            'description' => $faker->text(90),
-            'stock'       => 100,
-            'type'        => 'software',
+            'category_id'  => $catforseed->id,
+            'user_id'      => '3', //$enterprise->id,
+            'name'         => 'Another Seeded Product',
+            'description'  => $faker->text(90),
+            'stock'        => 100,
+            'type'         => 'software',
             'sale_counts'  => $faker->randomNumber(9),
             'view_counts'  => $faker->randomNumber(9),
-            'price'       => $faker->randomNumber(2),
-            'brand'       => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
-            'stock'       => 100,
-            'features'    => json_encode([
+            'price'        => $faker->randomNumber(2),
+            'brand'        => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
+            'stock'        => 100,
+            'features'     => json_encode([
                     'images' => [
                     '/img/pt-default/'.$faker->numberBetween(1, 330).'.jpg',
                     '/img/pt-default/'.$faker->numberBetween(1, 330).'.jpg',
@@ -167,18 +167,18 @@ class ProductsRatesSeeder extends Seeder
         ]);
 
         $seededProduct3 = Product::create([
-            'category_id' => $catforseed->id,
-            'user_id'     => '3', //$enterprise->id,
-            'name'        => 'More on Seeded Product',
-            'description' => $faker->text(90),
-            'stock'       => 100,
-            'type'        => 'software',
+            'category_id'  => $catforseed->id,
+            'user_id'      => '3', //$enterprise->id,
+            'name'         => 'More on Seeded Product',
+            'description'  => $faker->text(90),
+            'stock'        => 100,
+            'type'         => 'software',
             'sale_counts'  => $faker->randomNumber(9),
             'view_counts'  => $faker->randomNumber(9),
-            'price'       => $faker->randomNumber(2),
-            'stock'       => 100,
-            'brand'       => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
-            'features'    => json_encode([
+            'price'        => $faker->randomNumber(2),
+            'stock'        => 100,
+            'brand'        => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
+            'features'     => json_encode([
                     'images' => [
                     '/img/pt-default/'.$faker->numberBetween(1, 330).'.jpg',
                     '/img/pt-default/'.$faker->numberBetween(1, 330).'.jpg',

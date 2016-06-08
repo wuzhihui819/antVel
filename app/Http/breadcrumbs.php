@@ -19,7 +19,6 @@ Breadcrumbs::register('products', function ($breadcrumbs) {
 
 //products detail
 Breadcrumbs::register('productDetail', function ($breadcrumbs, $product) {
-
     $breadcrumbs->parent('products');
     $list = [];
     $catProd = app\Category::find($product->categories->id);
