@@ -6,10 +6,10 @@ return [
         'active'   => 'Active',
         'inactive' => 'Inactive',
     ],
-    'roles'                    => [
+    'roles' => [
         'admin'             => 'Administrator',
         'business'          => 'Business',
-       // 'nonprofit'                => 'Non Profit',
+        'nonprofit'         => 'Non Profit',
         'person'            => 'Customer',
     ],
 

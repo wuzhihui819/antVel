@@ -73,7 +73,8 @@ class CategoriesTableSeeder extends Seeder
                 'name'        => $categoria,
                 'description' => $faker->text(90),
                 'icon'        => $faker->randomElement($icons),
-                'status'      => '1',
+                'status'      => 1,
+                'image'       => 'test',
                 'type'        => $temptype,
             ]);
 
@@ -82,18 +83,20 @@ class CategoriesTableSeeder extends Seeder
                     'category_id' => $inserted->id,
                     'name'        => $subCategoria,
                     'description' => $faker->text(90),
+                    'image'       => 'testsub',
                     'icon'        => $faker->randomElement($icons),
-                    'status'      => '1',
+                    'status'      => 1,
                     'type'        => $inserted->type,
                 ]);
 
                 for ($j = 0; $j < 2; $j++) {
                     Category::create([
                         'category_id' => $subins->id,
-                        'name'        => substr(str_replace(' ', '', $faker->shuffle($subCategoria)), 0, 5),
+                        'name'        => 'another sub',
                         'description' => $faker->text(90),
+                        'image'       => 'testsubsub',
                         'icon'        => $faker->randomElement($icons),
-                        'status'      => '1',
+                        'status'      => 1,
                         'type'        => $subins->type,
                     ]);
                 }
