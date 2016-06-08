@@ -21,6 +21,9 @@ class AdminTableSeeder extends Seeder
         Person::create([
             'first_name' => 'Admin',
             'last_name'  => 'root',
+            'birthday'   => $faker->dateTimeBetween('-40 years', '-16 years'),
+            'sex'        => 'male',
+            'home_phone' => $faker->e164PhoneNumber,
             'user'       => [
                 'nickname'    => 'admin',
                 'email'       => 'admin@admin.com',
@@ -38,6 +41,9 @@ class AdminTableSeeder extends Seeder
         $admin = Person::create([
             'first_name' => 'AntVel',
             'last_name'  => 'Developer',
+            'birthday'   => $faker->dateTimeBetween('-40 years', '-16 years'),
+            'sex'        => 'male',
+            'home_phone' => $faker->e164PhoneNumber,
             'user'       => [
                 'nickname' => 'dev',
                 'email'    => 'dev@antvel.com',
@@ -54,13 +60,14 @@ class AdminTableSeeder extends Seeder
         $seller = Business::create([
             'business_name' => $company_name,
             'creation_date' => $faker->date(),
-            'local_phone'   => $faker->phoneNumber,
+            'local_phone'   => $faker->e164PhoneNumber,
             'user'          => [
                 'nickname' => 'antvelseller',
                 'email'    => 'seller@antvel.com',
                 'password' => Hash::make('123456'),
                 'pic_url'  => '/img/pt-default/'.$faker->numberBetween(1, 20).'.jpg',
                 'twitter'  => '@seller',
+                'role'     => 'person',
                 'facebook' => $company_name,
             ],
         ])->user;
@@ -68,6 +75,7 @@ class AdminTableSeeder extends Seeder
         $buyer = Person::create([
             'first_name' => $faker->firstName,
             'last_name'  => $faker->lastName,
+            'home_phone' => $faker->e164PhoneNumber,
             'birthday'   => $faker->dateTimeBetween('-40 years', '-16 years'),
             'sex'        => 'male',
             'user'       => [
@@ -77,6 +85,7 @@ class AdminTableSeeder extends Seeder
                 'pic_url'  => '/img/pt-default/'.$faker->numberBetween(1, 20).'.jpg',
                 'twitter'  => '@buyer',
                 'facebook' => 'buyer',
+                'role'     => 'business',
             ],
         ])->user;
     }

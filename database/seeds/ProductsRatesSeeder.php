@@ -26,6 +26,7 @@ class ProductsRatesSeeder extends Seeder
             'first_name' => $faker->firstName,
             'last_name'  => $faker->lastName,
             'birthday'   => $faker->dateTimeBetween('-40 years', '-16 years'),
+            'home_phone'        => $faker->e164PhoneNumber,
             'sex'        => $faker->randomElement(['male', 'female']),
             'user'       => [
                 'nickname' => 'seededuser',
@@ -41,7 +42,7 @@ class ProductsRatesSeeder extends Seeder
                 'user_id'        => $user->id,
                 'action_type_id' => 6,
                 'source_id'      => 1,
-                'points'         => 10000,
+                'points'         => 100,
             ]);
         }
 
@@ -50,7 +51,7 @@ class ProductsRatesSeeder extends Seeder
             'default'      => 1,
             'line1'        => $faker->streetAddress,
             'line2'        => $faker->streetAddress,
-            'phone'        => $faker->phoneNumber,
+            'phone'        => $faker->e164PhoneNumber,
             'name_contact' => $faker->streetName,
             'zipcode'      => $faker->postcode,
             'city'         => $faker->city,
@@ -63,7 +64,7 @@ class ProductsRatesSeeder extends Seeder
         $enterprise = Business::create([
             'business_name' => $company_name,
             'creation_date' => $faker->date(),
-            'local_phone'   => $faker->phoneNumber,
+            'local_phone'   => $faker->e164PhoneNumber,
             'user'          => [
                 'nickname' => 'seededinc',
                 'email'    => 'octasan.trabajo@gmail.com',
@@ -82,6 +83,9 @@ class ProductsRatesSeeder extends Seeder
             'description' => $faker->text(90),
             'price'       => $faker->randomNumber(2),
             'stock'       => 100,
+            'type'        => 'software',
+            'sale_counts'  => $faker->randomNumber(9),
+            'view_counts'  => $faker->randomNumber(9),
             'brand'       => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
             'features'    => json_encode([
                     'images' => [
@@ -132,6 +136,10 @@ class ProductsRatesSeeder extends Seeder
             'user_id'     => '3', //$enterprise->id,
             'name'        => 'Another Seeded Product',
             'description' => $faker->text(90),
+            'stock'       => 100,
+            'type'        => 'software',
+            'sale_counts'  => $faker->randomNumber(9),
+            'view_counts'  => $faker->randomNumber(9),
             'price'       => $faker->randomNumber(2),
             'brand'       => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
             'stock'       => 100,
@@ -163,6 +171,10 @@ class ProductsRatesSeeder extends Seeder
             'user_id'     => '3', //$enterprise->id,
             'name'        => 'More on Seeded Product',
             'description' => $faker->text(90),
+            'stock'       => 100,
+            'type'        => 'software',
+            'sale_counts'  => $faker->randomNumber(9),
+            'view_counts'  => $faker->randomNumber(9),
             'price'       => $faker->randomNumber(2),
             'stock'       => 100,
             'brand'       => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
