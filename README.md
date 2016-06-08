@@ -12,6 +12,7 @@
 
 ***Antvel*** aim is giving to you and your clients the best eCommerse experience in a different aproach!
 
+
 ## Gratipay Profile
 
 <a href="https://gratipay.com/Antvel/" target="_blank">https://gratipay.com/Antvel/</a>
@@ -26,9 +27,12 @@ If you like antvel and want to contribute to its core, you can check this task l
 
 ## Chat Rooms
 
-<a href="https://www.hipchat.com/gU00TAMff" target="_blank">HipChat</a>
+<a href="https://g-ocanto.slack.com/messages/antvel/" target="_blank">Slack</a>
 
 [![Join the chat at https://gitter.im/ant-vel/antVel](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ant-vel/antVel?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+
+for ***slack*** chatting you will have to send your email to me, so I will be able to add you to antvel team, otherwise, we can still talk on gitter.
 
 
 
