@@ -33,7 +33,9 @@ class NoticesController extends Controller
             $actions[] = $notice['action_type_id'];
         }
 
-        return ActionType::unique($actions)->get()->each(function ($action) { $action->useAs('notice'); })->toIdArray();
+        return ActionType::unique($actions)->get()->each(function ($action) {
+            $action->useAs('notice');
+        })->toIdArray();
     }
 
     /**

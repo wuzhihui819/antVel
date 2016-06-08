@@ -25,9 +25,7 @@ Route::get('verification/{token}', 'UserController@accountVerification');
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 
 Route::group(['prefix' => 'home'], function () {
-
     Route::get('/', 'HomeController@index');
-
 });
 
 //Product list
@@ -43,7 +41,6 @@ Route::get('categories', 'CategoriesController@index');
 
 //Acceso Usuario General(Admin,Persona,Empresa)
 Route::group(['prefix' => 'user', 'roles' => array_keys(trans('globals.roles')), 'middleware' => ['auth', 'roles']], function () {
-
     Route::get('dashboard', 'UserController@dashBoard');
 
     Route::get('/', 'UserController@profile');
@@ -129,12 +126,10 @@ Route::group(['prefix' => 'user', 'roles' => array_keys(trans('globals.roles')),
     Route::put('freeproducts/suscribe/{id}', ['uses' => 'FreeProductsController@suscribe', 'as' => 'freeproducts.suscribe']);
 
     Route::get('myFreeProducts', ['uses' => 'FreeProductsController@myFreeProducts', 'as' => 'freeproducts.my_free_products']);
-
 });
 
 //Companies Routes
 Route::group(['roles' => ['business', 'nonprofit', 'admin'], 'middleware' => ['auth', 'roles']], function () {
-
     Route::resource('productsGroup', 'ProductsGroupController');
 
     Route::get('products/create', ['uses' => 'ProductsController@create', 'as' => 'products.create']);
@@ -183,7 +178,6 @@ Route::group(['roles' => ['business', 'nonprofit', 'admin'], 'middleware' => ['a
 
 //Wpanel Routes
 Route::group(['prefix' => 'wpanel', 'roles' => 'admin', 'middleware' => ['auth', 'roles']], function () {
-
     Route::resource('/', 'WpanelController');
 
     Route::resource('category', 'CategoriesController');
@@ -197,7 +191,6 @@ Route::group(['prefix' => 'wpanel', 'roles' => 'admin', 'middleware' => ['auth',
     Route::get('features', ['uses' => 'ProductDetailsController@index', 'as' => 'features']);
 
     Route::resource('profile', 'CompanyController');
-
 });
 
 /*
