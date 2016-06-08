@@ -17,6 +17,13 @@
 <a href="https://gratipay.com/Antvel/" target="_blank">https://gratipay.com/Antvel/</a>
 
 
+## To do list
+If you like antvel and want to contribute to its core, you can check this task list.
+
+<a href="https://github.com/ant-vel/Discussion/issues" target="_blank">https://github.com/ant-vel/Discussion/issues</a>
+
+
+
 ## Chat Rooms
 
 <a href="https://www.hipchat.com/gU00TAMff" target="_blank">HipChat</a>
