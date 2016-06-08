@@ -22,16 +22,16 @@ class VirtualProductsSeeder extends Seeder
             $price = $faker->numberBetween(1, 99);
             $stock = $faker->numberBetween(20, 50);
             $product = Product::create([
-                'category_id' => $faker->numberBetween(1, 9),
-                'user_id'     => '3', //$businesses->random(1)->user_id,
-                'name'        => 'VIRTUAL '.$faker->unique()->catchPhrase,
-                'description' => $faker->text(500),
-                'price'       => $price,
-                'stock'       => $stock,
+                'category_id'  => $faker->numberBetween(1, 9),
+                'user_id'      => '3', //$businesses->random(1)->user_id,
+                'name'         => 'VIRTUAL '.$faker->unique()->catchPhrase,
+                'description'  => $faker->text(500),
+                'price'        => $price,
+                'stock'        => $stock,
                 'sale_counts'  => $faker->randomNumber(9),
                 'view_counts'  => $faker->randomNumber(9),
-                'brand'       => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
-                'features'    => json_encode([
+                'brand'        => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
+                'features'     => json_encode([
                     'images' => [
                     '/img//pt-default/'.$faker->unique()->numberBetween(1, 330).'.jpg',
                     '/img//pt-default/'.$faker->unique()->numberBetween(1, 330).'.jpg',

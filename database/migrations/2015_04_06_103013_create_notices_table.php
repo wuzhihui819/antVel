@@ -29,7 +29,6 @@ class CreateNoticesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('sender_id')->references('id')->on('users');
             $table->foreign('action_type_id')->references('id')->on('action_types');
-
         });
     }
 

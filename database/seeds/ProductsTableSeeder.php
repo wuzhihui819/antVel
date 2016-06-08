@@ -23,18 +23,18 @@ class ProductsTableSeeder extends Seeder
             $price = $faker->numberBetween(1, 99);
             $stock = $faker->numberBetween(20, 50);
             $id = Product::create([
-                'category_id' => $faker->numberBetween(1, $numCategories),
-                'user_id'     => '3',
-                'status'      => 1,
-                'type'        => 'software',
+                'category_id'  => $faker->numberBetween(1, $numCategories),
+                'user_id'      => '3',
+                'status'       => 1,
+                'type'         => 'software',
                 'sale_counts'  => $faker->randomNumber(9),
                 'view_counts'  => $faker->randomNumber(9),
-                'name'        => $faker->unique()->catchPhrase,
-                'description' => $faker->text(500),
-                'price'       => $price,
-                'stock'       => $stock,
-                'brand'       => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
-                'features'    => json_encode([
+                'name'         => $faker->unique()->catchPhrase,
+                'description'  => $faker->text(500),
+                'price'        => $price,
+                'stock'        => $stock,
+                'brand'        => $faker->randomElement(['Apple', 'Gigabyte', 'Microsoft', 'Google. Inc', 'Samsung', 'Lg']),
+                'features'     => json_encode([
                     'images' => [
                     '/img/pt-default/'.$faker->numberBetween(1, 330).'.jpg',
                     '/img/pt-default/'.$faker->numberBetween(1, 330).'.jpg',

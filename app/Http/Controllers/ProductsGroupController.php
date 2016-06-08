@@ -28,7 +28,9 @@ class ProductsGroupController extends Controller
         $group_id = false;
 
         $product = Product::select('id', 'products_group', 'price')
-                            ->with(['group' => function ($query) {  $query->select('id', 'products_group'); }])
+                            ->with(['group' => function ($query) {
+                                $query->select('id', 'products_group');
+                            }])
                             ->find($id);
 
         //is necesary re make the actual group before add to new one because is the principal product of the last one
@@ -76,7 +78,9 @@ class ProductsGroupController extends Controller
     public function edit($id)
     {
         $product = Product::select('id', 'products_group', 'name')
-                            ->with(['group' => function ($query) {  $query->select('id', 'products_group', 'features', 'name', 'price'); }])
+                            ->with(['group' => function ($query) {
+                                $query->select('id', 'products_group', 'features', 'name', 'price');
+                            }])
                             ->find($id);
 
         return view('products.groups.index', compact('product'));
@@ -97,7 +101,9 @@ class ProductsGroupController extends Controller
         $id = $id[0];
         $deleteAll = $view == $id;
         $product = Product::select('id', 'products_group')
-                            ->with(['group' => function ($query) {  $query->select('id', 'products_group'); }])
+                            ->with(['group' => function ($query) {
+                                $query->select('id', 'products_group');
+                            }])
                             ->find($id);
 
         //is necesary re make the actual group before add to new one because is the principal product of the last one

@@ -70,12 +70,12 @@ class FreeProduct extends Model
     public static function getWithProducts(Collection $items)
     {
         $freeproducts = $items->each(function ($item, $key) {
-                                    $list_products_orders = Collection::make();
-                                    foreach ($item->orders as $order) {
-                                        $list_products_orders = $list_products_orders->merge($order->products);
-                                    }
-                                    $item->products = $list_products_orders;
-                                });
+            $list_products_orders = Collection::make();
+            foreach ($item->orders as $order) {
+                $list_products_orders = $list_products_orders->merge($order->products);
+            }
+            $item->products = $list_products_orders;
+        });
 
         return $freeproducts;
     }
