@@ -7,10 +7,8 @@
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 use App\Address;
-use App\Business;
 use App\Category;
 use App\Order;
-use App\Person;
 use App\Product;
 use App\User;
 use App\UserPoints;

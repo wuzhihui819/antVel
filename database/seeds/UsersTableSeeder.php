@@ -6,11 +6,10 @@
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
-
-use App\User as User;
-use App\Person as Person;
-use Faker\Factory as Faker;
 use App\Business as Business;
+use App\Person as Person;
+use App\User as User;
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
