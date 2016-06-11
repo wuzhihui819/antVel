@@ -6,10 +6,11 @@
  *
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
-use App\Address;
+
 use App\Order;
-use App\OrderDetail;
 use App\Product;
+use App\Address;
+use App\OrderDetail;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
@@ -19,13 +20,14 @@ class OrdersTableSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $users = Address::get();
+        $addresses = Address::get();
 
         $status_list = array_keys(trans('globals.order_status'));
 
+        $products = Product::select('id', 'price')->get();
+
         for ($i = 0; $i < 20; $i++) {
-            $user = $users->random(1);
-            $products = Product::get();
+            $address = $addresses->random(1);
             $type = $faker->randomElement(['cart', 'wishlist', 'order']);
             $status = 'open';
 
@@ -38,9 +40,9 @@ class OrdersTableSeeder extends Seeder
             $stock = $faker->numberBetween(1, 20);
 
             $order = Order::create([
-                'user_id'     => $user->user_id,
+                'user_id'     => $address->user_id,
                 'seller_id'   => '3',
-                'address_id'  => $user->id, //address id
+                'address_id'  => $address->id, //address id
                 'status'      => $status,
                 'type'        => $type,
                 'description' => $type == 'wishlist' ? $faker->companySuffix : '',

@@ -40,9 +40,10 @@ class CreateProductsTable extends Migration
             $table->integer('rate_count')->nullable();
             $table->integer('sale_counts')->unsigned();
             $table->integer('view_counts')->unsigned();
+            $table->timestamps();
+
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->timestamps();
         });
     }
 
