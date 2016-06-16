@@ -44,10 +44,10 @@
 						@if(Auth::user()&&Auth::user()->getCartCount())
 						<span class="badge badge-cart">{{ Auth::user()->getCartCount() }} </span>
 						@elseif(!Auth::user() && is_array(Session::get('user.cart_content')) && array_sum(Session::get('user.cart_content')))
-						<span class="badge badge-cart">{{{ array_sum(Session::get('user.cart_content')) }}} </span>
+						<span class="badge badge-cart">{{ array_sum(Session::get('user.cart_content')) }} </span>
 						@endif
 
-						<span class="glyphicon glyphicon-shopping-cart"></span>{{{ trans('store.cart') }}}
+						<span class="glyphicon glyphicon-shopping-cart"></span>{{ trans('store.cart') }}
 						<span class="caret"></span>
 					</a>
 
