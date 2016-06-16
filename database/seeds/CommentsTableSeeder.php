@@ -18,7 +18,7 @@ class CommentsTableSeeder extends Seeder
     {
         $faker = Faker::create();
         $actions = ActionType::get();
-        $users = User::get();
+        $users = User::select('id')->get();
         //Category
         foreach (range(1, 20) as $void) {
             Comment::create([

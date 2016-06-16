@@ -18,6 +18,7 @@ class AdminTableSeeder extends Seeder
     {
         //create basic admin user
         $faker = Faker::create();
+
         Person::create([
             'first_name' => 'Admin',
             'last_name'  => 'root',
@@ -31,8 +32,8 @@ class AdminTableSeeder extends Seeder
                 'type'        => 'trusted',
                 'password'    => \Hash::make('admin'),
                 'pic_url'     => '/img/pt-default/'.$faker->numberBetween(1, 20).'.jpg',
-                'twitter'     => '@websarrollo',
-                'facebook'    => 'websarrollo',
+                'twitter'     => '@gocanto',
+                'facebook'    => 'gocanto',
                 'preferences' => '{"product_viewed":[],"product_purchased":[],"product_shared":[],"product_categories":[],"my_searches":[]}',
             ],
         ]);
@@ -51,10 +52,11 @@ class AdminTableSeeder extends Seeder
                 'type'     => 'trusted',
                 'password' => \Hash::make('123456'),
                 'pic_url'  => '/img/pt-default/'.$faker->numberBetween(1, 20).'.jpg',
-                'twitter'  => '@websarrollo',
-                'facebook' => 'websarrollo',
+                'twitter'  => '@_antvel',
+                'facebook' => '_antvel',
             ],
         ]);
+
         //seller
         $company_name = 'antvel seller';
         $seller = Business::create([
@@ -70,7 +72,8 @@ class AdminTableSeeder extends Seeder
                 'role'     => 'person',
                 'facebook' => $company_name,
             ],
-        ])->user;
+        ]);
+
         //buyer
         $buyer = Person::create([
             'first_name' => $faker->firstName,
@@ -87,6 +90,6 @@ class AdminTableSeeder extends Seeder
                 'facebook' => 'buyer',
                 'role'     => 'business',
             ],
-        ])->user;
+        ]);
     }
 }

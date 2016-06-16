@@ -7,10 +7,8 @@
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 use App\Address;
-use App\Business;
 use App\Category;
 use App\Order;
-use App\Person;
 use App\Product;
 use App\User;
 use App\UserPoints;
@@ -22,21 +20,8 @@ class ProductsRatesSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        $user = Person::create([
-            'first_name'        => $faker->firstName,
-            'last_name'         => $faker->lastName,
-            'birthday'          => $faker->dateTimeBetween('-40 years', '-16 years'),
-            'home_phone'        => $faker->e164PhoneNumber,
-            'sex'               => $faker->randomElement(['male', 'female']),
-            'user'              => [
-                'nickname' => 'seededuser',
-                'email'    => 'user@gmail.com',
-                'password' => Hash::make('123456'),
-                'pic_url'  => '/pt-default/'.$faker->numberBetween(1, 20).'.jpg',
-                'twitter'  => '@'.$faker->userName,
-                'facebook' => $faker->userName,
-            ],
-        ])->user;
+        $user = User::select('id')->where('id', 4)->first();
+
         for ($j = 0; $j < 2; $j++) {
             $userPoints = UserPoints::create([
                 'user_id'        => $user->id,
@@ -57,28 +42,12 @@ class ProductsRatesSeeder extends Seeder
             'city'         => $faker->city,
             'country'      => $faker->country,
             'state'        => $faker->state,
-
         ]);
-
-        $company_name = 'seededinc_inc';
-        $enterprise = Business::create([
-            'business_name' => $company_name,
-            'creation_date' => $faker->date(),
-            'local_phone'   => $faker->e164PhoneNumber,
-            'user'          => [
-                'nickname' => 'seededinc',
-                'email'    => 'octasan.trabajo@gmail.com',
-                'password' => Hash::make('123456'),
-                'pic_url'  => '/pt-default/'.$faker->numberBetween(1, 20).'.jpg',
-                'twitter'  => '@'.$company_name,
-                'facebook' => $company_name,
-            ],
-        ])->user;
 
         $catforseed = Category::where('type', 'store')->first();
         $seededProduct = Product::create([
             'category_id'  => $catforseed->id,
-            'user_id'      => '3', //$enterprise->id,
+            'user_id'      => '3', //3,
             'name'         => 'My Seeded Product',
             'description'  => $faker->text(90),
             'price'        => $faker->randomNumber(2),
@@ -118,7 +87,7 @@ class ProductsRatesSeeder extends Seeder
                 'status'      => 'closed',
                 'type'        => 'order',
                 'description' => '',
-                'seller_id'   => $enterprise->id,
+                'seller_id'   => 3,
                 'end_date'    => $faker->dateTime(),
                 'detail'      => [
                     'product_id'    => $seededProduct->id,
@@ -133,7 +102,7 @@ class ProductsRatesSeeder extends Seeder
 
         $seededProduct2 = Product::create([
             'category_id'  => $catforseed->id,
-            'user_id'      => '3', //$enterprise->id,
+            'user_id'      => '3',
             'name'         => 'Another Seeded Product',
             'description'  => $faker->text(90),
             'stock'        => 100,
@@ -168,7 +137,7 @@ class ProductsRatesSeeder extends Seeder
 
         $seededProduct3 = Product::create([
             'category_id'  => $catforseed->id,
-            'user_id'      => '3', //$enterprise->id,
+            'user_id'      => '3', //3,
             'name'         => 'More on Seeded Product',
             'description'  => $faker->text(90),
             'stock'        => 100,
@@ -201,7 +170,7 @@ class ProductsRatesSeeder extends Seeder
             'tags'       => json_encode($faker->word.','.$faker->word.','.$faker->word),
         ]);
 
-        //Creates closed orders for rates and mails
+        // Creates closed orders for rates and mails
         for ($j = 0; $j < 5; $j++) {
             Order::create([
                 'user_id'     => $user->id,
@@ -210,7 +179,7 @@ class ProductsRatesSeeder extends Seeder
                 'status'      => 'closed',
                 'type'        => 'order',
                 'description' => '',
-                'seller_id'   => $enterprise->id,
+                'seller_id'   => 3,
                 'end_date'    => $faker->dateTime(),
                 'details'     => [
                     [
@@ -235,14 +204,14 @@ class ProductsRatesSeeder extends Seeder
             ]);
         }
 
-        //Create an open order to test notices
+        // Create an open order to test notices
         Order::create([
             'user_id'     => $user->id,
             'seller_id'   => '3',
             'status'      => 'open',
             'type'        => 'order',
             'description' => '',
-            'seller_id'   => $enterprise->id,
+            'seller_id'   => 3,
             'address_id'  => $userAddress->id,
             'details'     => [
                 [
