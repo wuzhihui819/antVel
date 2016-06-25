@@ -2,13 +2,13 @@
 
 namespace app\Console\Commands;
 
+use App\Address;
 use App\FreeProduct;
 use App\FreeProductParticipant;
 use App\Order;
 use App\OrderDetail;
 use App\Product;
 use App\User;
-use App\Address;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
