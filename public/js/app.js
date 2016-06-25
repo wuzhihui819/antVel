@@ -114,7 +114,7 @@ app.controller('listGroupCtrl', function($scope, $http, notify) {
 });
 
 //Dialogos Modales
-app.controller('ModalCtrl', function($scope, $modal){
+app.controller('ModalCtrl', function($scope, $uibModal){
 	var modalInstance = null;
 	$scope.data = {};
 	$scope.modalOpen = function (opts) {
@@ -126,7 +126,7 @@ app.controller('ModalCtrl', function($scope, $modal){
 		var obj= {},literal = opts.resolve;
 		obj[literal] = function (){ return $scope.data; };
 
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 
 			templateUrl: opts.templateUrl+(opts.noCache?'?'+Math.random():'') || null,
 
@@ -278,7 +278,7 @@ app.controller('RatingCtrl', function ($scope) {
     $scope.max = 5;
 });
 //Control de WishList
-app.controller('WishListControllerModal', function($scope, $http, $rootScope,$modalInstance){
+app.controller('WishListControllerModal', function($scope, $http, $rootScope,$uibModalInstance){
     $scope.newList = {};
 
     $scope.createList = function(productId){
@@ -288,7 +288,7 @@ app.controller('WishListControllerModal', function($scope, $http, $rootScope,$mo
                     if (data.success) {
                         //$rootScope.allLists.push(data.newList);
                         console.log(data);
-                        $modalInstance.close();
+                        $uibModalInstance.close();
                         if(productId){
                         	window.location.replace('/products/'+productId);
                         }else{
@@ -306,12 +306,12 @@ app.controller('WishListControllerModal', function($scope, $http, $rootScope,$mo
         }else{
             console.log($scope.newList);
         }
-        //$modalInstance.close();
+        //$uibModalInstance.close();
     };
 });
 
 //Control de Feedback entre vendedor y cliente
-app.controller('CommentControllerModal', function($scope, $http, $rootScope,$modalInstance){
+app.controller('CommentControllerModal', function($scope, $http, $rootScope,$uibModalInstance){
     $scope.newComment = {};
 
     $scope.commentOrder = function(order_id){
@@ -321,7 +321,7 @@ app.controller('CommentControllerModal', function($scope, $http, $rootScope,$mod
                 success(function(data, status) {
                     if (data.success) {
                         console.log(data);
-                        $modalInstance.close();
+                        $uibModalInstance.close();
                         window.location.replace('/user/orders/show/'+data.order_id);
                     }else{
                         console.log(data); //mensajes de error
@@ -335,7 +335,7 @@ app.controller('CommentControllerModal', function($scope, $http, $rootScope,$mod
         }else{
             console.log($scope.newComment);
         }
-        $modalInstance.close();
+        $uibModalInstance.close();
     };
 });
 
@@ -362,7 +362,7 @@ app.service('PassInfo', function ()
 });
 
 //Control de Direcciones
-app.controller('AddressesControllerModal', function($scope, $http, $rootScope, $modalInstance, notify, $window, PassInfo){
+app.controller('AddressesControllerModal', function($scope, $http, $rootScope, $uibModalInstance, notify, $window, PassInfo){
 
 	/**
 	 * auxCallBack
@@ -402,7 +402,7 @@ app.controller('AddressesControllerModal', function($scope, $http, $rootScope, $
 			{
 				if (data.success)
 				{
-					$modalInstance.close();
+					$uibModalInstance.close();
 					$window.location.href = auxCallBack != '' ? auxCallBack : data.callback;
 				}
 
@@ -421,7 +421,7 @@ app.controller('AddressesControllerModal', function($scope, $http, $rootScope, $
 
 				if (data.success)
 				{
-					$modalInstance.close();
+					$uibModalInstance.close();
 					$window.location.href = auxCallBack != '' ? auxCallBack : data.callback;
 				}
 

@@ -8,16 +8,18 @@ namespace app;
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
-use App\Address;
-use App\Eloquent\Model;
-use App\Http\Controllers\ProductsController as ProductsController;
-use App\Http\Controllers\UserController as UserController;
 use App\Log;
 use App\Notice;
-use App\OrderDetail;
 use App\Product;
+use App\Address;
+use App\OrderDetail;
 use App\UserAddress;
+use App\VirtualProduct;
+use App\Eloquent\Model;
+use App\VirtualProductOrder;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\UserController as UserController;
+use App\Http\Controllers\ProductsController as ProductsController;
 
 class Order extends Model
 {
