@@ -8,6 +8,7 @@ namespace app\Http\Controllers;
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
+use App\Address;
 use App\FreeProduct;
 use App\FreeProductOrder;
 use App\FreeProductParticipant;
@@ -16,7 +17,6 @@ use App\Order;
 use App\OrderDetail;
 use App\Product;
 use App\User;
-use App\Address;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
