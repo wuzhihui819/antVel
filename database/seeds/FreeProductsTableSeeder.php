@@ -12,7 +12,7 @@ use App\Order;
 use App\OrderDetail;
 use App\Product;
 use App\User;
-use App\UserAddress;
+use App\Address;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
@@ -21,7 +21,7 @@ class FreeProductsTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        $users = UserAddress::get();
+        $users = Address::get();
         $status_list = array_keys(trans('globals.order_status'));
         for ($i = 0; $i < 40; $i++) {
             $user = $users->random(1);

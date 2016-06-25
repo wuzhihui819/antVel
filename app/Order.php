@@ -13,7 +13,6 @@ use App\Notice;
 use App\Product;
 use App\Address;
 use App\OrderDetail;
-use App\UserAddress;
 use App\VirtualProduct;
 use App\Eloquent\Model;
 use App\VirtualProductOrder;
@@ -241,7 +240,7 @@ class Order extends Model
 
         //When address is invalid, it is because it comes from the creation of a free product. You must have a user direction (Default)
         if (is_null($cart->address_id)) {
-            $useraddress = UserAddress::auth()->orderBy('default', 'DESC')->first();
+            $useraddress = Address::auth()->orderBy('default', 'DESC')->first();
             if ($useraddress) {
                 $address_id = $useraddress->address_id;
             } else {

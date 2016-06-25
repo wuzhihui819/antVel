@@ -8,7 +8,7 @@ use App\Order;
 use App\OrderDetail;
 use App\Product;
 use App\User;
-use App\UserAddress;
+use App\Address;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -108,7 +108,7 @@ class SelectWinnersFreeProducts extends Command
                             } while (!$in_product_award_list);
 
                             //Creating the order with the product won user
-                            $winner_address = UserAddress::where('user_id', $winner->id)->orderBy('default', 'DESC')->first();
+                            $winner_address = Address::where('user_id', $winner->id)->orderBy('default', 'DESC')->first();
 
                             $newOrder = new Order();
                             $newOrder->user_id = $winner->id;
