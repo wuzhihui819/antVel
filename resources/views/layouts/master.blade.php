@@ -121,17 +121,9 @@
 	 * @type {Array}
 	 */
 	var ngModules = [
-		'ngRoute',
-		'ngSanitize',
-		'LocalStorageModule',
-		'ui.bootstrap',
-		'chieffancypants.loadingBar',
-		'ngAnimate',
-		'xtForm',
-		'cgNotify',
-		'ngTouch',
-		// 'filters', marked for deleted
-		'angucomplete-alt'
+		'ngRoute', 'ngSanitize', 'LocalStorageModule',
+		'ui.bootstrap', 'chieffancypants.loadingBar', 'xtForm',
+		'cgNotify', 'ngTouch', 'angucomplete-alt'
 	];
 
 	@section('before.angular') @show
