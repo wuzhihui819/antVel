@@ -69,7 +69,7 @@ class AdminTableSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'pic_url'  => '/img/pt-default/'.$faker->numberBetween(1, 20).'.jpg',
                 'twitter'  => '@seller',
-                'role'     => 'person',
+                'role'     => 'business',
                 'facebook' => $company_name,
             ],
         ]);
@@ -88,7 +88,7 @@ class AdminTableSeeder extends Seeder
                 'pic_url'  => '/img/pt-default/'.$faker->numberBetween(1, 20).'.jpg',
                 'twitter'  => '@buyer',
                 'facebook' => 'buyer',
-                'role'     => 'business',
+                'role'     => 'person',
             ],
         ]);
     }
