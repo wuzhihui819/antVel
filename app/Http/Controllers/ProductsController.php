@@ -721,7 +721,7 @@ class ProductsController extends Controller
         $features_rules = [];
         $message_rules = [];
         foreach ($features as $row) {
-            if ($row['status'] == 'active') {
+            if ($row['status'] == 'active' && $row['validationRulesArray']) {
                 if ($row['max_num_values'] * 1 == 1) {
                     $features_rules['feature_'.$row['indexByName']] = $row['validationRulesArray'][$row['indexByName'].'_1'] ? $row['validationRulesArray'][$row['indexByName'].'_1'] : '';
                     $message_rules = array_merge($message_rules, $this->validationMessagesFeatures($row['validationRulesArray'][$row['indexByName'].'_1'], 'feature_'.$row['indexByName'], $row['upperName']));

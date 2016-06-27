@@ -8,18 +8,17 @@ namespace app;
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
+use App\Address;
+use App\Eloquent\Model;
+use App\Http\Controllers\ProductsController as ProductsController;
+use App\Http\Controllers\UserController as UserController;
 use App\Log;
 use App\Notice;
-use App\Product;
-use App\Address;
 use App\OrderDetail;
-use App\UserAddress;
+use App\Product;
 use App\VirtualProduct;
-use App\Eloquent\Model;
 use App\VirtualProductOrder;
 use Illuminate\Support\Facades\Mail;
-use App\Http\Controllers\UserController as UserController;
-use App\Http\Controllers\ProductsController as ProductsController;
 
 class Order extends Model
 {
@@ -241,7 +240,7 @@ class Order extends Model
 
         //When address is invalid, it is because it comes from the creation of a free product. You must have a user direction (Default)
         if (is_null($cart->address_id)) {
-            $useraddress = UserAddress::auth()->orderBy('default', 'DESC')->first();
+            $useraddress = Address::auth()->orderBy('default', 'DESC')->first();
             if ($useraddress) {
                 $address_id = $useraddress->address_id;
             } else {

@@ -8,6 +8,7 @@ namespace app\Http\Controllers;
  * @author  Gustavo Ocanto <gustavoocanto@gmail.com>
  */
 
+use App\Address;
 use App\FreeProduct;
 use App\FreeProductOrder;
 use App\FreeProductParticipant;
@@ -16,7 +17,6 @@ use App\Order;
 use App\OrderDetail;
 use App\Product;
 use App\User;
-use App\UserAddress;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -245,7 +245,7 @@ class FreeProductsController extends Controller
         $user = \Auth::user();
         if ($freeproduct) {
             //It validates that the user has a registered address in the store. Of winning, this address will be used to create you an order (will contain the product to win)
-            $useraddress = UserAddress::where('user_id', $user->id)->orderBy('default', 'DESC')->first();
+            $useraddress = Address::where('user_id', $user->id)->orderBy('default', 'DESC')->first();
             if ($useraddress) {
                 //It verifies that the product is in effect free
                 $dateactual = date('Y-m-d');
