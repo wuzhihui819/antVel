@@ -74,7 +74,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         if (in_array($this->role, ['business', 'nonprofit'])) {
             return $this->hasOne('App\Business');
         }
-
         return $this->hasOne('App\Person');
     }
 

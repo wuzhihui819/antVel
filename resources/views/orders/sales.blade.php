@@ -75,7 +75,7 @@
                                                         <a href="{{ route('orders.show_seller_order', $order->id) }}">#{{ \Utility::codeMasked($order->id) }}</a>
                                                     @endif
                                                 </td>
-                                                <td class="text-left">{{ $order->user->profile->fullName }}</td>
+                                                <td class="text-left">{{ $order->user->profile['fullName'] }}</td>
                                                 <td class="text-center"><a href="mailto:{{ $order->user->email }}">{{ $order->user->email }}</a></td>
                                                 <td class="text-center">{{ Carbon\Carbon::parse($order->updated_at)->format('F j, Y') }}</td>
                                                 <td class="text-center">{{ $total['qty'] }}</td>
@@ -130,7 +130,7 @@
                                                         <a href="{{ route('orders.show_seller_order', $order->id) }}">#{{ \Utility::codeMasked($order->id) }}</a>
                                                     @endif
                                                 </td>
-                                                <td class="text-left">{{ $order->user->profile->fullName }}</td>
+                                                <td class="text-left">{{ $order->user->profile['fullName'] }}</td>
                                                 <td class="text-center"><a href="mailto:{{ $order->user->email }}">{{ $order->user->email }}</a></td>
                                                 <td class="text-center">{{ Carbon\Carbon::parse($order->updated_at)->format('F j, Y') }}</td>
                                                 <td class="text-center">{{ $total['qty'] }}</td>
@@ -185,7 +185,7 @@
                                                         <a href="{{ route('orders.show_seller_order', $order->id) }}">#{{ \Utility::codeMasked($order->id) }}</a>
                                                     @endif
                                                 </td>
-                                                <td class="text-left">{{ $order->user->profile->fullName }}</td>
+                                                <td class="text-left">{{ $order->user->profile['fullName'] }}</td>
                                                 <td class="text-center"><a href="mailto:{{ $order->user->email }}">{{ $order->user->email }}</a></td>
                                                 <td class="text-center">{{ Carbon\Carbon::parse($order->updated_at)->format('F j, Y') }}</td>
                                                 <td class="text-center">{{ $total['qty'] }}</td>
@@ -245,7 +245,7 @@
                                                     @endif
                                                     <span class="badge"> {{ $order->status }}</span>
                                                 </td>
-                                                <td class="text-left">{{ $order->user->profile->fullName }}</td>
+                                                <td class="text-left">{{ $order->user->profile['fullName'] }}</td>
                                                 <td class="text-center"><a href="mailto:{{ $order->user->email }}">{{ $order->user->email }}</a></td>
                                                 <td class="text-center">{{ Carbon\Carbon::parse($order->updated_at)->format('F j, Y') }}</td>
                                                 <td class="text-center">{{ $total['qty'] }}</td>
