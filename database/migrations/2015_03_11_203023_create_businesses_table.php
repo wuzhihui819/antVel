@@ -22,7 +22,7 @@ class CreateBusinessesTable extends Migration
             $table->integer('user_id')->unsigned()->primary();
             $table->string('business_name');
             $table->date('creation_date');
-            $table->string('local_phone');
+            $table->string('local_phone')->nullable();
             $table->integer('rate_val')->nullable();
             $table->integer('rate_count')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
