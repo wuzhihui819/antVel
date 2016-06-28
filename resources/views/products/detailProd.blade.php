@@ -107,7 +107,7 @@
 					<li><label class="black_color">{{ trans('globals.brand') }}:</label>&nbsp;{{ ucwords($product->brand) }}</li>
 					@foreach ($product->features as $key => $feature)
 						@if ($key != 'images')
-							<li><label class="black_color">{{ ucwords($key) }}:</label>&nbsp;{{ ucwords($feature) }}</li>
+							<li><label class="black_color">{{ ucwords($key) }}:</label>&nbsp;{{  ucwords( is_array($feature) ? implode(' ', $feature) : $feature ) }}</li>
 						@endif
 					@endforeach
 					<li>
