@@ -1,6 +1,6 @@
 ## Antvel Introduction
 
-<img src="https://img.shields.io/badge/Downloads-50k-yellowgreen.svg">
+[![Total Downloads](https://img.shields.io/packagist/dt/ant-vel/ant-vel.svg?style=flat-square)](https://img.shields.io/packagist/dt/ant-vel/ant-vel.svg?style=flat-square)
 [![Bower](https://img.shields.io/bower/v/bootstrap.svg?style=flat-square)]()
 [![StyleCI](https://styleci.io/repos/44852299/shield)](https://styleci.io/repos/44852299)
 
@@ -11,6 +11,14 @@
 ***Antvel*** is a eCommerce project written in Laravel 5.* intended for building a friendly eStore either for startups or big companies, and is highly opinionated towards that use case. Because it is a platform already built, you only will need to add as many products as you need  to start selling and taking orders from customers
 
 ***Antvel*** aim is giving to you and your clients the best eCommerse experience in a different aproach!
+
+## Installation
+
+Begin by installing the package through Composer. Run the following command in your terminal:
+
+```bash
+composer require ant-vel/ant-vel
+```
 
 
 ## Gratipay Profile
