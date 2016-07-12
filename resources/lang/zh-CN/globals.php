@@ -245,7 +245,7 @@ return [
   'sign_in_label'          => '登录',
   'reference_label'        => '参考',
   'change_label'           => '更改',
-  'file_upload_error'      => "上传文件大小不能超过 :MaxFilesize",
+  'file_upload_error'      => '上传文件大小不能超过 :MaxFilesize',
   'twitter_label'          => 'Twitter',
   'google_label'           => 'Google+',
   'facebook_label'         => 'Facebook',

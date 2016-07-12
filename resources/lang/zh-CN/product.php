@@ -21,7 +21,7 @@ return [
       'stock'                 => '库存',
       'view_details'          => '查看详情',
       'my_dashBoard'          => '控制面板',
-      'publications'          => '出版物',//？？
+      'publications'          => '出版物', //？？
        'views'                => '次浏览',
        'content'              => '内容',
        'price_after_discount' => '最终价格为 %i （折扣为 ##%% ）', // i%  and ##%%  are mandatory
