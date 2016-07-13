@@ -34,6 +34,8 @@ Next, you will need to run composer update/install into your ***antvel*** projec
 composer update/install
 ```
 
+## Setting up
+
 After install be sure to create  your database and define your environment variables in your .env file.
 Then you have to create the Antvel schema running artisan migrate command:
 
