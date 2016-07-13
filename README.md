@@ -12,14 +12,75 @@
 
 ***Antvel*** aim is giving to you and your clients the best eCommerse experience in a different aproach!
 
+<a name="installation"></a>
 ## Installation
 
-Begin by installing the package through Composer. Run the following command in your terminal:
+You can install antVel in two ways.
+
+The first way is using composer, just run this command in your terminal:
 
 ```bash
 composer require ant-vel/ant-vel
 ```
 
+The second way is cloning this repo, for that you need to run this commands:
+
+```
+git clone https://github.com/ant-vel/antVel.git
+```
+
+
+Next, you will need to run composer update/install into your ***antvel*** project folder
+```
+composer update/install
+```
+
+## Setting up
+
+After install set up your .env file, if this not exist you can copy the .env-example file and store like .env file in the root of your antVel intallation. Then change  the variables values with yours.
+
+Be sure to create  your database and define the name and access credentials of it on the .env file.
+Then you have to create the Antvel schema running artisan migrate command:
+
+```
+php artisan migrate:refresh
+```
+
+Or if you want to create the schema and load data for a functional demo you can run:
+
+```
+php artisan migrate:refresh --seed
+```
+
+You need to run ***bower install***, in order to have all the frontend dependencies in your machine. So, go to your antvel directory using command line, as so:
+
+```
+bower install
+```
+
+At this point you should be able to look at your antvel version running in your browser without problems.
+
+Finally you can get your ***reCaptcha***  environments values here: 
+
+```
+https://www.google.com/recaptcha/admin#list
+```
+
+Fill out the "Register a new site" form in order to obtain the reCaptcha keys
+
+```
+RECAPTCHA_PUBLIC_KEY, and RECAPTCHA_PRIVATE_KEY
+```
+
+Put the keys  obtained in the corresponding fields on the .env file. For example: 
+
+```
+RECAPTCHA_PUBLIC_KEY = antvelRecaptcahPublicKeyObtained
+
+RECAPTCHA_PRIVATE_KEY = antvelRecaptcahPrivateKeyObtained
+```
+
+***Note:*** If the ```APP_DEBUG == true```, the reCaptcha will not be applied
 
 ## Gratipay Profile
 
@@ -42,43 +103,6 @@ If you like antvel and want to contribute to its core, you can check this task l
 
 for ***slack*** chatting you will have to send your email to me, so I will be able to add you to antvel team, otherwise, we can still talk on gitter.
 
-
-
-
-
-<a name="installation"></a>
-## Installation
-
-First, clone the antvel repository into your local folder using:
-
-```
-git clone https://github.com/ant-vel/antVel.git
-```
-
-Next, you will need to run composer update/install into your ***antvel*** project folder
-```
-composer update/install
-```
-
-After run composer update, be sure to create and migrate your database and define your environment variables in your `.env` file. Also you have to run artisan migrate command, in arden to create the Antvel schema.
-
-```
-php artisan migrate:refresh
-```
-
-Then, you must run the Antvel seeder to create a functional demo, like so:
-
-```
-php artisan migrate:refresh --seed
-```
-
-At this point we are just missing run ***bower install***, in order to have all the frontend dependencies in your machine.  So, go to your antvel directory using command line, as so:
-
-```
-bower install
-```
-
-After run all these commands you should be able to look at your antvel version running in your browser without problems.
 
 ## Using Laravel Elixir
 
@@ -107,33 +131,6 @@ Now feel free to run gulp into your antVel folder, like so:
 ```
 gulp
 ```
-
-
-
-<a name="features"></a>
-## reCaptcha Settings
-
-Now tha you have everything setted up, you need to set the Antvel reCaptcha variables, in order to have the user loging working in that mode. First you need to go to the reCaptcha web site and get your environments values
-
-```
-https://www.google.com/recaptcha/admin#list
-```
-
-then you have to fill out the "Register a new site" form in order to obtain the reCaptcha keys
-
-```
-RECAPTCHA_PUBLIC_KEY, and RECAPTCHA_PRIVATE_KEY
-```
-
-So, you will need to assign those values into ***Antvel*** ```.env``` file. For example: 
-
-```
-RECAPTCHA_PUBLIC_KEY = antvelRecaptcahPrivateKey
-
-RECAPTCHA_PRIVATE_KEY = antvelRecaptcahPrivateKey
-```
-
-***Note:*** If the ```APP_DEBUG == true```, the reCaptcha will not be applied
 
 <a name="features"></a>
 ## Features
