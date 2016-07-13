@@ -12,14 +12,47 @@
 
 ***Antvel*** aim is giving to you and your clients the best eCommerse experience in a different aproach!
 
+<a name="installation"></a>
 ## Installation
 
-Begin by installing the package through Composer. Run the following command in your terminal:
+You can install antVel in two ways.
+
+The first way is using composer, just run this command in your terminal:
 
 ```bash
 composer require ant-vel/ant-vel
 ```
 
+The second way is cloning this repo, for that you need to run this commands:
+
+```
+git clone https://github.com/ant-vel/antVel.git
+```
+
+Next, you will need to run composer update/install into your ***antvel*** project folder
+```
+composer update/install
+```
+
+After install you need to create the data tables for your antVel installation running:
+
+```
+php artisan migrate:refresh
+```
+
+Or if you want to create the data tables and load data for a functional demo you can run:
+
+```
+php artisan migrate:refresh --seed
+```
+
+Finally you need to run ***bower install***, in order to have all the frontend dependencies in your machine. So, go to your antvel directory using command line, as so:
+
+```
+bower install
+```
+
+At this point you should be able to look at your antvel version running in your browser without problems.
 
 ## Gratipay Profile
 
@@ -42,43 +75,6 @@ If you like antvel and want to contribute to its core, you can check this task l
 
 for ***slack*** chatting you will have to send your email to me, so I will be able to add you to antvel team, otherwise, we can still talk on gitter.
 
-
-
-
-
-<a name="installation"></a>
-## Installation
-
-First, clone the antvel repository into your local folder using:
-
-```
-git clone https://github.com/ant-vel/antVel.git
-```
-
-Next, you will need to run composer update/install into your ***antvel*** project folder
-```
-composer update/install
-```
-
-After run composer update, be sure to create and migrate your database and define your environment variables in your `.env` file. Also you have to run artisan migrate command, in arden to create the Antvel schema.
-
-```
-php artisan migrate:refresh
-```
-
-Then, you must run the Antvel seeder to create a functional demo, like so:
-
-```
-php artisan migrate:refresh --seed
-```
-
-At this point we are just missing run ***bower install***, in order to have all the frontend dependencies in your machine.  So, go to your antvel directory using command line, as so:
-
-```
-bower install
-```
-
-After run all these commands you should be able to look at your antvel version running in your browser without problems.
 
 ## Using Laravel Elixir
 
