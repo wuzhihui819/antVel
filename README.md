@@ -34,13 +34,14 @@ Next, you will need to run composer update/install into your ***antvel*** projec
 composer update/install
 ```
 
-After install you need to create the data tables for your antVel installation running:
+After install be sure to create  your database and define your environment variables in your .env file.
+Then you have to create the Antvel schema running artisan migrate command:
 
 ```
 php artisan migrate:refresh
 ```
 
-Or if you want to create the data tables and load data for a functional demo you can run:
+Or if you want to create the schema and load data for a functional demo you can run:
 
 ```
 php artisan migrate:refresh --seed
