@@ -61,7 +61,7 @@
                     @if (Auth::user())
                         @if (Auth::user()->id!=$freeproduct->user_id)
                             <div ng-if="datenow > freeproduct.start_date && datenow < freeproduct.end_date && !isparticipating && freeproduct.status">
-                                {!! Form::open(array('url' => route('freeproducts.suscribe',[$freeproduct->id]), 'method' => 'put', 'class' => 'form-inline')) !!}
+                                {!! Form::open(array('url' => route('freeproducts.subscribe',[$freeproduct->id]), 'method' => 'put', 'class' => 'form-inline')) !!}
                                 {!! Form::submit(trans('freeproduct.participate'),['class'=>'btn btn-primary btn-lg']) !!}
                                 {!! Form::close() !!}
                             </div>

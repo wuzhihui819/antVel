@@ -113,17 +113,15 @@ Route::group(['prefix' => 'user', 'roles' => array_keys(trans('globals.roles')),
 
     Route::post('orders/storeComment', ['uses' => 'OrdersController@storeComment', 'as' => 'orders.store_comment']);
 
-    Route::post('orders/storeComment', ['uses' => 'OrdersController@storeComment', 'as' => 'orders.store_comment']);
-
     Route::get('orders/delete/{order_id}/{type}', ['uses' => 'OrdersController@destroy', 'as' => 'orders.delete']);
 
     //Rates
     Route::post('rates/seller', ['uses' => 'OrdersController@rateSeller', 'as' => 'orders.rate_seller']);
 
-    Route::post('rates/product', ['uses' => 'OrdersController@rateProduct', 'as' => 'orders.rate_seller']);
+    Route::post('rates/product', ['uses' => 'OrdersController@rateProduct', 'as' => 'orders.rate_product']);
 
     //Freeproducts
-    Route::put('freeproducts/suscribe/{id}', ['uses' => 'FreeProductsController@suscribe', 'as' => 'freeproducts.suscribe']);
+    Route::put('freeproducts/subscribe/{id}', ['uses' => 'FreeProductsController@subscribe', 'as' => 'freeproducts.subscribe']);
 
     Route::get('myFreeProducts', ['uses' => 'FreeProductsController@myFreeProducts', 'as' => 'freeproducts.my_free_products']);
 });
