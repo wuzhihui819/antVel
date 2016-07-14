@@ -64,12 +64,12 @@ class ProductsRatesSeeder extends Seeder
                     '/img/pt-default/'.$faker->numberBetween(1, 330).'.jpg',
                     '/img/pt-default/'.$faker->numberBetween(1, 330).'.jpg',
                     ],
-                    'weight'     => $faker->numberBetween(10, 150).' '.$faker->randomElement(['Mg', 'Gr', 'Kg', 'Oz', 'Lb']),
-                    'dimensions' => $faker->numberBetween(1, 30).' X '.
+                    trans('globals.product_features.weight') => $faker->numberBetween(10, 150).' '.$faker->randomElement(['Mg', 'Gr', 'Kg', 'Oz', 'Lb']),
+                    trans('globals.product_features.dimensions') => $faker->numberBetween(1, 30).' X '.
                                   $faker->numberBetween(1, 30).' X '.
                                   $faker->numberBetween(1, 30).' '.
                                   $faker->randomElement(['inch', 'mm', 'cm']),
-                    'color' => $faker->safeColorName,
+                    trans('globals.product_features.color') => $faker->safeColorName,
                     ]),
             'condition' => $faker->randomElement(['new', 'refurbished', 'used']),
             //'currency'=>0,
@@ -120,12 +120,12 @@ class ProductsRatesSeeder extends Seeder
                     '/img/pt-default/'.$faker->numberBetween(1, 330).'.jpg',
                     '/img/pt-default/'.$faker->numberBetween(1, 330).'.jpg',
                     ],
-                    'weight'     => $faker->numberBetween(10, 150).' '.$faker->randomElement(['Mg', 'Gr', 'Kg', 'Oz', 'Lb']),
-                    'dimensions' => $faker->numberBetween(1, 30).' X '.
+                    trans('globals.product_features.weight') => $faker->numberBetween(10, 150).' '.$faker->randomElement(['Mg', 'Gr', 'Kg', 'Oz', 'Lb']),
+                    trans('globals.product_features.dimensions') => $faker->numberBetween(1, 30).' X '.
                                   $faker->numberBetween(1, 30).' X '.
                                   $faker->numberBetween(1, 30).' '.
                                   $faker->randomElement(['inch', 'mm', 'cm']),
-                    'color' => $faker->safeColorName,
+                    trans('globals.product_features.color') => $faker->safeColorName,
                     ]),
             'condition' => $faker->randomElement(['new', 'refurbished', 'used']),
             //'currency'=>0,
@@ -155,12 +155,12 @@ class ProductsRatesSeeder extends Seeder
                     '/img/pt-default/'.$faker->numberBetween(1, 330).'.jpg',
                     '/img/pt-default/'.$faker->numberBetween(1, 330).'.jpg',
                     ],
-                    'weight'     => $faker->numberBetween(10, 150).' '.$faker->randomElement(['Mg', 'Gr', 'Kg', 'Oz', 'Lb']),
-                    'dimensions' => $faker->numberBetween(1, 30).' X '.
+                    trans('globals.product_features.weight') => $faker->numberBetween(10, 150).' '.$faker->randomElement(['Mg', 'Gr', 'Kg', 'Oz', 'Lb']),
+                    trans('globals.product_features.dimensions') => $faker->numberBetween(1, 30).' X '.
                                   $faker->numberBetween(1, 30).' X '.
                                   $faker->numberBetween(1, 30).' '.
                                   $faker->randomElement(['inch', 'mm', 'cm']),
-                    'color' => $faker->safeColorName,
+                    trans('globals.product_features.color') => $faker->safeColorName,
                     ]),
             'condition' => $faker->randomElement(['new', 'refurbished', 'used']),
             //'currency'=>0,
