@@ -239,7 +239,7 @@ class FreeProductsController extends Controller
      *
      * @return Response
      */
-    public function suscribe($id)
+    public function subscribe($id)
     {
         $freeproduct = FreeProduct::find($id);
         $user = \Auth::user();

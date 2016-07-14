@@ -207,7 +207,7 @@ return [
     'unrated_orders'                         => '未评价的订单',
     'rated_products'                         => '已评价的商品',
     'rateThisOrder'                          => '给此订单评价一下',
-    'review'                                 => '检查',
+    'review'                                 => '评分',
     'reviewOrder'                            => '下单前请检查您的购物车',
     'sales'                                  => '销售',
     'saveForLater'                           => '保存，以后再买',

@@ -8,7 +8,7 @@
 
 //home
 Breadcrumbs::register('home', function ($breadcrumbs) {
-    $breadcrumbs->push('Home', route('home'));
+    $breadcrumbs->push(trans('globals.home'), route('home'));
 });
 
 //products list
@@ -22,7 +22,7 @@ Breadcrumbs::register('productDetail', function ($breadcrumbs, $product) {
     $breadcrumbs->parent('products');
     $list = [];
     $catProd = app\Category::find($product->categories->id);
-    $categriesTree = app\Category::parentsTree($catProd->category_id, $list);
+    $categoriesTree = app\Category::parentsTree($catProd->category_id, $list);
 
     $list = array_reverse($list);
 
