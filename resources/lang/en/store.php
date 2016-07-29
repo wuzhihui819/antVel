@@ -3,7 +3,6 @@
 return [
     //Globally used
     'actions'              => 'Actions',
-    'add_to_cart'          => 'Add to Cart',
     'buy_points'           => 'Buy Points',
     'cancel_order'         => 'Cancel Order',
     'cancelled'            => 'Cancelled',
