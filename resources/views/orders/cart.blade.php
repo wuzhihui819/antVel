@@ -36,7 +36,7 @@
             {{-- check out summary --}}
             @if(isset($isResume))
                 <div class="alert alert-warning text-center text-small">
-                    <h7><span class="fa fa-exclamation"></span>&nbsp;{{ trans('store.reviewOrder') }}</h7>
+                    <h6><span class="fa fa-exclamation"></span>&nbsp;{{ trans('store.reviewOrder') }}</h6>
                 </div>
             @endif
 
