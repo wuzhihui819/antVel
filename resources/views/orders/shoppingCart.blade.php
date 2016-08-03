@@ -111,7 +111,7 @@
 
            		$scope.changeQty = function (qty)
            		{
-           			$scope.qty = $qty
+           			$scope.qty = qty;
            		}
 
 
