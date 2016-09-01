@@ -24,6 +24,8 @@
 
 	    		{!! Form::open(['url'=>'/login','name'=>'loginForm', 'class'=>'form-horizontal','role'=>"form",'method'=>"POST"]) !!}
 
+				{{ csrf_field() }}
+
 				<div class="form-group">
 					<h6 class="black_color">{{ trans('user.email_address') }}</h6>
 					<div class="input-group">
