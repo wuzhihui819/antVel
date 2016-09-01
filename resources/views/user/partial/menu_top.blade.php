@@ -8,9 +8,29 @@
 		<?php $menu=\Menu::top(true);?>
 		@foreach ($menu as $item)
 		    <li class="{{isset($item['class'])?$item['class']:''}} {{ Utility::active($item['route']) }}" >
-				<a href='{{$item['route']}}'>@if(isset($item['icon']))<span class="{{$item['icon']}}"></span>@endif {{$item['text']}} @if(isset($item['cont'])&&$item['cont']>0) <span class="badge">{{$item['cont']}}</span>@endif </a>
+				<a href='{{$item['route']}}'>
+					@if (isset($item['icon']))
+						<span class="{{$item['icon']}}"></span>
+					@endif
+					{{$item['text']}}
+					@if (isset($item['cont'])&&$item['cont']>0)
+					 <span class="badge">{{$item['cont']}}</span>
+					@endif
+				</a>
 			</li>
 			@if(isset($item['divider']))<li class="divider"></li>@endif
 		@endforeach
+
+		@if (auth()->check())
+			<li class="divider"></li>
+			<li>
+				<form action="/logout" method="POST">
+					{{ csrf_field() }}
+					<button type="submit" class="btn btn-success btn-block">
+						<i class="glyphicon glyphicon-log-out"></i>&nbsp;{{ trans('user.logout') }}
+					</button>
+				</form>
+			</li>
+		@endif
 	</ul>
 </li>
