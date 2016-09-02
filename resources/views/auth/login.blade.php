@@ -21,9 +21,11 @@
 	<div class="content_wrapper">
 	    <div class="row" ng-controller="LoginController">
 	    	<div class="col-md-12">
-	    		
-	    		{!! Form::open(['url'=>'/auth/login','name'=>'loginForm', 'class'=>'form-horizontal','role'=>"form",'method'=>"POST"]) !!}
-	    		
+
+	    		{!! Form::open(['url'=>'/login','name'=>'loginForm', 'class'=>'form-horizontal','role'=>"form",'method'=>"POST"]) !!}
+
+				{{ csrf_field() }}
+
 				<div class="form-group">
 					<h6 class="black_color">{{ trans('user.email_address') }}</h6>
 					<div class="input-group">
@@ -44,7 +46,7 @@
 						&nbsp;<input name="newuser" type="radio" value="1" ng-click="setHavePassword(false)">&nbsp;{{ trans('user.password_message.nohave') }}
 					</label>
 				</div>
-					
+
 				<div class="form-group" style="height: 120px">
 					<h6 class="black_color">{{ trans('user.are_you_human') }}</h6>
 					{!! Recaptcha::render() !!}
@@ -54,13 +56,13 @@
 					<label>
 						<input ng-disabled="!havePassword" type="checkbox" name="remember"> {{ trans('user.remember_me') }}
 						&nbsp;|&nbsp;
-						<a style="100%" href="{{ url('/password/email') }}">
+						<a style="100%" href="{{ url('/password/reset') }}">
 						<span class="fa fa-paper-plane-o"></span>&nbsp;
 						{{ trans('user.forgot_your_password') }}?
 					</a>
 					</label>
 				</div>
-		
+
 				<div class="form-group">
 					<hr>
 					<button type="submit" class="btn btn-primary">
@@ -70,7 +72,7 @@
 				</div>
 
 				{!! Form::close() !!}
-	    	
+
 	    	</div> {{-- col --}}
 
 	    </div> {{-- row --}}
