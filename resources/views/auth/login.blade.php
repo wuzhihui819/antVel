@@ -56,7 +56,7 @@
 					<label>
 						<input ng-disabled="!havePassword" type="checkbox" name="remember"> {{ trans('user.remember_me') }}
 						&nbsp;|&nbsp;
-						<a style="100%" href="{{ url('/password/email') }}">
+						<a style="100%" href="{{ url('/password/reset') }}">
 						<span class="fa fa-paper-plane-o"></span>&nbsp;
 						{{ trans('user.forgot_your_password') }}?
 					</a>
