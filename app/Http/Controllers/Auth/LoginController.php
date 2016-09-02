@@ -52,7 +52,7 @@ class LoginController extends Controller
             return redirect('/register');
         }
 
-        $this->handle($request);
+        return $this->handle($request);
     }
 
     /**
@@ -66,7 +66,7 @@ class LoginController extends Controller
         $this->validate($request, $this->rules());
 
         if (auth()->attempt($this->credentials($request), $request->has('remember'))) {
-            return redirect($this->$redirectTo);
+            return redirect($this->redirectTo);
         }
 
         return redirect('/login')
