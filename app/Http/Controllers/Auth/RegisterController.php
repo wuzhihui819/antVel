@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\Person;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Person;
+use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -47,7 +47,7 @@ class RegisterController extends Controller
     protected function showRegistrationForm()
     {
         return view('auth.register', [
-            'email' => session()->has('email') ? session()->get('email') : ''
+            'email' => session()->has('email') ? session()->get('email') : '',
         ]);
     }
 
@@ -70,7 +70,7 @@ class RegisterController extends Controller
     }
 
     /**
-     * Return the registration validation rules
+     * Return the registration validation rules.
      *
      * @return array
      */
@@ -78,16 +78,17 @@ class RegisterController extends Controller
     {
         return [
             'first_name' => 'required|max:20|min:3',
-            'last_name' => 'required|max:20|min:3',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6',
+            'last_name'  => 'required|max:20|min:3',
+            'email'      => 'required|email|max:255|unique:users',
+            'password'   => 'required|min:6',
         ];
     }
 
     /**
      * Create a new user.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return User
      */
     protected function createUser(array $data)
@@ -111,7 +112,8 @@ class RegisterController extends Controller
     /**
      * Send the registration email.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return void
      */
     protected function sendRegistrationEmail(array $data)
