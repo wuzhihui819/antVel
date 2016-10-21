@@ -32,13 +32,14 @@ class ResetPasswordController extends Controller
     /**
      * Show the reset password form.
      *
-     * @param  string $token
+     * @param string $token
+     *
      * @return void
      */
     public function showResetForm($token)
     {
         return view('auth.reset', [
-            'token' => $token
+            'token' => $token,
         ]);
     }
 }

@@ -4,7 +4,6 @@ namespace app\Http\Middleware;
 
 use App\Http\Controllers\OrdersController;
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class Authenticate
 {
