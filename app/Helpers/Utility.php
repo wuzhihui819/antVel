@@ -87,7 +87,7 @@ class Utility
      */
     public static function active($route, $active = 'active')
     {
-        return parse_url(\Request::url(), PHP_URL_PATH) == $route  ? $active : '';
+        return parse_url(\Request::url(), PHP_URL_PATH) == $route ? $active : '';
     }
 
     /**
@@ -242,7 +242,7 @@ class Utility
             $positive = true;
             if ($value < 0) {
                 $positive = false;
-                $value  *= -1;
+                $value *= -1;
             }
             $letter = $positive ? 'p' : 'n';
 

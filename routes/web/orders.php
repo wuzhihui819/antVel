@@ -27,5 +27,3 @@ Route::get('mailTest', 'OrdersController@mailtest');
 Route::resource('virtualproductorders', 'VirtualProductOrdersController');
 
 Route::post('editKeyVirtualProductsOrders/{id}', ['uses' => 'VirtualProductOrdersController@editKey', 'as' => 'virtualProductOrdersController.editKey']);
-
-

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -41,7 +41,8 @@ class LoginController extends Controller
     /**
      * Process the user login.
      *
-     * @param  Request $request
+     * @param Request $request
+     *
      * @return void
      */
     public function login(Request $request)
@@ -58,7 +59,8 @@ class LoginController extends Controller
     /**
      * Handle the user login.
      *
-     * @param  Request $request
+     * @param Request $request
+     *
      * @return void
      */
     protected function handle(Request $request)
@@ -84,11 +86,11 @@ class LoginController extends Controller
     protected function rules()
     {
         $rules = [
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required',
         ];
 
-        if (! env('APP_DEBUG')) {
+        if (!env('APP_DEBUG')) {
             $rules['g-recaptcha-response'] = 'required|recaptcha';
         }
 
@@ -98,14 +100,15 @@ class LoginController extends Controller
     /**
      * Return the user credentials.
      *
-     * @param  Request $request
+     * @param Request $request
+     *
      * @return array
      */
     protected function credentials(Request $request)
     {
         return [
-            'email' => $request->email,
-            'password' => $request->password
+            'email'    => $request->email,
+            'password' => $request->password,
         ];
     }
 }
